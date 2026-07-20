@@ -10,6 +10,7 @@ import { Helpers } from '@/_lib/helper';
 import DynamicIcon from '../DynamicIcon';
 import { BiLayerPlus, BiRefresh, BiTrash } from 'react-icons/bi';
 import { BsArrowDown, BsArrowUp, BsGear } from 'react-icons/bs';
+import OurServicesCardVar2 from '../our-services-cards/OurServicesCardVar-2';
 
 const helpers = new Helpers();
 const OurServicesVar2 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -140,30 +141,7 @@ const OurServicesVar2 = ({ is_theme = false, size = 4, raw_data = {} }: { is_the
                         {/* Service list */}
                         <div className="flex flex-col">
                             {services.map((service, index) => (
-                                <div key={service.title} className="flex gap-6 py-8 first:pt-0">
-                                    <div className="shrink-0 pt-1 text-gray-800">
-                                        <DynamicIcon icon={service.icon} size={40} className={`text-${themeSett.primary_color} fill-${themeSett.primary_color}`} />
-                                    </div>
-
-                                    <div className="flex-1">
-                                        <span className="block text-xs font-medium text-gray-400">
-                                            {String(index + 1).padStart(2, '0')}.
-                                        </span>
-                                        <div className="mt-2 mb-4 h-px w-full bg-gray-200" />
-                                        <h3 className="mb-2 text-xl font-bold text-gray-900">{service.title}</h3>
-                                        <p className="text-sm leading-relaxed text-gray-600 line-clamp-4">{service.excerpt}</p>
-
-                                        <CustomLinkMain href={`${themeSett.theme_prefix}/service-details/${service.slug}`} is_theme={is_theme}
-                                            className=' flex justify-end items-center '>
-                                            <div className={`w-fit px-4 py-1 mt-1 text-sm bg-white border-1 border-${themeSett.primary_color} flex 
-                                                items-center justify-center hover:bg-${themeSett.primary_color} text-${themeSett.primary_color} 
-                                                hover:text-white cursor-pointer rounded space-x-2.5 hover:shadow-2xl`}>
-                                                <span>Read More</span>
-                                                <FaArrowRightLong size={18} />
-                                            </div>
-                                        </CustomLinkMain>
-                                    </div>
-                                </div>
+                                <OurServicesCardVar2 key={index} index={index} service={service} is_theme={is_theme} />
                             ))}
                         </div>
 

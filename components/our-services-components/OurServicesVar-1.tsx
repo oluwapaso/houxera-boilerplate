@@ -7,9 +7,9 @@ import { RootState } from '@/app/GlobalRedux/store';
 import { BsArrowDown, BsArrowUp, BsGear } from 'react-icons/bs';
 import CustomLinkMain from '../CustomLink';
 import { FaArrowRightLong } from 'react-icons/fa6';
-import OurServicesCardVar1 from '../services-cards/OurServicesCardVar-1';
 import { Helpers } from '@/_lib/helper';
 import { BiLayerPlus, BiRefresh, BiTrash } from 'react-icons/bi';
+import OurServicesCardVar1 from '../our-services-cards/OurServicesCardVar-1';
 
 const helpers = new Helpers();
 const OurServicesVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {

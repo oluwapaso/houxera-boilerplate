@@ -236,7 +236,7 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             {/* Footer */}
                             <p className="text-center text-gray-600 text-sm mt-6">
                                 Don't have an account
-                                yet? <CustomLink href={`${themeSett.channel_website}/sign-up`}
+                                yet? <CustomLink href={`${themeSett.channel_website}/register`}
                                     className='text-sky-700 font-semibold'>Click here to sign up</CustomLink>
                             </p>
                         </div>

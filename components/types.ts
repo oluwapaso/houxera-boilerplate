@@ -225,3 +225,18 @@ export type Neighorhood = {
   views: number
   comments: number
 }
+
+export type OurService = {
+  service_uid: string
+  company_uid: string
+  title: string
+  excerpt: string
+  slug: string
+  icon: string
+  featured:string
+  header_image_large:string
+  header_image_small: string
+  descriptions: string
+  date_added: string
+  last_updated_on: string
+}

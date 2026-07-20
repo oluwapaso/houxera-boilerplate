@@ -122,6 +122,10 @@ import NeighborhoodsVar4 from "./neighborhoods/NeighborhoodsVar-4";
 //Neighborhoods Page Components
 import NeighborhoodCompVar1 from "./neighborhood-components/NeighborhoodCompVar-1";
 
+//Our Service Page Components
+import OurServicesPageVar1 from "./our-services-pages/OurServicesPageVar-1";
+import OurServicesPageVar2 from "./our-services-pages/OurServicesPageVar-2";
+
 //Our Service Components
 import OurServicesVar1 from "./our-services-components/OurServicesVar-1";
 import OurServicesVar2 from "./our-services-components/OurServicesVar-2";
@@ -237,6 +241,10 @@ type ComponentPropsMap = {
 
     //Neighborhoods Page Components
     NeighborhoodCompVar1: React.ComponentProps<typeof NeighborhoodCompVar1>;
+
+    //Our Services Page Components
+    OurServicesPageVar1: React.ComponentProps<typeof OurServicesPageVar1>;
+    OurServicesPageVar2: React.ComponentProps<typeof OurServicesPageVar2>;
 
     //Our Services Components
     OurServicesVar1: React.ComponentProps<typeof OurServicesVar1>;
@@ -368,6 +376,10 @@ export const componentRegistry = {
 
     //Neighborhoods Page Components
     NeighborhoodCompVar1,
+
+    //Our Services Page Components
+    OurServicesPageVar1,
+    OurServicesPageVar2,
 
     //Our Services Components
     OurServicesVar1,

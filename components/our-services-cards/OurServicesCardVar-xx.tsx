@@ -6,7 +6,7 @@ import CustomLinkMain from '../CustomLink';
 import { RootState } from '@/app/GlobalRedux/store';
 import { useSelector } from 'react-redux';
 
-const OurServicesCardVar2 = ({ service_info }: { service_info: any }) => {
+const OurServicesCardVarxx = ({ service_info }: { service_info: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
@@ -45,4 +45,4 @@ const OurServicesCardVar2 = ({ service_info }: { service_info: any }) => {
     }
 }
 
-export default OurServicesCardVar2
+export default OurServicesCardVarxx
