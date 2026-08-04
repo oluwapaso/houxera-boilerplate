@@ -218,7 +218,7 @@ export type Neighorhood = {
   neighborhood_uid: string
   company_uid: string
   title: string
-  summary: string
+  excerpt: string
   slug: string
   header_image_large:string
   header_image_small: string

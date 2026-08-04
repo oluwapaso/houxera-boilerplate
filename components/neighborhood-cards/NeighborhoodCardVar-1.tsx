@@ -15,7 +15,7 @@ const NeighborhoodCardVar1 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
     const { neighborhood_uid, company_uid, title, slug, header_image_large, header_image_small,
-        views, comments, summary } = neigh_info
+        views, comments, excerpt } = neigh_info
 
     useEffect(() => {
         if (theme) {
@@ -52,7 +52,7 @@ const NeighborhoodCardVar1 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
                 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out
                 px-4 py-4 space-y-3 flex flex-col'>
                     <div className=' text-white line-clamp-4'>
-                        {summary}
+                        {excerpt}
                     </div>
                     <div className='flex items-center justify-between text-white'>
                         <div className='flex items-center space-x-4 text-sm'>

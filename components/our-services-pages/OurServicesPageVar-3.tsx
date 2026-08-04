@@ -12,10 +12,10 @@ import { OurService } from '../types';
 import ReactivePagination from '../ReactivePagination';
 import { GiFlame } from 'react-icons/gi';
 import SideAds from '../ads/SideAds';
-import OurServicesCardVar2 from '../our-services-cards/OurServicesCardVar-2';
+import OurServicesCardVar3 from '../our-services-cards/OurServicesCardVar-3';
 
 const helpers = new Helpers();
-const OurServicesPageVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
+const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
@@ -118,11 +118,15 @@ const OurServicesPageVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
                     <div className='w-full flex flex-col mt-0'>
                         {/* Blog Posts Section */}
-                        <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
-                            {raw_data.header || "Top Neighborhoods"}
-                        </h2>
-                        <div className='leading-6 mb-3'>
-                            {raw_data.sub_header || "Top Real Estate In Osun Nigeria"}
+                        <div className="w-full text-center mb-16">
+                            <h2 className="font-sans text-4xl md:text-5xl font-bold text-neutral-900 
+                            flex flex-col items-center space-y-2.5">
+                                <span>{raw_data.header || "Top Neighborhoods"}</span>
+                                <div className={`w-16 border-2 border-${themeSett.primary_color}`}></div>
+                            </h2>
+                            <p className="mt-4 font-sans text-base text-neutral-600 max-w-md mx-auto">
+                                {raw_data.sub_header || "Top Real Estate In Osun Nigeria"}
+                            </p>
                         </div>
 
                         {loading && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
@@ -133,7 +137,7 @@ const OurServicesPageVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                         {(!loading && serviceError == "" && Array.isArray(services)) &&
                             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
                                 {services.map((srvc, index) => (
-                                    <OurServicesCardVar2 key={srvc.service_uid} index={index} is_theme={is_theme} service={srvc} />
+                                    <OurServicesCardVar3 key={srvc.service_uid} index={index} is_theme={is_theme} service={srvc} />
                                 ))}
                             </div>
                         }
@@ -207,4 +211,4 @@ const OurServicesPageVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 }
 
 
-export default OurServicesPageVar2
+export default OurServicesPageVar3

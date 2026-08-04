@@ -18,7 +18,7 @@ const NeighborhoodCardVar4 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
     const [isFavorite, setIsFavorite] = useState(false);
 
     const { neighborhood_uid, company_uid, title, slug, header_image_large, header_image_small,
-        views, comments, summary } = neigh_info
+        views, comments, excerpt } = neigh_info
 
     useEffect(() => {
         if (theme) {
@@ -52,7 +52,7 @@ const NeighborhoodCardVar4 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
                             {/* Title and Subtitle */}
                             <div>
                                 <h2 className="text-xl font-bold text-gray-950 line-clamp-2">{title}</h2>
-                                <p className="text-gray-950 text-sm line-clamp-4">{summary}</p>
+                                <p className="text-gray-950 text-sm line-clamp-4">{excerpt}</p>
                             </div>
 
                             {/* Info Row */}

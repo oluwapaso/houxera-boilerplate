@@ -125,11 +125,16 @@ import NeighborhoodCompVar1 from "./neighborhood-components/NeighborhoodCompVar-
 //Our Service Page Components
 import OurServicesPageVar1 from "./our-services-pages/OurServicesPageVar-1";
 import OurServicesPageVar2 from "./our-services-pages/OurServicesPageVar-2";
+import OurServicesPageVar3 from "./our-services-pages/OurServicesPageVar-3";
+import OurServicesPageVar4 from "./our-services-pages/OurServicesPageVar-4";
 
 //Our Service Components
 import OurServicesVar1 from "./our-services-components/OurServicesVar-1";
 import OurServicesVar2 from "./our-services-components/OurServicesVar-2";
 import OurServicesVar3 from "./our-services-components/OurServicesVar-3";
+
+//MLS Search Page
+import MLSSearchVar1 from "./mls-search-page/MLS-SearchVar-1";
 
 // Define props for each component explicitly
 type ComponentPropsMap = {
@@ -245,11 +250,16 @@ type ComponentPropsMap = {
     //Our Services Page Components
     OurServicesPageVar1: React.ComponentProps<typeof OurServicesPageVar1>;
     OurServicesPageVar2: React.ComponentProps<typeof OurServicesPageVar2>;
+    OurServicesPageVar3: React.ComponentProps<typeof OurServicesPageVar3>;
+    OurServicesPageVar4: React.ComponentProps<typeof OurServicesPageVar4>;
 
     //Our Services Components
     OurServicesVar1: React.ComponentProps<typeof OurServicesVar1>;
     OurServicesVar2: React.ComponentProps<typeof OurServicesVar2>;
     OurServicesVar3: React.ComponentProps<typeof OurServicesVar3>;
+
+    //MLS Search Page
+    MLSSearchVar1: React.ComponentProps<typeof MLSSearchVar1>;
 
     LoggedInMenu: React.ComponentProps<typeof LoggedInMenu>;
     NoComponents: React.ComponentProps<typeof NoComponents>;
@@ -380,11 +390,16 @@ export const componentRegistry = {
     //Our Services Page Components
     OurServicesPageVar1,
     OurServicesPageVar2,
+    OurServicesPageVar3,
+    OurServicesPageVar4,
 
     //Our Services Components
     OurServicesVar1,
     OurServicesVar2,
     OurServicesVar3,
+
+    //MLS Search Page
+    MLSSearchVar1,
 
     LoggedInMenu,
     NoComponents,

@@ -1,16 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import { BsGear } from 'react-icons/bs';
-import { Helpers } from '@/_lib/helper';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
+import { Helpers } from '@/_lib/helper';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { GiFlame } from 'react-icons/gi';
 import { useSearchParams } from 'next/navigation';
 import { OurService } from '../types';
 import ReactivePagination from '../ReactivePagination';
-import { GiFlame } from 'react-icons/gi';
 import SideAds from '../ads/SideAds';
 import OurServicesCardVar1 from '../our-services-cards/OurServicesCardVar-1';
 
@@ -42,7 +42,7 @@ const OurServicesPageVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                 data: {
                     "category": "services",
                     "type": "section",
-                    "component": "OurServicesVar1",
+                    "component": "OurServicesPageVar1",
                     ...raw_data,
                 }
             },

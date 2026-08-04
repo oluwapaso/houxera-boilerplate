@@ -20,7 +20,9 @@ import MustHaveDD from './MustHaveDD';
 import LivingAreaRangeDD from './LivingAreaDD';
 import LotSizeRangeDD from './LotSizeRangeDD';
 import { FaSave } from 'react-icons/fa';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearch }:
     {
         setStartFetch: React.Dispatch<React.SetStateAction<boolean>>,
@@ -67,8 +69,9 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
             <div className=' w-full flex flex-col drop-shadow-2xl relative z-30 border border-gray-100 bg-white'>
                 <div className='w-full bg-gray-100 flex items-center justify-between *:flex *:items-center *:space-x-1.5 px-3'>
                     <div className='py-3'><FiFilter size={16} /> <div>Advanced Filter</div></div>
-                    <div className={`px-3 py-1.5 text-xs bg-${themeSett.primary_color}-600 cursor-pointer text-white rounded 
-                    hover:bg-${themeSett.primary_color}-700 `} onClick={OpenSaveSearch}>
+                    <div className={`px-3 py-1.5 text-xs bg-${themeSett.primary_color} cursor-pointer text-white rounded 
+                    text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} `}
+                        onClick={OpenSaveSearch}>
                         <FaSave size={13} /> <span>Save Search</span>
                     </div>
                 </div>
@@ -153,8 +156,9 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
                             </div>
                         </div>
 
-                        <div className={`!flex items-center justify-center py-3 px-2 bg-${themeSett.primary_color}-600 space-x-1.5 
-                        hover:bg-${themeSett.primary_color}-700 rounded-lg text-white cursor-pointer hover:shadow-2xl `}
+                        <div className={`!flex items-center justify-center py-3 px-2 bg-${themeSett.primary_color}
+                        text-${themeSett.primary_button_text} space-x-1.5 rounded-lg text-white cursor-pointer
+                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:shadow-2xl `}
                             onClick={() => Run_MLS_Search()}>
                             <BsSearch size={16} /> <span>Search</span>
                         </div>
