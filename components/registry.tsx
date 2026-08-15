@@ -136,6 +136,21 @@ import OurServicesVar3 from "./our-services-components/OurServicesVar-3";
 //MLS Search Page
 import MLSSearchVar1 from "./mls-search-page/MLS-SearchVar-1";
 
+//Saved Searches Page
+import SavedSearchesVar1 from "./saved-searches-page/SavedSearchesVar-1";
+
+//Favorite Listings Page
+import FavoriteListingsVar1 from "./favorite-listings-page/FavoriteListingsVar-1";
+
+//Scheduled Tours Page
+import ScheduledToursVar1 from "./scheduled-tours-page/ScheduledToursVar-1";
+
+//Property Details
+import PropertyDetailsVar1 from "./property-details-page/PropertyDetailsVar-1";
+
+//Market Insights Page
+import MarketInsightsVar1 from "./market-insights-page/MarketInsightsVar-1";
+
 // Define props for each component explicitly
 type ComponentPropsMap = {
     //Navbars
@@ -260,6 +275,21 @@ type ComponentPropsMap = {
 
     //MLS Search Page
     MLSSearchVar1: React.ComponentProps<typeof MLSSearchVar1>;
+
+    //Saved Searches Page
+    SavedSearchesVar1: React.ComponentProps<typeof SavedSearchesVar1>;
+
+    //Favorite Listings Page
+    FavoriteListingsVar1: React.ComponentProps<typeof FavoriteListingsVar1>;
+
+    //Scheduled Tours Page
+    ScheduledToursVar1: React.ComponentProps<typeof ScheduledToursVar1>;
+
+    //Market Insights Page
+    MarketInsightsVar1: React.ComponentProps<typeof MarketInsightsVar1>;
+
+    //Property Details
+    PropertyDetailsVar1: React.ComponentProps<typeof PropertyDetailsVar1>;
 
     LoggedInMenu: React.ComponentProps<typeof LoggedInMenu>;
     NoComponents: React.ComponentProps<typeof NoComponents>;
@@ -400,6 +430,21 @@ export const componentRegistry = {
 
     //MLS Search Page
     MLSSearchVar1,
+
+    //Saved Searches Page
+    SavedSearchesVar1,
+
+    //Favorite Listings Page
+    FavoriteListingsVar1,
+
+    //Scheduled Tours Page
+    ScheduledToursVar1,
+
+    //Property Details
+    PropertyDetailsVar1,
+
+    //Market Insights Page
+    MarketInsightsVar1,
 
     LoggedInMenu,
     NoComponents,

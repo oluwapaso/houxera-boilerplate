@@ -117,7 +117,7 @@ const SearchCardVar1 = ({ search_info, handleDelete, handleEdit }:
 
                 <div className=' w-full h-16 absolute z-20 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)] gap-0.5 *:text-sm
                     *:flex *:flex-col *:items-center *:justify-center cursor-pointer *:bg-gray-10 *:p-2 border-t border-gray-200'>
-                    <CustomLinkMain href={`${themeSett.theme_prefix}/property-search?${search_info.query_link}`} className='hover:bg-gray-100'>
+                    <CustomLinkMain href={`/property-search?${search_info.query_link}`} className='hover:bg-gray-100'>
                         <div className=' flex items-center space-x-1'>
                             <BiSearch size={20} />
                         </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
+import { hidePageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import SideAds from '@/components/ads/SideAds';
 import SaveSearchComponent from '@/components/modals/SaveSearch';
@@ -9,16 +9,13 @@ import ReactivePagination from '@/components/ReactivePagination';
 import Advanced_Filter_1 from '@/components/search-components/Advanced_Filter_1';
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
-import { BiSave } from 'react-icons/bi';
-import { FaCheck } from 'react-icons/fa6';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
+import { BiSave } from 'react-icons/bi';
+import { FaCheck } from 'react-icons/fa6';
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
-import { Helpers } from '@/_lib/helper';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { GiFlame } from 'react-icons/gi';
-import { toast } from 'react-toastify';
 
 const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
