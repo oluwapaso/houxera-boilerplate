@@ -6,8 +6,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBrokerInfo } from '@/app/GlobalRedux/broker/BrokerSlice';
 import { updateAgentInfo } from '@/app/GlobalRedux/broker/AgentSlice';
+import { useSearchParams } from 'next/navigation';
 
 const ThemeSettings = ({ theme_name }: { theme_name: string }) => {
+
+    const searchParams = useSearchParams();
+    const company_id = searchParams?.get("company_id") as string || "";
+    const agent_id = searchParams?.get("agent_id") as string || "";
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const theme_uid = searchParams?.get("theme_uid") as string || "";
+    const access_token = searchParams?.get("access_token") as string || "";
+    const page_uid = searchParams?.get("page_uid") as string || "";
+
+    console.log("company_unique_id", company_unique_id, "page_uid", page_uid)
 
     const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
     const ACCOUNT_ID = process.env.NEXT_PUBLIC_ACCOUNT_ID;
