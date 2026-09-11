@@ -11,12 +11,13 @@ import { useSearchParams } from 'next/navigation';
 const ThemeSettings = ({ theme_name }: { theme_name: string }) => {
 
     const searchParams = useSearchParams();
+    const api_key = searchParams?.get("api_key") as string || "";
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
     const prop_dtls_endpoint = searchParams?.get("prop_dtls_ep") as string || "";
     const mls_number = searchParams?.get("mls_number") as string || "";
     const channel_uid = searchParams?.get("channel_uid") as string || "";
 
-    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY || api_key;
     const ACCOUNT_ID = process.env.NEXT_PUBLIC_ACCOUNT_ID || company_unique_id;
     const CHANNEL_UID = process.env.NEXT_PUBLIC_CHANNEL_UID || channel_uid;
     const MLS_NUMBER = process.env.NEXT_PUBLIC_MLS_NUMBER || mls_number;
