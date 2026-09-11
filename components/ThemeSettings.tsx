@@ -11,21 +11,17 @@ import { useSearchParams } from 'next/navigation';
 const ThemeSettings = ({ theme_name }: { theme_name: string }) => {
 
     const searchParams = useSearchParams();
-    const company_id = searchParams?.get("company_id") as string || "";
-    const agent_id = searchParams?.get("agent_id") as string || "";
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
-    const theme_uid = searchParams?.get("theme_uid") as string || "";
-    const access_token = searchParams?.get("access_token") as string || "";
-    const page_uid = searchParams?.get("page_uid") as string || "";
-
-    console.log("company_unique_id", company_unique_id, "page_uid", page_uid)
+    const prop_dtls_endpoint = searchParams?.get("prop_dtls_ep") as string || "";
+    const mls_number = searchParams?.get("mls_number") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-    const ACCOUNT_ID = process.env.NEXT_PUBLIC_ACCOUNT_ID;
-    const CHANNEL_UID = process.env.NEXT_PUBLIC_CHANNEL_UID;
-    const MLS_NUMBER = process.env.NEXT_PUBLIC_MLS_NUMBER;
-    const PROPERTY_DETAILS_EP = process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP;
-    const THEME_NAME = process.env.NEXT_PUBLIC_THEME_NAME;
+    const ACCOUNT_ID = process.env.NEXT_PUBLIC_ACCOUNT_ID || company_unique_id;
+    const CHANNEL_UID = process.env.NEXT_PUBLIC_CHANNEL_UID || channel_uid;
+    const MLS_NUMBER = process.env.NEXT_PUBLIC_MLS_NUMBER || mls_number;
+    const PROPERTY_DETAILS_EP = process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP || prop_dtls_endpoint;
+    const THEME_NAME = process.env.NEXT_PUBLIC_THEME_NAME || theme_name;
     const theme = useSelector((state: RootState) => state.theme);
     const broker = useSelector((state: RootState) => state.broker);
     const dispatch = useDispatch<AppDispatch>();
