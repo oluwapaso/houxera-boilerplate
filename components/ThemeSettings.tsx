@@ -27,6 +27,7 @@ const ThemeSettings = ({ theme_name }: { theme_name: string }) => {
     const broker = useSelector((state: RootState) => state.broker);
     const dispatch = useDispatch<AppDispatch>();
 
+    console.log("API_KEY", API_KEY, "CHANNEL_UID", CHANNEL_UID, "MLS_NUMBER", MLS_NUMBER)
     const [isThemeSettLoaded, setThemeSettLoaded] = useState<boolean>(false);
     const [themeSett, setThemeSett] = useState<any>({});
     const [isBrokerInfoLoaded, setBrokerInfoLoaded] = useState<boolean>(false);
