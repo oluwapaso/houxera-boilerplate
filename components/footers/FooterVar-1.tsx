@@ -114,7 +114,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         </div>
 
                         <div className='text-sm leading-7'>
-                            {raw_data.sub_header || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                            {themeSett?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
                             Non temporibus hic sunt iure magnam labore,
                             unde tenetur totam quam porro veritatis
                             error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}
