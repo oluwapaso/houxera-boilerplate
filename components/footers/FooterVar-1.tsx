@@ -109,7 +109,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className=' col-span-4 flex flex-col'>
                         <div className='mb-4'>
                             <div className="font-medium text-2xl h-[55px]">
-                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                             </div>
                         </div>
 
@@ -118,19 +118,17 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             Non temporibus hic sunt iure magnam labore,
                             unde tenetur totam quam porro veritatis
                             error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}
-
                         </div>
 
                         <div className='mt-6'>
                             <div className=' flex flex-col space-y-2.5'>
-                                <div className=' flex items-center space-x-1.5'>
+                                <div className=' flex items-start space-x-1.5'>
                                     <FaMapMarkerAlt size={14} className='shrink-0' />
-                                    <span className=' flex flex-wrap'>
-                                        {brker_info?.contact_info?.address}
+                                    <span className=' flex flex-col -mt-1'>
+                                        <span> {brker_info?.contact_info?.address}</span>
                                         {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
-                                            ? <span>, {brker_info?.contact_info?.address_2}</span> : null}
+                                            ? <span>{brker_info?.contact_info?.address_2}</span> : null}
                                     </span>
-
                                 </div>
 
                                 <div className=' flex items-center space-x-1.5'>

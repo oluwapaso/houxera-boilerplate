@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { FaArrowRightLong, FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsArrowDown, BsArrowUp, BsChevronBarUp, BsGear, BsGithub, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
-import { BiChat, BiEnvelopeOpen, BiLayerPlus, BiMapPin, BiPhone, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BsGear, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs';
+import { BiMapPin, BiPhone, BiRefresh } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
 import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
@@ -34,6 +35,7 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     "category": "footer",
                     "type": "section",
                     "name": "FooterVar2",
+                    ...raw_data,
                 }
             },
             '*' // In production, replace '*' with your parent URL for security
@@ -105,27 +107,31 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
                         {/* Company Info */}
                         <div className="space-y-6">
-                            <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                                    <span className="text-lg font-bold text-white">C</span>
-                                </div>
-                                <span className="text-xl font-bold">CorpTech</span>
+                            <div className="flex items-center gap-3 h-[55px]">
+                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                             </div>
                             <p className="text-sm leading-relaxed text-zinc-400">
-                                Enterprise solutions for modern businesses. Transforming ideas into digital reality since 2010.
+                                {themeSett?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                                Non temporibus hic sunt iure magnam labore,
+                                unde tenetur totam quam porro veritatis
+                                error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}
                             </p>
                             <div className="space-y-3">
-                                <div className="flex items-center gap-3 text-sm text-zinc-400">
-                                    <BiMapPin className="h-4 w-4 text-blue-500" />
-                                    <span>123 Business Ave, Tech City</span>
+                                <div className="flex items-start space-x-3 text-sm text-zinc-400">
+                                    <FaMapMarkerAlt size={14} className='shrink-0' />
+                                    <span className=' flex flex-col -mt-1'>
+                                        <span> {brker_info?.contact_info?.address}</span>
+                                        {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                            ? <span>{brker_info?.contact_info?.address_2}</span> : null}
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
-                                    <BiPhone className="h-4 w-4 text-blue-500" />
-                                    <span>+1 (555) 123-4567</span>
+                                    <BiPhone className="h-4 w-4" />
+                                    <span>{brker_info?.contact_info?.phone_cell}</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
                                     <CgMail className="h-4 w-4 text-blue-500" />
-                                    <span>contact@corptech.com</span>
+                                    <span>{brker_info?.email}</span>
                                 </div>
                             </div>
                         </div>
