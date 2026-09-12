@@ -3,15 +3,18 @@
 import React, { useEffect, useState } from 'react'
 import { FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsGear, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs';
-import { BiMapPin, BiPhone, BiRefresh } from 'react-icons/bi';
+import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiPhone, BiRefresh } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
-import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebook, FaMapMarkerAlt } from 'react-icons/fa';
+import CustomLinkMain from '../CustomLink';
+import { LiaLinkedin } from 'react-icons/lia';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -130,120 +133,111 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     <span>{brker_info?.contact_info?.phone_cell}</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
-                                    <CgMail className="h-4 w-4 text-blue-500" />
+                                    <CgMail className="h-4 w-4" />
                                     <span>{brker_info?.email}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Services */}
-                        <div className="space-y-6">
-                            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">Services</h3>
-                            <ul className="space-y-3 text-sm">
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Cloud Solutions
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Data Analytics
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Cybersecurity
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        IT Consulting
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Digital Transformation
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
 
-                        {/* Company */}
-                        <div className="space-y-6">
-                            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">Company</h3>
-                            <ul className="space-y-3 text-sm">
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        About Us
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Careers
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Press Room
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Partners
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="text-zinc-400 transition-colors hover:text-blue-400">
-                                        Contact
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+                        {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                            themeSett.footer_menu.map((menu: any, index: any) => {
+
+                                return (
+                                    <div className="space-y-6">
+                                        <div key={index} className=''>
+                                            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">
+                                                {menu.title}
+                                            </h3>
+
+                                            {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                                <ul className="space-y-3 text-sm">
+                                                    {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                        return <li>
+                                                            <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                                className={`text-zinc-400 hover:bg-${themeSett.primary_color} 
+                                                                hover:text-${themeSett.primary_button_text} transition-all ease-in py-2
+                                                                hover:delay-150 hover:px-2 hover:py-2 cursor-pointer rounded`}>
+                                                                {/* <FaArrowRightLong size={13} /> */}
+                                                                <span>{sub_menu.title}</span>
+                                                            </CustomLinkMain>
+                                                        </li>
+                                                    })}
+                                                </ul>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        ) : null}
 
                         {/* Newsletter */}
-                        <div className="space-y-6">
-                            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">Newsletter</h3>
-                            <p className="text-sm text-zinc-400">
-                                Subscribe to our newsletter for the latest updates and insights.
-                            </p>
-                            <form className="space-y-3">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-blue-500"
-                                />
-                                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
-                                    Subscribe
-                                </Button>
-                            </form>
-                        </div>
+                        {!themeSett.show_newsletter &&
+                            <div className="space-y-6">
+                                <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">
+                                    {themeSett.newsletter_header ? themeSett.newsletter_header : "Newsletter"}
+                                </h3>
+                                <p className="text-sm text-zinc-400">
+                                    {themeSett.newsletter_sub_header
+                                        ? themeSett.newsletter_sub_header
+                                        : "Subscribe to our newsletter for the latest updates and insights."
+                                    }
+                                </p>
+                                <div className="space-y-3">
+                                    <input type="email" placeholder="Enter your email"
+                                        className="w-full px-4 py-2 border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-blue-500"
+                                    />
+                                    <button className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                        {themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}
+                                    </button>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     {/* Bottom Bar */}
                     <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-zinc-800 pt-8 md:flex-row">
                         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
-                            <Link href="#" className="hover:text-zinc-300">Privacy Policy</Link>
-                            <Link href="#" className="hover:text-zinc-300">Terms of Service</Link>
-                            <Link href="#" className="hover:text-zinc-300">Cookie Policy</Link>
+                            <CustomLinkMain href="/privacy-policy" className="hover:text-zinc-300">Privacy Policy</CustomLinkMain>
+                            <CustomLinkMain href="/terms" className="hover:text-zinc-300">Terms of Service</CustomLinkMain>
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Link href="#" className="text-zinc-500 transition-colors hover:text-blue-400">
-                                <BsTwitterX className="h-5 w-5" />
-                            </Link>
-                            <Link href="#" className="text-zinc-500 transition-colors hover:text-blue-400">
-                                <BsGithub className="h-5 w-5" />
-                            </Link>
-                            <Link href="#" className="text-zinc-500 transition-colors hover:text-blue-400">
-                                <BsLinkedin className="h-5 w-5" />
-                            </Link>
-                            <Link href="#" className="text-zinc-500 transition-colors hover:text-blue-400">
-                                <FaYoutube className="h-5 w-5" />
-                            </Link>
+                            {brker_info?.social_accounts?.facebook &&
+                                <Link href={`${brker_info?.social_accounts?.facebook}`} className="text-zinc-500 transition-colors hover:text-blue-400" target='_blank' >
+                                    <FaFacebook size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.twitter &&
+                                <Link href={`${brker_info?.social_accounts?.twitter}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
+                                    <BsTwitterX size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.linkedin &&
+                                <Link href={`${brker_info?.social_accounts?.linkedin}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
+                                    <LiaLinkedin size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.youtube &&
+                                <Link href={`${brker_info?.social_accounts?.youtube}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
+                                    <FaYoutube size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.whatsapp &&
+                                <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
+                                    <BsWhatsapp size={20} />
+                                </Link>
+                            }
                         </div>
 
                         <p className="text-sm text-zinc-500">
-                            © {new Date().getFullYear()} CorpTech Inc.
+                            &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                     </div>
                 </div>

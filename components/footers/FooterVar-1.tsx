@@ -194,8 +194,9 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                             *:flex *:items-center *:space-x-1.5'>
                                                 {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
                                                     return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
-                                                        className={`hover:bg-${themeSett.primary_color} hover:text-white transition-all 
-                                                        ease-in py-2 hover:delay-150 hover:px-2 hover:py-2 cursor-pointer rounded`}>
+                                                        className={`ease-in py-2 hover:delay-150 hover:bg-${themeSett.primary_color} 
+                                                        hover:text-${themeSett.primary_button_text} transition-all rounded
+                                                        hover:px-2 hover:py-2 cursor-pointer`}>
                                                         <FaArrowRightLong size={13} />
                                                         <span>{sub_menu.title}</span>
                                                     </CustomLinkMain>
