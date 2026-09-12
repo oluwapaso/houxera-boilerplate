@@ -1,19 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { FaArrowRightLong, FaFacebook, FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsArrowDown, BsArrowUp, BsGear, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs';
-import { BiChat, BiEnvelopeOpen, BiLayerPlus, BiMapPin, BiPhone, BiRefresh, BiTrash } from 'react-icons/bi';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { PiPhoneIncoming } from 'react-icons/pi';
-import { LiaLinkedin } from 'react-icons/lia';
+import { BsGear, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs';
+import { BiRefresh } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
-import CustomLinkMain from '../CustomLink';
-import { Button } from '../Button';
-import { CgMail } from 'react-icons/cg';
 
 const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
@@ -104,7 +97,7 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
     if (themeSett) {
 
         return (
-            <footer className="border-t border-border bg-background relative">
+            <footer className="border-t border-gray-300 bg-background relative">
                 <div className="mx-auto max-w-7xl px-6 py-12">
                     <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                         <div className="flex items-center gap-2">
@@ -145,7 +138,7 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         </div>
                     </div>
 
-                    <div className="mt-8 border-t border-border pt-8 text-center">
+                    <div className="mt-8 border-t border-gray-300 pt-8 text-center">
                         <p className="text-sm text-muted-foreground">
                             © {new Date().getFullYear()} Minimal. All rights reserved.
                         </p>
