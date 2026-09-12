@@ -23,7 +23,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
     const brker_info = useSelector((state: RootState) => state.broker);
     const [showButtons, setShowButtons] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-
+    console.log("brker_info", brker_info)
     const backToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -37,6 +37,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     "category": "footer",
                     "type": "section",
                     "name": "FooterVar1",
+                    ...raw_data,
                 }
             },
             '*' // In production, replace '*' with your parent URL for security
@@ -108,24 +109,28 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className=' col-span-4 flex flex-col'>
                         <div className='mb-4'>
                             <div className="font-medium text-2xl h-[55px]">
-                                <Image src={`/logo-light.png`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                             </div>
                         </div>
 
                         <div className='text-sm leading-7'>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non temporibus hic sunt iure
-                            magnam labore,
+                            {raw_data.sub_header || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                            Non temporibus hic sunt iure magnam labore,
                             unde tenetur totam quam porro veritatis
-                            error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?
+                            error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}
+
                         </div>
 
                         <div className='mt-6'>
                             <div className=' flex flex-col space-y-2.5'>
                                 <div className=' flex items-center space-x-1.5'>
-                                    <FaMapMarkerAlt size={14} />
-                                    <span>{brker_info?.contact_info?.address}</span>
-                                    {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
-                                        ? <span>, {brker_info?.contact_info?.address_2}</span> : null}
+                                    <FaMapMarkerAlt size={14} className='shrink-0' />
+                                    <span className=' flex flex-wrap'>
+                                        {brker_info?.contact_info?.address}
+                                        {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                            ? <span>, {brker_info?.contact_info?.address_2}</span> : null}
+                                    </span>
+
                                 </div>
 
                                 <div className=' flex items-center space-x-1.5'>
@@ -141,25 +146,36 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                             <div className='mt-6 flex items-center space-x-2.5 *:border *:border-gray-500 *:p-3 *:rounded-md 
                                 *:flex *:items-center *:justify-center *:cursor-pointer'>
-                                <Link href={`${brker_info?.contact_info?.facebook}`} target='_blank' >
-                                    <FaFacebook size={20} />
-                                </Link>
 
-                                <div>
-                                    <BsTwitterX size={20} />
-                                </div>
+                                {brker_info?.social_accounts?.facebook &&
+                                    <Link href={`${brker_info?.social_accounts?.facebook}`} target='_blank' >
+                                        <FaFacebook size={20} />
+                                    </Link>
+                                }
 
-                                <div>
-                                    <LiaLinkedin size={20} />
-                                </div>
+                                {brker_info?.social_accounts?.twitter &&
+                                    <Link href={`${brker_info?.social_accounts?.twitter}`} target='_blank' >
+                                        <BsTwitterX size={20} />
+                                    </Link>
+                                }
 
-                                <div>
-                                    <FaYoutube size={20} />
-                                </div>
+                                {brker_info?.social_accounts?.linkedin &&
+                                    <Link href={`${brker_info?.social_accounts?.linkedin}`} target='_blank' >
+                                        <LiaLinkedin size={20} />
+                                    </Link>
+                                }
 
-                                <div>
-                                    <BsWhatsapp size={20} />
-                                </div>
+                                {brker_info?.social_accounts?.youtube &&
+                                    <Link href={`${brker_info?.social_accounts?.youtube}`} target='_blank' >
+                                        <FaYoutube size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.whatsapp &&
+                                    <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' >
+                                        <BsWhatsapp size={20} />
+                                    </Link>
+                                }
                             </div>
                         </div>
                     </div>
@@ -198,19 +214,24 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 </div>
 
 
-                <div className='container mt-16 border-t border-gray-700 pt-8 flex items-center justify-center'>
-                    &copy; {new Date().getFullYear()}. All rights reserved. Made by NG Realty
+                <div className='container mx-auto mt-16 border-t border-gray-700 pt-8 flex items-center justify-center'>
+                    &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                 </div>
 
-                <div className={`${showButtons ? "fixed" : "hidden"}  bottom-8 flex justify-end right-2.5`}>
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
                     <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
-                        <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
-                            <BsChevronBarUp size={20} />
-                        </div>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
 
-                        <div className='text-white bg-green-700 hover:drop-shadow-xl'>
-                            <BsWhatsapp size={20} />
-                        </div>
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
 
                         <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
                             <BiChat size={20} />
