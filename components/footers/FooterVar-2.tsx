@@ -188,8 +188,8 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     <input type="email" placeholder="Enter your email"
                                         className="w-full px-4 py-2 border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-blue-500"
                                     />
-                                    <button className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                    <button className={`w-full px-3 py-2 rounded cursor-pointer bg-${themeSett.primary_color} 
+                                    text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
                                         {themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}
                                     </button>
                                 </div>
