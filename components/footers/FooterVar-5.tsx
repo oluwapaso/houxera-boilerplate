@@ -14,7 +14,9 @@ import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
 import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -111,102 +113,142 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className="py-12 border-b border-white/10">
                         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                             <div>
-                                <h3 className="text-2xl font-semibold">Stay Updated</h3>
-                                <p className="mt-1 text-white/60 text-sm">Get the latest listings and market insights</p>
+                                <h3 className="text-2xl font-semibold">
+                                    {themeSett.newsletter_header ? themeSett.newsletter_header : "Stay Updated"}
+                                </h3>
+                                <p className="mt-1 text-white/60 text-sm">
+                                    {themeSett.newsletter_sub_header
+                                        ? themeSett.newsletter_sub_header
+                                        : "Get the latest listings and market insights."
+                                    }
+                                </p>
                             </div>
                             <div className="flex w-full md:w-auto gap-2">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="bg-white/5 border-white/10 text-white placeholder:text-white/40 min-w-[280px]"
+                                <input type="email" placeholder="Enter your email"
+                                    className="px-3 rounded bg-white/5 border-white/10 text-white 
+                                    placeholder:text-white/40 min-w-[280px]"
                                 />
-                                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">
-                                    Subscribe
+                                <button className={`w-full flex items-center space-x-1.5 px-3 py-2 rounded cursor-pointer 
+                                    bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                    <span>{themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}</span>
                                     <BsArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     {/* Main Grid */}
-                    <div className="py-12 grid grid-cols-2 md:grid-cols-6 gap-8">
+                    <div className="py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
                         {/* Brand */}
                         <div className="col-span-2">
                             <div className="flex items-center gap-2">
-                                <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
-                                    <BiHome className="h-5 w-5 text-white" />
+                                <div className="flex items-center gap-3 h-[55px]">
+                                    <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                                 </div>
-                                <span className="text-xl font-bold">NexHome</span>
                             </div>
                             <p className="mt-4 text-sm text-white/60 max-w-xs">
-                                Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.
+                                {themeSett?.footer_note || ` Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
                             </p>
                             <div className="flex gap-3 mt-6">
-                                {[FaFacebook, BsInstagram, FaYoutube, BsLinkedin].map((Icon, i) => (
-                                    <Link
-                                        key={i}
-                                        href="#"
-                                        className="w-9 h-9 bg-white/5 rounded-full flex items-center justify-center hover:bg-emerald-500 transition-colors"
-                                    >
-                                        <Icon className="h-4 w-4" />
+                                {brker_info?.social_accounts?.facebook &&
+                                    <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-${themeSett.primary_button_text} 
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <FaFacebook size={20} />
                                     </Link>
-                                ))}
+                                }
+
+                                {brker_info?.social_accounts?.twitter &&
+                                    <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-${themeSett.primary_button_text} 
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <BsTwitterX size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.linkedin &&
+                                    <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-${themeSett.primary_button_text} 
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <LiaLinkedin size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.youtube &&
+                                    <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-${themeSett.primary_button_text} 
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <FaYoutube size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.whatsapp &&
+                                    <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-${themeSett.primary_button_text} 
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                        <BsWhatsapp size={20} />
+                                    </Link>
+                                }
                             </div>
                         </div>
 
-                        {/* Buy */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-4">Buy</h4>
-                            <ul className="space-y-2.5">
-                                {["Homes for Sale", "New Construction", "Foreclosures", "Open Houses", "Coming Soon"].map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" className="text-sm text-white/60 hover:text-emerald-400 transition-colors">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                        {/* Services */}
+                        {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                            themeSett.footer_menu.map((menu: any, index: any) => {
 
-                        {/* Sell */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-4">Sell</h4>
-                            <ul className="space-y-2.5">
-                                {["Home Value", "List Your Home", "Seller&apos;s Guide", "Compare Agents", "Staging Tips"].map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" className="text-sm text-white/60 hover:text-emerald-400 transition-colors">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                                return (
+                                    <div>
+                                        <div key={index} className=''>
+                                            <h4 className="font-semibold text-white mb-4">
+                                                {menu.title}
+                                            </h4>
 
-                        {/* Rent */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-4">Rent</h4>
-                            <ul className="space-y-2.5">
-                                {["Apartments", "Houses", "Condos", "Pet Friendly", "Luxury Rentals"].map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" className="text-sm text-white/60 hover:text-emerald-400 transition-colors">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                                            {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                                <ul className="space-y-2.5">
+                                                    {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                        return <li key={sub_index}>
+                                                            <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                                className={`text-sm text-white/60 transition-all cursor-pointer 
+                                                                hover:text-${themeSett.primary_color}`}>
+                                                                {/* <FaArrowRightLong size={13} /> */}
+                                                                <span>{sub_menu.title}</span>
+                                                            </CustomLinkMain>
+                                                        </li>
+                                                    })}
+                                                </ul>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        ) : null}
 
-                        {/* Company */}
+                        {/* Contact */}
                         <div>
-                            <h4 className="font-semibold text-white mb-4">Company</h4>
-                            <ul className="space-y-2.5">
-                                {["About Us", "Careers", "Press", "Blog", "Contact"].map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" className="text-sm text-white/60 hover:text-emerald-400 transition-colors">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
+                            <h4 className="font-semibold text-white mb-4">Contact</h4>
+                            <ul className="space-y-3 text-sm text-white/60">
+                                <li className="flex items-start gap-3">
+                                    <BiMapPin className="h-4 w-4 shrink-0" />
+                                    <span className=' flex flex-col -mt-1'>
+                                        <span> {brker_info?.contact_info?.address}</span>
+                                        {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                            ? <span>{brker_info?.contact_info?.address_2}</span> : null}
+                                    </span>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <BiPhone className="h-4 w-4 shrink-0" />
+                                    <span>{brker_info?.contact_info?.phone_cell}</span>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <CgMail className="h-4 w-4 shrink-0" />
+                                    <span>{brker_info?.email}</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -214,14 +256,39 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     {/* Bottom */}
                     <div className="py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
                         <p className="text-xs text-white/40">
-                            &copy; 2024 NexHome Inc. All rights reserved. Licensed in all 50 states.
+                            &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
-                            {["Privacy", "Terms", "Sitemap", "Accessibility", "Fair Housing"].map((item) => (
-                                <Link key={item} href="#" className="text-xs text-white/40 hover:text-white transition-colors">
-                                    {item}
-                                </Link>
-                            ))}
+                            <CustomLinkMain href="/privacy-policy" className="text-xs text-white/40 hover:text-white transition-colors">
+                                Privacy Policy
+                            </CustomLinkMain>
+
+                            <CustomLinkMain href="/Terms" className="text-xs text-white/40 hover:text-white transition-colors">
+                                Terms of Service
+                            </CustomLinkMain>
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
                         </div>
                     </div>
                 </div>

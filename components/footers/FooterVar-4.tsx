@@ -116,10 +116,11 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             <p className="mt-4 text-sm text-white/60">
                                 {themeSett?.footer_sub_header || `Schedule a private consultation with our luxury real estate specialists`}
                             </p>
-                            <button className={`mt-6 px-8 py-4 rounded-md cursor-pointer hover:shadow-xl bg-${themeSett.primary_color} 
-                            text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                            <CustomLinkMain href={`/contact-us`} is_theme={is_theme} className={`mt-6 px-8 py-4 rounded-md cursor-pointer 
+                            hover:shadow-xl bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
                                 {themeSett?.footer_button_text || `Book Consultation`}
-                            </button>
+                            </CustomLinkMain>
                         </div>
                     </div>
                 </div>
@@ -173,22 +174,6 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 }
                             </div>
                         </div>
-
-                        {/* Quick Links */}
-                        {/* <div>
-                            <h3 className="text-xs font-semibold tracking-widest uppercase text-white/40 mb-4">
-                                Properties
-                            </h3>
-                            <ul className="space-y-3">
-                                {["Featured Listings", "New Developments", "Luxury Estates", "Waterfront Properties", "International"].map((item) => (
-                                    <li key={item}>
-                                        <Link href="#" className="text-sm text-white/60 hover:text-white transition-colors">
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div> */}
 
                         {/* Services */}
                         {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
