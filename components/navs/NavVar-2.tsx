@@ -96,7 +96,7 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                 {/* Animated border bottom */}
                 <div className={`h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent transition-opacity 
-            duration-700 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
+                duration-700 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
             </nav>
         )
     }

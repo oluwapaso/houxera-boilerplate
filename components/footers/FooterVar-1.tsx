@@ -109,7 +109,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className=' col-span-4 flex flex-col'>
                         <div className='mb-4'>
                             <div className="font-medium text-2xl h-[55px]">
-                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
+                                <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                             </div>
                         </div>
 
@@ -170,7 +170,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 }
 
                                 {brker_info?.social_accounts?.whatsapp &&
-                                    <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' >
+                                    <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank' >
                                         <BsWhatsapp size={20} />
                                     </Link>
                                 }
@@ -227,7 +227,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         }
 
                         {brker_info?.social_accounts?.whatsapp &&
-                            <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
                                 <BsWhatsapp size={20} />
                             </Link>
                         }

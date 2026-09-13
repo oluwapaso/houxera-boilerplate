@@ -43,7 +43,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
             <nav className={`w-full flex justify-between items-center px-8 py-2 z-50 h-20 relative
             ${is_transparent ? "bg-transparent" : "bg-white shadow-md"}`}>
                 <CustomLinkMain href={`${themeSett.theme_prefix}/home`} is_theme={is_theme} className="font-medium text-2xl">
-                    <Image src={`/next.svg`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                    <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                 </CustomLinkMain>
                 <div className={`flex items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
                     *:border-b-transparent *:cursor-pointer 

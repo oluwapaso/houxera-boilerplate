@@ -111,7 +111,7 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         {/* Company Info */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-3 h-[55px]">
-                                <Image src={`${themeSett?.light_logo || "/logo-light.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
+                                <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                             </div>
                             <p className="text-sm leading-relaxed text-zinc-400">
                                 {themeSett?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
@@ -230,7 +230,7 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             }
 
                             {brker_info?.social_accounts?.whatsapp &&
-                                <Link href={`${brker_info?.social_accounts?.whatsapp}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
+                                <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank' className="text-zinc-500 transition-colors hover:text-blue-400" >
                                     <BsWhatsapp size={20} />
                                 </Link>
                             }

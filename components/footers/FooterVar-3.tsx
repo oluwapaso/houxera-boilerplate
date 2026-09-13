@@ -2,11 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import { BsGear, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs';
-import { BiRefresh } from 'react-icons/bi';
+import { BsChevronBarUp, BsGear, BsGithub, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiChat, BiRefresh } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
+import { FaFacebook, FaYoutube } from 'react-icons/fa';
+import { LiaLinkedin } from 'react-icons/lia';
+import CustomLinkMain from '../CustomLink';
 
 const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
@@ -100,51 +103,96 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
             <footer className="border-t border-gray-300 bg-background relative">
                 <div className="mx-auto max-w-7xl px-6 py-12">
                     <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-                        <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-                                <span className="text-sm font-bold text-background">M</span>
-                            </div>
-                            <span className="text-lg font-semibold text-foreground">Minimal</span>
+                        <div className="flex items-center gap-3 h-[55px]">
+                            <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                         </div>
 
                         <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                Home
-                            </Link>
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                About
-                            </Link>
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                Services
-                            </Link>
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                Contact
-                            </Link>
+                            {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                                themeSett.footer_menu.map((menu: any, index: any) => {
+
+                                    return ((Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                        <>
+                                            {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                    className={`text-gray-800 transition-all py-2 px-1
+                                                    cursor-pointer hover:text-gray-950 hover: bg-gray-100`}>
+                                                    {/* <FaArrowRightLong size={13} /> */}
+                                                    <span>{sub_menu.title}</span>
+                                                </CustomLinkMain>
+                                            })}
+                                        </>
+                                    ) : null)
+                                })
+                            ) : null}
+
                         </nav>
 
                         <div className="flex items-center gap-4">
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                <BsTwitterX className="h-5 w-5" />
-                                <span className="sr-only">Twitter</span>
-                            </Link>
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                <BsGithub className="h-5 w-5" />
-                                <span className="sr-only">GitHub</span>
-                            </Link>
-                            <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-                                <BsLinkedin className="h-5 w-5" />
-                                <span className="sr-only">LinkedIn</span>
-                            </Link>
+                            {brker_info?.social_accounts?.facebook &&
+                                <Link href={`${brker_info?.social_accounts?.facebook}`} target='_blank'
+                                    className="text-muted-foreground transition-colors hover:text-foreground">
+                                    <FaFacebook size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.twitter &&
+                                <Link href={`${brker_info?.social_accounts?.twitter}`} target='_blank'
+                                    className="text-muted-foreground transition-colors hover:text-foreground">
+                                    <BsTwitterX size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.linkedin &&
+                                <Link href={`${brker_info?.social_accounts?.linkedin}`} target='_blank'
+                                    className="text-muted-foreground transition-colors hover:text-foreground">
+                                    <LiaLinkedin size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.youtube &&
+                                <Link href={`${brker_info?.social_accounts?.youtube}`} target='_blank'
+                                    className="text-muted-foreground transition-colors hover:text-foreground">
+                                    <FaYoutube size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.whatsapp &&
+                                <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank'
+                                    className="text-muted-foreground transition-colors hover:text-foreground">
+                                    <BsWhatsapp size={20} />
+                                </Link>
+                            }
                         </div>
                     </div>
 
                     <div className="mt-8 border-t border-gray-300 pt-8 text-center">
                         <p className="text-sm text-muted-foreground">
-                            © {new Date().getFullYear()} Minimal. All rights reserved.
+                            &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                     </div>
                 </div>
 
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
+                        </div>
+                    </div>
+                </div>
 
                 {is_theme && (
                     <div className='absolute z-[1000] right-1.5 top-2.5 space-x-2 flex items-center justify-end 
