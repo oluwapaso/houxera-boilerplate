@@ -102,12 +102,12 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
         return (
             <footer className="border-t border-gray-300 bg-background relative">
                 <div className="mx-auto max-w-7xl px-6 py-12">
-                    <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-                        <div className="flex items-center gap-3 h-[55px]">
+                    <div className="flex flex-col items-start justify-between gap-6 md:flex-row">
+                        <div className="flex items-center h-[55px] -mt-4">
                             <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                         </div>
 
-                        <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
+                        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 -mt-2 text-sm">
                             {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
                                 themeSett.footer_menu.map((menu: any, index: any) => {
 
@@ -125,7 +125,6 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     ) : null)
                                 })
                             ) : null}
-
                         </nav>
 
                         <div className="flex items-center gap-4">
@@ -167,7 +166,13 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     </div>
 
                     <div className="mt-8 border-t border-gray-300 pt-8 text-center">
-                        <p className="text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center text-sm text-muted-foreground justify-center gap-6 text-gray-800">
+                            <CustomLinkMain href="/privacy-policy" className="transition-all py-2 px-3 rounded-md cursor-pointer 
+                            hover:text-gray-950 hover:bg-gray-100">Privacy Policy</CustomLinkMain>
+                            <CustomLinkMain href="/terms" className="transition-all py-2 px-3 rounded-md cursor-pointer 
+                            hover:text-gray-950 hover:bg-gray-100">Terms of Service</CustomLinkMain>
+                        </div>
+                        <p className="text-sm text-muted-foreground pt-5">
                             &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                     </div>
