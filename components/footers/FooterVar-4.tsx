@@ -37,9 +37,9 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 data: {
                     "category": "footer",
                     "type": "section",
-                    "component": "FooterVar4",
                     // ...raw_data,
-                    ...themeSett?.footer_settings
+                    ...themeSett?.footer_settings,
+                    "component": "FooterVar4",
                 }
             },
             '*' // In production, replace '*' with your parent URL for security
