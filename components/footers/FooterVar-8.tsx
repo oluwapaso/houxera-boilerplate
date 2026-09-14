@@ -110,7 +110,7 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
         return (
             <footer className="bg-[#f8f6f3] relative">
                 {/* Newsletter */}
-                {themeSett.footer_settings.show_newsletter &&
+                {themeSett?.footer_settings?.show_newsletter == "Yes" &&
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="py-16 border-b border-stone-200 text-center">
                             <h3 className="text-2xl font-serif text-stone-800">
@@ -147,7 +147,7 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 </div>
                             </div>
                             <p className="mt-4 text-sm text-stone-500 max-w-xs mx-auto md:mx-0">
-                                {themeSett?.footer_note || `Curating beautiful homes with heart. 
+                                {themeSett?.footer_settings?.footer_note || `Curating beautiful homes with heart. 
                                 We believe finding your perfect space should be a joyful journey.`}
                             </p>
                         </div>

@@ -120,7 +120,7 @@ const FooterVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 </div>
 
                                 <p className="mt-1 text-sm max-w-xs">
-                                    {themeSett?.footer_note || `Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
+                                    {themeSett?.footer_settings?.footer_note || `Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
                                 </p>
                             </div>
 

@@ -137,7 +137,7 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             </div>
 
                             <p className="text-sm text-white/60 leading-relaxed">
-                                {themeSett?.footer_note || `Curating exceptional properties for discerning clients since 1985.`}
+                                {themeSett?.footer_settings?.footer_note || `Curating exceptional properties for discerning clients since 1985.`}
                             </p>
                             <div className="flex gap-4 pt-2">
                                 {brker_info?.social_accounts?.facebook &&

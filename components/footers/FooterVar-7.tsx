@@ -148,7 +148,7 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     </div>
                                 </div>
                                 <p className="text-sm text-neutral-400 mb-4">
-                                    {themeSett?.footer_note || `Trusted by families for over 40 years. We specialize in residential properties,
+                                    {themeSett?.footer_settings?.footer_note || `Trusted by families for over 40 years. We specialize in residential properties,
                                     helping you find not just a house, but a home.`}
                                 </p>
                             </div>

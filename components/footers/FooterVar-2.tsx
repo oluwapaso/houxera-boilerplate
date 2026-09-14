@@ -115,7 +115,7 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                             </div>
                             <p className="text-sm leading-relaxed text-zinc-400">
-                                {themeSett?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                                {themeSett?.footer_settings?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
                                 Non temporibus hic sunt iure magnam labore,
                                 unde tenetur totam quam porro veritatis
                                 error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}

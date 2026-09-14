@@ -110,7 +110,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
             <footer className="bg-[#0f172a] text-white relative">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     {/* Newsletter Section */}
-                    {themeSett?.footer_settings?.show_newsletter &&
+                    {themeSett?.footer_settings?.show_newsletter == "Yes" &&
                         <div className="py-12 border-b border-white/10">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                                 <div>
@@ -147,7 +147,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 </div>
                             </div>
                             <p className="mt-4 text-sm text-white/60 max-w-xs">
-                                {themeSett?.footer_note || ` Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
+                                {themeSett?.footer_settings?.footer_note || ` Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
                             </p>
                             <div className="flex gap-3 mt-6">
                                 {brker_info?.social_accounts?.facebook &&

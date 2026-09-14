@@ -117,7 +117,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         </div>
 
                         <div className='text-sm leading-7 text-zinc-400'>
-                            {themeSett?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                            {themeSett?.footer_settings?.footer_note || `Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
                             Non temporibus hic sunt iure magnam labore,
                             unde tenetur totam quam porro veritatis
                             error blanditiis quisquam, necessitatibus molestias id in. Et, ipsam?`}
@@ -226,7 +226,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                     <div className='col-span-3 flex flex-col'>
                         {/* Newsletter */}
-                        {themeSett?.footer_settings?.show_newsletter &&
+                        {themeSett?.footer_settings?.show_newsletter == "Yes" &&
                             <div className="space-y-6">
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">
                                     {themeSett?.footer_settings?.newsletter_header || "Newsletter"}
