@@ -202,20 +202,9 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 {is_theme && (
                     <div className='absolute z-[1000] right-1.5 top-2.5 space-x-2 flex items-center justify-end 
                     *:bg-gray-800 *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-                            <span className='absolute hidden right-0 group-hover:inline-block whitespace-nowrap bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                Footer Settings
-                            </span>
-                        </div>
-
                         <div id='editor_settings' className='hover:shadow-2xl relative group'
                             onClick={() => handleCompPickerClick("REPLACE_FOOTER")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                             <BiRefresh size={17} />
-
                             <span className='absolute hidden right-0 group-hover:inline-block whitespace-nowrap bottom-full px-2 py-2 w-fit rounded bg-gray-800 
                             text-white text-xs'>
                                 Replace Footer
