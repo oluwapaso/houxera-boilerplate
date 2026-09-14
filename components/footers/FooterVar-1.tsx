@@ -25,7 +25,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
     const brker_info = useSelector((state: RootState) => state.broker);
     const [showButtons, setShowButtons] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-    console.log("brker_info", brker_info)
+
     const backToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -38,7 +38,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 data: {
                     "category": "footer",
                     "type": "section",
-                    "name": "FooterVar1",
+                    "component": "FooterVar1",
                     ...raw_data,
                 }
             },
