@@ -108,16 +108,15 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
             <footer className="bg-[#0f172a] text-white relative">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     {/* Newsletter Section */}
-                    {themeSett.footer_settings.show_newsletter &&
+                    {themeSett?.footer_settings?.show_newsletter &&
                         <div className="py-12 border-b border-white/10">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                                 <div>
                                     <h3 className="text-2xl font-semibold">
-                                        {themeSett.footer_settings.newsletter_header || "Stay Updated"}
+                                        {themeSett?.footer_settings?.newsletter_header || "Stay Updated"}
                                     </h3>
                                     <p className="mt-1 text-white/60 text-sm">
-                                        {themeSett.footer_settings.newsletter_sub_header || "Get the latest listings and market insights."
-                                        }
+                                        {themeSett?.footer_settings?.newsletter_sub_header || "Get the latest listings and market insights."}
                                     </p>
                                 </div>
                                 <div className="flex w-full md:w-auto gap-2">
@@ -128,7 +127,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     <button className={`w-full flex items-center space-x-1.5 px-3 py-2 rounded cursor-pointer 
                                         bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                         hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                        <span>{themeSett.footer_settings.newsletter_btn_text || "Subscribe"}</span>
+                                        <span>{themeSett?.footer_settings?.newsletter_btn_text || "Subscribe"}</span>
                                         <BsArrowRight className="ml-2 h-4 w-4" />
                                     </button>
                                 </div>
