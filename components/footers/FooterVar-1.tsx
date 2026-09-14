@@ -225,15 +225,13 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                     <div className='col-span-3 flex flex-col'>
                         {/* Newsletter */}
-                        {!themeSett.show_newsletter &&
+                        {themeSett.footer_settings.show_newsletter &&
                             <div className="space-y-6">
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">
-                                    {themeSett.newsletter_header ? themeSett.newsletter_header : "Newsletter"}
+                                    {themeSett.footer_settings.newsletter_header || "Newsletter"}
                                 </h3>
                                 <p className="text-sm text-zinc-400">
-                                    {themeSett.newsletter_sub_header
-                                        ? themeSett.newsletter_sub_header
-                                        : "Subscribe to our newsletter for the latest updates and insights."
+                                    {themeSett.footer_settings.newsletter_sub_header || "Subscribe to our newsletter for the latest updates and insights."
                                     }
                                 </p>
                                 <div className="space-y-3">
@@ -242,7 +240,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     />
                                     <button className={`w-full px-3 py-2 rounded cursor-pointer bg-${themeSett.primary_color} 
                                     text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                        {themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}
+                                        {themeSett.footer_settings.newsletter_btn_text || "Subscribe"}
                                     </button>
                                 </div>
                             </div>

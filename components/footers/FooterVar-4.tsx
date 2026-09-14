@@ -111,15 +111,15 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
                         <div className="flex flex-col items-center text-center">
                             <h2 className="text-3xl font-light tracking-tight md:text-4xl">
-                                {themeSett?.footer_cta_header || `Find Your Dream Home`}
+                                {themeSett?.footer_settings?.footer_cta_header || `Find Your Dream Home`}
                             </h2>
                             <p className="mt-4 text-sm text-white/60">
-                                {themeSett?.footer_cta_sub_header || `Schedule a private consultation with our luxury real estate specialists`}
+                                {themeSett?.footer_settings?.footer_cta_sub_header || `Schedule a private consultation with our luxury real estate specialists`}
                             </p>
                             <CustomLinkMain href={`/contact-us`} is_theme={is_theme} className={`mt-6 px-8 py-4 rounded-md cursor-pointer 
-                                hover:shadow-xl bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
-                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                {themeSett?.footer_cta_button_text || `Book Consultation`}
+                            hover:shadow-xl bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                {themeSett?.footer_settings?.footer_cta_button_text || `Book Consultation`}
                             </CustomLinkMain>
                         </div>
                     </div>

@@ -113,10 +113,10 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                             <div>
                                 <h3 className="text-xl font-semibold">
-                                    {themeSett.footer_header || "Ready to find your perfect home?"}
+                                    {themeSett?.footer_settings?.footer_cta_header || "Ready to find your perfect home?"}
                                 </h3>
                                 <p className="text-amber-100 text-sm mt-1">
-                                    {themeSett?.footer_sub_header || `Our agents are available 7 days a week`}
+                                    {themeSett?.footer_settings?.footer_cta_sub_header || `Our agents are available 7 days a week`}
                                 </p>
                             </div>
                             <div className="flex gap-3 *:px-6 *:py-3 *:rounded-md *:cursor-pointer *:transition-all">
@@ -127,7 +127,7 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 <CustomLinkMain href="/contact-us" is_theme={is_theme} className={`bg-gray-100 text-${helpers.adjustColorShade(themeSett.primary_color, 1)} border border-transparent
                                     hover:bg-transparent hover:text-${helpers.adjustColorShade(themeSett.primary_color, -10)} hover:shadow-2xl
                                     hover:border-${helpers.adjustColorShade(themeSett.primary_color, -10)} `}>
-                                    Contact Us
+                                    {themeSett?.footer_settings?.footer_cta_button_text || `Contact Us`}
                                 </CustomLinkMain>
                             </div>
                         </div>

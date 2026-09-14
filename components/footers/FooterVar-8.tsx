@@ -108,32 +108,31 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
         return (
             <footer className="bg-[#f8f6f3] relative">
                 {/* Newsletter */}
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="py-16 border-b border-stone-200 text-center">
-                        <h3 className="text-2xl font-serif text-stone-800">
-                            {themeSett.newsletter_header ? themeSett.newsletter_header : "Stay Updated"}
-                        </h3>
-                        <p className="mt-2 text-stone-500 text-sm max-w-md mx-auto">
-                            {themeSett.newsletter_sub_header
-                                ? themeSett.newsletter_sub_header
-                                : "Get the latest listings and market insights."
-                            }
-                        </p>
-                        <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Your email address"
-                                className="bg-white border border-stone-200 flex-1 px-4 shadow-lg rounded"
-                            />
-                            <button className={`w-fit flex items-center space-x-1 px-4 py-2 rounded cursor-pointer 
-                                bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-xl 
-                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                <span>{themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}</span>
-                                <BsArrowRight className="ml-2 h-4 w-4" />
-                            </button>
+                {themeSett.footer_settings.show_newsletter &&
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="py-16 border-b border-stone-200 text-center">
+                            <h3 className="text-2xl font-serif text-stone-800">
+                                {themeSett?.footer_settings?.newsletter_header || "Stay Updated"}
+                            </h3>
+                            <p className="mt-2 text-stone-500 text-sm max-w-md mx-auto">
+                                {themeSett?.footer_settings?.newsletter_sub_header || "Get the latest listings and market insights."}
+                            </p>
+                            <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                                <input
+                                    type="email"
+                                    placeholder="Your email address"
+                                    className="bg-white border border-stone-200 flex-1 px-4 shadow-lg rounded"
+                                />
+                                <button className={`w-fit flex items-center space-x-1 px-4 py-2 rounded cursor-pointer 
+                                    bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-xl 
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                    <span>{themeSett?.footer_settings?.newsletter_btn_text || "Subscribe"}</span>
+                                    <BsArrowRight className="ml-2 h-4 w-4" />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
 
                 {/* Main Content */}
                 <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
