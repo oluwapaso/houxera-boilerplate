@@ -183,7 +183,7 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                             {/* Contact */}
                             <div>
-                                <h4 className="font-semibold mb-4 text-amber-500">Contact Us</h4>
+                                <h4 className={`font-semibold mb-4 text-${themeSett.primary_color} `}>Contact Us</h4>
                                 <ul className="space-y-3">
                                     <li className="flex items-start gap-3 text-sm text-neutral-400">
                                         <FaMapMarkerAlt className="h-4 w-4 mt-0.5 shrink-0" />
