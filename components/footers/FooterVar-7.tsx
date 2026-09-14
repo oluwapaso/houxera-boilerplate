@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { FaArrowRightLong, FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { FaFacebook, FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsArrowDown, BsArrowRight, BsArrowUp, BsArrowUpRight, BsChevronBarUp, BsClock, BsGear, BsGithub, BsInstagram, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
-import { BiBuilding, BiChat, BiEnvelopeOpen, BiHome, BiLayerPlus, BiMapPin, BiPhone, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BsChevronBarUp, BsGear, BsInstagram, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiChat, BiRefresh } from 'react-icons/bi';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { PiPhoneIncoming } from 'react-icons/pi';
 import { LiaLinkedin } from 'react-icons/lia';
@@ -14,7 +14,9 @@ import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
 import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -106,20 +108,27 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
         return (
             <footer className='w-full relative'>
                 {/* CTA Banner */}
-                <div className="bg-amber-700 text-white">
+                <div className={`bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} text-${themeSett.primary_button_text} `}>
                     <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                             <div>
-                                <h3 className="text-xl font-semibold">Ready to find your perfect home?</h3>
-                                <p className="text-amber-100 text-sm mt-1">Our agents are available 7 days a week</p>
+                                <h3 className="text-xl font-semibold">
+                                    {themeSett.footer_header || "Ready to find your perfect home?"}
+                                </h3>
+                                <p className="text-amber-100 text-sm mt-1">
+                                    {themeSett?.footer_sub_header || `Our agents are available 7 days a week`}
+                                </p>
                             </div>
-                            <div className="flex gap-3">
-                                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-amber-700 bg-transparent">
-                                    Call (800) 555-1234
-                                </Button>
-                                <Button className="bg-white text-amber-700 hover:bg-amber-50">
+                            <div className="flex gap-3 *:px-6 *:py-3 *:rounded-md *:cursor-pointer *:transition-all">
+                                <div className={`border border-gray-100  text-gray-100 bg-transparent hover:shadow-2xl
+                                    hover:bg-${themeSett.primary_button_text} hover:text-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                    {brker_info?.contact_info?.phone_cell}
+                                </div>
+                                <CustomLinkMain href="/contact-us" is_theme={is_theme} className={`bg-gray-100 text-${helpers.adjustColorShade(themeSett.primary_color, 1)} border border-transparent
+                                    hover:bg-transparent hover:text-${helpers.adjustColorShade(themeSett.primary_color, -10)} hover:shadow-2xl
+                                    hover:border-${helpers.adjustColorShade(themeSett.primary_color, -10)} `}>
                                     Contact Us
-                                </Button>
+                                </CustomLinkMain>
                             </div>
                         </div>
                     </div>
@@ -132,91 +141,113 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             {/* About */}
                             <div>
                                 <div className="flex items-center gap-2 mb-4">
-                                    <BiBuilding className="h-7 w-7 text-amber-500" />
-                                    <div>
-                                        <span className="text-lg font-bold">Heritage</span>
-                                        <span className="text-amber-500 text-lg font-bold ml-1">Realty</span>
+                                    <div className="flex items-center gap-3 h-[55px]">
+                                        <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
                                     </div>
                                 </div>
                                 <p className="text-sm text-neutral-400 mb-4">
-                                    Trusted by families for over 40 years. We specialize in residential properties,
-                                    helping you find not just a house, but a home.
+                                    {themeSett?.footer_note || `Trusted by families for over 40 years. We specialize in residential properties,
+                                    helping you find not just a house, but a home.`}
                                 </p>
-                                <div className="flex items-center gap-2 text-sm text-neutral-400">
-                                    <BsClock className="h-4 w-4" />
-                                    <span>Mon-Fri 9am-6pm | Sat-Sun 10am-4pm</span>
-                                </div>
                             </div>
 
-                            {/* Quick Links */}
-                            <div>
-                                <h4 className="font-semibold mb-4 text-amber-500">Quick Links</h4>
-                                <ul className="space-y-2">
-                                    {[
-                                        "Search Properties",
-                                        "Featured Listings",
-                                        "Mortgage Calculator",
-                                        "First-Time Buyers",
-                                        "Selling Your Home",
-                                        "Market Reports"
-                                    ].map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">
-                                                {item}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            {/* Services */}
+                            {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                                themeSett.footer_menu.map((menu: any, index: any) => {
 
-                            {/* Areas We Serve */}
-                            <div>
-                                <h4 className="font-semibold mb-4 text-amber-500">Areas We Serve</h4>
-                                <ul className="space-y-2">
-                                    {[
-                                        "Downtown District",
-                                        "Riverside Heights",
-                                        "Oak Valley",
-                                        "Lakewood Estates",
-                                        "Sunset Hills",
-                                        "Pinecrest"
-                                    ].map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" className="text-sm text-neutral-400 hover:text-white transition-colors">
-                                                {item}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                                    return (
+                                        <div>
+                                            <div key={index} className=''>
+                                                <h4 className={`font-semibold mb-4 text-${themeSett.primary_color} `}>
+                                                    {menu.title}
+                                                </h4>
+
+                                                {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                                    <ul className="space-y-3">
+                                                        {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                            return <li key={sub_index}>
+                                                                <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                                    className="text-sm text-neutral-400 hover:text-white transition-colors">
+                                                                    {/* <FaArrowRightLong size={13} /> */}
+                                                                    <span>{sub_menu.title}</span>
+                                                                </CustomLinkMain>
+                                                            </li>
+                                                        })}
+                                                    </ul>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            ) : null}
 
                             {/* Contact */}
                             <div>
                                 <h4 className="font-semibold mb-4 text-amber-500">Contact Us</h4>
                                 <ul className="space-y-3">
                                     <li className="flex items-start gap-3 text-sm text-neutral-400">
-                                        <BiMapPin className="h-4 w-4 mt-0.5 shrink-0 text-amber-500" />
-                                        <span>789 Main Street, Suite 100<br />Springfield, IL 62701</span>
+                                        <FaMapMarkerAlt className="h-4 w-4 mt-0.5 shrink-0" />
+                                        <span className='text-sm'>
+                                            <span> {brker_info?.contact_info?.address}</span>
+                                            {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                                ? <span>{brker_info?.contact_info?.address_2}</span> : null}
+                                        </span>
                                     </li>
                                     <li className="flex items-center gap-3 text-sm text-neutral-400">
-                                        <PiPhoneIncoming className="h-4 w-4 shrink-0 text-amber-500" />
-                                        <span>(800) 555-1234</span>
+                                        <PiPhoneIncoming className="h-4 w-4 shrink-0" />
+                                        <span className="text-sm">{brker_info?.contact_info?.phone_cell}</span>
                                     </li>
                                     <li className="flex items-center gap-3 text-sm text-neutral-400">
-                                        <CgMail className="h-4 w-4 shrink-0 text-amber-500" />
-                                        <span>info@heritagerealty.com</span>
+                                        <CgMail className="h-4 w-4 shrink-0" />
+                                        <span className="text-sm">{brker_info?.email}</span>
                                     </li>
                                 </ul>
                                 <div className="flex gap-3 mt-6">
-                                    {[FaFacebook, BsTwitterX, BsLinkedin, BsInstagram].map((Icon, i) => (
-                                        <Link
-                                            key={i}
-                                            href="#"
-                                            className="w-8 h-8 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-amber-600 transition-colors"
-                                        >
-                                            <Icon className="h-4 w-4" />
+
+                                    {brker_info?.social_accounts?.facebook &&
+                                        <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-${themeSett.primary_button_text} 
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaFacebook size={20} />
                                         </Link>
-                                    ))}
+                                    }
+
+                                    {brker_info?.social_accounts?.twitter &&
+                                        <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-${themeSett.primary_button_text} 
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <BsTwitterX size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.linkedin &&
+                                        <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-${themeSett.primary_button_text} 
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <LiaLinkedin size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.youtube &&
+                                        <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-${themeSett.primary_button_text} 
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaYoutube size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.whatsapp &&
+                                        <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-${themeSett.primary_button_text} 
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                            <BsWhatsapp size={20} />
+                                        </Link>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -226,14 +257,40 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className="border-t border-neutral-700">
                         <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-                                <p>&copy; 2024 Heritage Realty. Equal Housing Opportunity.</p>
+                                <p>&copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera</p>
                                 <div className="flex gap-4">
-                                    <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-                                    <Link href="#" className="hover:text-white transition-colors">Terms</Link>
-                                    <Link href="#" className="hover:text-white transition-colors">Accessibility</Link>
-                                    <Link href="#" className="hover:text-white transition-colors">Fair Housing</Link>
+                                    <CustomLinkMain href="/privacy-policy" is_theme={is_theme} className="hover:text-white transition-colors">
+                                        Privacy Policy
+                                    </CustomLinkMain>
+
+                                    <CustomLinkMain href="/terms" is_theme={is_theme} className="hover:text-white transition-colors">
+                                        Terms of Service
+                                    </CustomLinkMain>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
                         </div>
                     </div>
                 </div>

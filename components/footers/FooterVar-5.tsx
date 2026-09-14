@@ -1,18 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { FaArrowRightLong, FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { FaFacebook, FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsArrowDown, BsArrowRight, BsArrowUp, BsChevronBarUp, BsGear, BsGithub, BsInstagram, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
-import { BiBuilding, BiChat, BiEnvelopeOpen, BiHome, BiLayerPlus, BiMapPin, BiPhone, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BsArrowRight, BsChevronBarUp, BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiChat, BiPhone, BiRefresh } from 'react-icons/bi';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { PiPhoneIncoming } from 'react-icons/pi';
 import { LiaLinkedin } from 'react-icons/lia';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
-import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
 import { Helpers } from '@/_lib/helper';
 
@@ -234,7 +232,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             <h4 className="font-semibold text-white mb-4">Contact</h4>
                             <ul className="space-y-3 text-sm text-white/60">
                                 <li className="flex items-start gap-3">
-                                    <BiMapPin className="h-4 w-4 shrink-0" />
+                                    <FaMapMarkerAlt className="h-4 w-4 shrink-0" />
                                     <span className=' flex flex-col -mt-1'>
                                         <span> {brker_info?.contact_info?.address}</span>
                                         {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
@@ -263,7 +261,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 Privacy Policy
                             </CustomLinkMain>
 
-                            <CustomLinkMain href="/Terms" className="text-xs text-white/40 hover:text-white transition-colors">
+                            <CustomLinkMain href="/terms" className="text-xs text-white/40 hover:text-white transition-colors">
                                 Terms of Service
                             </CustomLinkMain>
                         </div>

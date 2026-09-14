@@ -11,7 +11,7 @@ import { CgMail } from 'react-icons/cg';
 import { Helpers } from '@/_lib/helper';
 import Image from 'next/image';
 import { LiaLinkedin } from 'react-icons/lia';
-import { FaYoutube } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaYoutube } from 'react-icons/fa';
 import CustomLinkMain from '../CustomLink';
 
 const helpers = new Helpers();
@@ -212,7 +212,7 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             </h3>
                             <ul className="space-y-3 text-sm text-white/60">
                                 <li className="flex items-start gap-3">
-                                    <BiMapPin className="h-4 w-4 shrink-0" />
+                                    <FaMapMarkerAlt className="h-4 w-4 shrink-0" />
                                     <span className=' flex flex-col -mt-1'>
                                         <span> {brker_info?.contact_info?.address}</span>
                                         {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
@@ -244,7 +244,7 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     Privacy Policy
                                 </CustomLinkMain>
 
-                                <CustomLinkMain href="/Terms" className="text-xs text-white/40 hover:text-white transition-colors">
+                                <CustomLinkMain href="/terms" className="text-xs text-white/40 hover:text-white transition-colors">
                                     Terms of Service
                                 </CustomLinkMain>
                             </div>

@@ -14,7 +14,9 @@ import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
 import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -108,19 +110,27 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 {/* Newsletter */}
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="py-16 border-b border-stone-200 text-center">
-                        <h3 className="text-2xl font-serif text-stone-800">Join Our Community</h3>
+                        <h3 className="text-2xl font-serif text-stone-800">
+                            {themeSett.newsletter_header ? themeSett.newsletter_header : "Stay Updated"}
+                        </h3>
                         <p className="mt-2 text-stone-500 text-sm max-w-md mx-auto">
-                            Be the first to know about new listings, design inspiration, and exclusive events
+                            {themeSett.newsletter_sub_header
+                                ? themeSett.newsletter_sub_header
+                                : "Get the latest listings and market insights."
+                            }
                         </p>
                         <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                             <input
                                 type="email"
                                 placeholder="Your email address"
-                                className="bg-white border-stone-200 flex-1"
+                                className="bg-white border border-stone-200 flex-1 px-4 shadow-lg rounded"
                             />
-                            <Button className="bg-stone-800 hover:bg-stone-900 text-white">
-                                Subscribe
-                            </Button>
+                            <button className={`w-fit flex items-center space-x-1 px-4 py-2 rounded cursor-pointer 
+                                bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-xl 
+                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
+                                <span>{themeSett.newsletter_btn_text ? themeSett.newsletter_btn_text : "Subscribe"}</span>
+                                <BsArrowRight className="ml-2 h-4 w-4" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -131,59 +141,109 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         {/* Brand */}
                         <div>
                             <div className="flex items-center justify-center md:justify-start gap-2">
-                                <BiHeart className="h-5 w-5 text-rose-400" fill="currentColor" />
-                                <span className="text-xl font-serif text-stone-800">Maison & Co</span>
+                                <div className="flex items-center gap-3 h-[55px]">
+                                    <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
+                                </div>
                             </div>
                             <p className="mt-4 text-sm text-stone-500 max-w-xs mx-auto md:mx-0">
-                                Curating beautiful homes with heart. We believe finding your perfect space should be a joyful journey.
+                                {themeSett?.footer_note || `Curating beautiful homes with heart. 
+                                We believe finding your perfect space should be a joyful journey.`}
                             </p>
                         </div>
 
-                        {/* Navigation */}
+                        {/* Services */}
                         <div className="grid grid-cols-2 gap-8">
-                            <div>
-                                <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">Discover</h4>
-                                <ul className="space-y-2">
-                                    {["Featured Homes", "New Listings", "Open Houses", "Neighborhoods"].map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
-                                                {item}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">About</h4>
-                                <ul className="space-y-2">
-                                    {["Our Story", "Our Team", "Testimonials", "Contact"].map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
-                                                {item}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                                themeSett.footer_menu.map((menu: any, index: any) => {
+
+                                    return (
+                                        <div>
+                                            <div key={index} className=''>
+                                                <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">
+                                                    {menu.title}
+                                                </h4>
+
+                                                {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                                    <ul className="space-y-2 *:cursor-pointer">
+                                                        {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                            return <li key={sub_index}>
+                                                                <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                                    className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
+                                                                    {/* <FaArrowRightLong size={13} /> */}
+                                                                    <span>{sub_menu.title}</span>
+                                                                </CustomLinkMain>
+                                                            </li>
+                                                        })}
+                                                    </ul>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            ) : null}
                         </div>
 
                         {/* Contact & Social */}
                         <div className="flex flex-col items-center md:items-end">
                             <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">Get in Touch</h4>
-                            <p className="text-sm text-stone-600">(310) 555-0187</p>
-                            <p className="text-sm text-stone-600">hello@maisonco.com</p>
-                            <p className="text-sm text-stone-500 mt-1">Beverly Hills, CA</p>
+                            <div className=' flex flex-col space-y-1 items-center md:items-end'>
+                                <p className="text-sm text-stone-600">{brker_info?.contact_info?.phone_cell}</p>
+                                <p className="text-sm text-stone-600">
+                                    {brker_info?.email}
+                                </p>
+
+                                <span className='text-sm text-stone-600'>
+                                    <span> {brker_info?.contact_info?.address}</span>
+                                    {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                        ? <span>{brker_info?.contact_info?.address_2}</span> : null}
+                                </span>
+                            </div>
 
                             <div className="flex gap-4 mt-6">
-                                {[BsInstagram, BsTwitterX, FaFacebook, CgMail].map((Icon, i) => (
-                                    <Link
-                                        key={i}
-                                        href="#"
-                                        className="text-stone-400 hover:text-rose-400 transition-colors"
-                                    >
-                                        <Icon className="h-5 w-5" />
+                                {brker_info?.social_accounts?.facebook &&
+                                    <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-400 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <FaFacebook size={20} />
                                     </Link>
-                                ))}
+                                }
+
+                                {brker_info?.social_accounts?.twitter &&
+                                    <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-400 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <BsTwitterX size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.linkedin &&
+                                    <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-400 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <LiaLinkedin size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.youtube &&
+                                    <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-400 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                        <FaYoutube size={20} />
+                                    </Link>
+                                }
+
+                                {brker_info?.social_accounts?.whatsapp &&
+                                    <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                        className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-400 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                        <BsWhatsapp size={20} />
+                                    </Link>
+                                }
                             </div>
                         </div>
                     </div>
@@ -193,15 +253,42 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 <div className="border-t border-stone-200">
                     <div className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-400">
-                            <p>&copy; 2024 Maison & Co. Made with care in California.</p>
+                            <p>&copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera</p>
                             <div className="flex gap-6">
-                                <Link href="#" className="hover:text-stone-600 transition-colors">Privacy</Link>
-                                <Link href="#" className="hover:text-stone-600 transition-colors">Terms</Link>
-                                <Link href="#" className="hover:text-stone-600 transition-colors">Accessibility</Link>
+                                <CustomLinkMain href="/privacy-policy" is_theme={is_theme} className="hover:text-stone-600 transition-colors cursor-pointer">
+                                    Privacy Policy
+                                </CustomLinkMain>
+
+                                <CustomLinkMain href="/terms" is_theme={is_theme} className="hover:text-stone-600 transition-colors cursor-pointer">
+                                    Terms of Service
+                                </CustomLinkMain>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
+                        </div>
+                    </div>
+                </div>
+
 
                 {is_theme && (
                     <div className='absolute z-[1000] right-1.5 top-2.5 space-x-2 flex items-center justify-end 

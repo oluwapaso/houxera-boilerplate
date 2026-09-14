@@ -14,7 +14,9 @@ import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
 import { Button } from '../Button';
 import { CgMail } from 'react-icons/cg';
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const FooterVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -111,22 +113,31 @@ const FooterVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         {/* Brand and Contact */}
                         <div className="lg:col-span-5 space-y-8">
                             <div>
-                                <h2 className="text-2xl font-medium tracking-tight text-neutral-900">HAVEN</h2>
-                                <p className="mt-1 text-sm text-neutral-500">Real Estate</p>
+                                <div className="flex items-center gap-3 h-[55px]">
+                                    <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt={`Houxera MLS and IDX provider in Nieria/Africa`} />
+                                </div>
+
+                                <p className="mt-1 text-sm max-w-xs">
+                                    {themeSett?.footer_note || `Modern real estate solutions powered by technology. Find, buy, or sell properties with confidence.`}
+                                </p>
                             </div>
 
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-neutral-600">
-                                    <BiMapPin className="h-4 w-4" />
-                                    <span className="text-sm">456 Market Street, San Francisco, CA 94102</span>
+                                    <FaMapMarkerAlt className="h-4 w-4" />
+                                    <span className='text-sm'>
+                                        <span> {brker_info?.contact_info?.address}</span>
+                                        {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                            ? <span>{brker_info?.contact_info?.address_2}</span> : null}
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-3 text-neutral-600">
                                     <BiPhone className="h-4 w-4" />
-                                    <span className="text-sm">(415) 555-0123</span>
+                                    <span className="text-sm">{brker_info?.contact_info?.phone_cell}</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-neutral-600">
                                     <CgMail className="h-4 w-4" />
-                                    <span className="text-sm">hello@haven.com</span>
+                                    <span className="text-sm">{brker_info?.email}</span>
                                 </div>
                             </div>
                         </div>
@@ -134,41 +145,89 @@ const FooterVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         {/* Navigation */}
                         <div className="lg:col-span-7">
                             <div className="grid grid-cols-3 gap-8">
-                                <div>
-                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-4">Explore</h4>
-                                    <ul className="space-y-3">
-                                        {["Buy", "Sell", "Rent", "Estimate"].map((item) => (
-                                            <li key={item}>
-                                                <Link href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
-                                                    {item}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-4">Company</h4>
-                                    <ul className="space-y-3">
-                                        {["About", "Team", "Careers", "Press"].map((item) => (
-                                            <li key={item}>
-                                                <Link href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
-                                                    {item}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+
+                                {/* Services */}
+                                {(Array.isArray(themeSett.footer_menu) && themeSett.footer_menu.length > 0) ? (
+                                    themeSett.footer_menu.map((menu: any, index: any) => {
+
+                                        return (
+                                            <div>
+                                                <div key={index} className=''>
+                                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-4">
+                                                        {menu.title}
+                                                    </h4>
+
+                                                    {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
+                                                        <ul className="space-y-3">
+                                                            {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
+                                                                return <li key={sub_index}>
+                                                                    <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                                        className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
+                                                                        {/* <FaArrowRightLong size={13} /> */}
+                                                                        <span>{sub_menu.title}</span>
+                                                                    </CustomLinkMain>
+                                                                </li>
+                                                            })}
+                                                        </ul>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                ) : null}
+
                                 <div>
                                     <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-4">Connect</h4>
                                     <ul className="space-y-3">
-                                        {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
-                                            <li key={item}>
-                                                <Link href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex items-center gap-1">
-                                                    {item}
-                                                    <BsArrowUpRight className="h-3 w-3" />
+                                        {brker_info?.social_accounts?.facebook &&
+                                            <li>
+                                                <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                                    className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex 
+                                                    items-center gap-2" target='_blank'>
+                                                    <FaFacebook size={16} /> <span>Facebook</span>
                                                 </Link>
                                             </li>
-                                        ))}
+                                        }
+
+                                        {brker_info?.social_accounts?.twitter &&
+                                            <li>
+                                                <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                                    className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex 
+                                                    items-center gap-2" target='_blank'>
+                                                    <BsTwitterX size={16} /> <span>Twitter</span>
+                                                </Link>
+                                            </li>
+                                        }
+
+                                        {brker_info?.social_accounts?.linkedin &&
+                                            <li>
+                                                <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                                    className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex 
+                                                    items-center gap-2" target='_blank'>
+                                                    <LiaLinkedin size={16} /> <span>Linkedin</span>
+                                                </Link>
+                                            </li>
+                                        }
+
+                                        {brker_info?.social_accounts?.youtube &&
+                                            <li>
+                                                <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                                    className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex 
+                                                    items-center gap-2" target='_blank'>
+                                                    <FaYoutube size={16} /> <span>Youtube</span>
+                                                </Link>
+                                            </li>
+                                        }
+
+                                        {brker_info?.social_accounts?.whatsapp &&
+                                            <li>
+                                                <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                                    className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors inline-flex 
+                                                    items-center gap-2" target='_blank'>
+                                                    <BsWhatsapp size={16} /> <span>Whatsapp</span>
+                                                </Link>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -178,15 +237,39 @@ const FooterVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     {/* Bottom */}
                     <div className="py-6 border-t border-neutral-200 flex flex-col md:flex-row items-center justify-between gap-4">
                         <p className="text-xs text-neutral-400">
-                            &copy; 2024 Haven Real Estate. All rights reserved.
+                            &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                         <div className="flex gap-6">
-                            <Link href="#" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
+                            <CustomLinkMain href="/privacy-policy" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
                                 Privacy Policy
-                            </Link>
-                            <Link href="#" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
+                            </CustomLinkMain>
+
+                            <CustomLinkMain href="/terms" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
                                 Terms of Service
+                            </CustomLinkMain>
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
                             </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
                         </div>
                     </div>
                 </div>
