@@ -168,9 +168,9 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     <div className="mt-8 border-t border-gray-300 pt-8 text-center">
                         <div className="flex flex-wrap items-center text-sm text-muted-foreground justify-center gap-6 text-gray-800">
                             <CustomLinkMain href="/privacy-policy" className="transition-all py-2 px-3 rounded-md cursor-pointer 
-                            hover:text-gray-950 hover:bg-gray-100">Privacy Policy</CustomLinkMain>
+                            hover:text-gray-950 hover:bg-gray-100" is_theme={is_theme}>Privacy Policy</CustomLinkMain>
                             <CustomLinkMain href="/terms" className="transition-all py-2 px-3 rounded-md cursor-pointer 
-                            hover:text-gray-950 hover:bg-gray-100">Terms of Service</CustomLinkMain>
+                            hover:text-gray-950 hover:bg-gray-100" is_theme={is_theme}>Terms of Service</CustomLinkMain>
                         </div>
                         <p className="text-sm text-muted-foreground pt-5">
                             &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera

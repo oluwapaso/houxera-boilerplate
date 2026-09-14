@@ -252,8 +252,8 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                 <div className='container mx-auto mt-16 border-t border-gray-700 pt-8 flex items-center justify-between'>
                     <div className="flex flex-wrap items-center justify-end gap-6 text-sm text-zinc-500">
-                        <CustomLinkMain href="/privacy-policy" className="hover:text-zinc-300">Privacy Policy</CustomLinkMain>
-                        <CustomLinkMain href="/terms" className="hover:text-zinc-300">Terms of Service</CustomLinkMain>
+                        <CustomLinkMain href="/privacy-policy" className="hover:text-zinc-300 cursor-pointer" is_theme={is_theme}>Privacy Policy</CustomLinkMain>
+                        <CustomLinkMain href="/terms" className="hover:text-zinc-300 cursor-pointer" is_theme={is_theme}>Terms of Service</CustomLinkMain>
                     </div>
 
                     <div className='text-zinc-400'>

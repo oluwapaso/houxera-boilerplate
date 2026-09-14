@@ -195,11 +195,19 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     </li>
                                     <li className="flex items-center gap-3 text-sm text-neutral-400">
                                         <PiPhoneIncoming className="h-4 w-4 shrink-0" />
-                                        <span className="text-sm">{brker_info?.contact_info?.phone_cell}</span>
+                                        <span className="text-sm">
+                                            <Link href={`tel:${brker_info?.contact_info?.phone_cell}`} className={`hover:text-${themeSett.primary_color}`}>
+                                                {brker_info?.contact_info?.phone_cell}
+                                            </Link>
+                                        </span>
                                     </li>
                                     <li className="flex items-center gap-3 text-sm text-neutral-400">
                                         <CgMail className="h-4 w-4 shrink-0" />
-                                        <span className="text-sm">{brker_info?.email}</span>
+                                        <span className="text-sm">
+                                            <Link href={`mailto:${brker_info?.email}`} className={`hover:text-${themeSett.primary_color}`}>
+                                                {brker_info?.email}
+                                            </Link>
+                                        </span>
                                     </li>
                                 </ul>
                                 <div className="flex gap-3 mt-6">
@@ -259,11 +267,11 @@ const FooterVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
                                 <p>&copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera</p>
                                 <div className="flex gap-4">
-                                    <CustomLinkMain href="/privacy-policy" is_theme={is_theme} className="hover:text-white transition-colors">
+                                    <CustomLinkMain href="/privacy-policy" is_theme={is_theme} className="hover:text-white transition-colors cursor-pointer">
                                         Privacy Policy
                                     </CustomLinkMain>
 
-                                    <CustomLinkMain href="/terms" is_theme={is_theme} className="hover:text-white transition-colors">
+                                    <CustomLinkMain href="/terms" is_theme={is_theme} className="hover:text-white transition-colors cursor-pointer">
                                         Terms of Service
                                     </CustomLinkMain>
                                 </div>

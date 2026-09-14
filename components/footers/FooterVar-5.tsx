@@ -241,11 +241,19 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <BiPhone className="h-4 w-4 shrink-0" />
-                                    <span>{brker_info?.contact_info?.phone_cell}</span>
+                                    <span>
+                                        <Link href={`tel:${brker_info?.contact_info?.phone_cell}`} className={`hover:text-${themeSett.primary_color}`}>
+                                            {brker_info?.contact_info?.phone_cell}
+                                        </Link>
+                                    </span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <CgMail className="h-4 w-4 shrink-0" />
-                                    <span>{brker_info?.email}</span>
+                                    <span>
+                                        <Link href={`mailto:${brker_info?.email}`} className={`hover:text-${themeSett.primary_color}`}>
+                                            {brker_info?.email}
+                                        </Link>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -257,11 +265,11 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                             &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
-                            <CustomLinkMain href="/privacy-policy" className="text-xs text-white/40 hover:text-white transition-colors">
+                            <CustomLinkMain href="/privacy-policy" is_theme={is_theme} className="text-xs text-white/40 hover:text-white transition-colors cursor-pointer">
                                 Privacy Policy
                             </CustomLinkMain>
 
-                            <CustomLinkMain href="/terms" className="text-xs text-white/40 hover:text-white transition-colors">
+                            <CustomLinkMain href="/terms" is_theme={is_theme} className="text-xs text-white/40 hover:text-white transition-colors cursor-pointer">
                                 Terms of Service
                             </CustomLinkMain>
                         </div>

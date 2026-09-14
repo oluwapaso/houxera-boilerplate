@@ -187,11 +187,16 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         <div className="flex flex-col items-center md:items-end">
                             <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">Get in Touch</h4>
                             <div className=' flex flex-col space-y-1 items-center md:items-end'>
-                                <p className="text-sm text-stone-600">{brker_info?.contact_info?.phone_cell}</p>
                                 <p className="text-sm text-stone-600">
-                                    {brker_info?.email}
+                                    <Link href={`tel:${brker_info?.contact_info?.phone_cell}`} className={`hover:text-${themeSett.primary_color}`}>
+                                        {brker_info?.contact_info?.phone_cell}
+                                    </Link>
                                 </p>
-
+                                <p className="text-sm">
+                                    <Link href={`mailto:${brker_info?.email}`} className={`hover:text-${themeSett.primary_color}`}>
+                                        {brker_info?.email}
+                                    </Link>
+                                </p>
                                 <span className='text-sm text-stone-600'>
                                     <span> {brker_info?.contact_info?.address}</span>
                                     {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")

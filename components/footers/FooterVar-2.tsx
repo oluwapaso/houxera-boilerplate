@@ -130,11 +130,19 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
                                     <BiPhone className="h-4 w-4" />
-                                    <span>{brker_info?.contact_info?.phone_cell}</span>
+                                    <span>
+                                        <Link href={`tel:${brker_info?.contact_info?.phone_cell}`} className={`hover:text-${themeSett.primary_color}`}>
+                                            {brker_info?.contact_info?.phone_cell}
+                                        </Link>
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
                                     <CgMail className="h-4 w-4" />
-                                    <span>{brker_info?.email}</span>
+                                    <span>
+                                        <Link href={`mailto:${brker_info?.email}`} className={`hover:text-${themeSett.primary_color}`}>
+                                            {brker_info?.email}
+                                        </Link>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -200,8 +208,8 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     {/* Bottom Bar */}
                     <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-zinc-800 pt-8 md:flex-row">
                         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
-                            <CustomLinkMain href="/privacy-policy" className="hover:text-zinc-300">Privacy Policy</CustomLinkMain>
-                            <CustomLinkMain href="/terms" className="hover:text-zinc-300">Terms of Service</CustomLinkMain>
+                            <CustomLinkMain href="/privacy-policy" className="hover:text-zinc-300 cursor-pointer" is_theme={is_theme}>Privacy Policy</CustomLinkMain>
+                            <CustomLinkMain href="/terms" className="hover:text-zinc-300 cursor-pointer" is_theme={is_theme}>Terms of Service</CustomLinkMain>
                         </div>
 
                         <div className="flex items-center gap-4">
