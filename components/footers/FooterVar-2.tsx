@@ -184,7 +184,7 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         {themeSett.footer_settings.show_newsletter &&
                             <div className="space-y-6">
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100">
-                                    {themeSett.footer_settings.newsletter_header || "Newsletter"}
+                                    {themeSett?.footer_settings?.newsletter_header || "Newsletter"}
                                 </h3>
                                 <p className="text-sm text-zinc-400">
                                     {themeSett.footer_settings.newsletter_sub_header || "Subscribe to our newsletter for the latest updates and insights."
