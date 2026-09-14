@@ -40,6 +40,8 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                     "category": "footer",
                     "type": "section",
                     "component": "FooterVar8",
+                    // ...raw_data,
+                    ...themeSett?.footer_settings
                 }
             },
             '*' // In production, replace '*' with your parent URL for security
@@ -126,7 +128,7 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 <button className={`w-fit flex items-center space-x-1 px-4 py-2 rounded cursor-pointer 
                                     bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-xl 
                                     hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                    <span>{themeSett?.footer_settings?.newsletter_btn_text || "Subscribe"}</span>
+                                    <span>{themeSett?.footer_settings?.newsletter_button_text || "Subscribe"}</span>
                                     <BsArrowRight className="ml-2 h-4 w-4" />
                                 </button>
                             </div>
