@@ -38,7 +38,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
         const available = navWidth - logoWidth - rightWidth - safety
         const required = measureRef.current.scrollWidth
-        console.log("required", required, "available", available)
+        console.log("navWidth", navWidth, "required", required, "available", available)
         // Hysteresis: only switch when we clearly overflow / have room
         // This stops oscillation when the difference is only a few pixels
         setForceMobile(prev => {
@@ -125,7 +125,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                         </div>
 
                         <div className={`${!isReady || forceMobile ? "hidden" : "flex"} hidden-md:flex space-x-1 items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
-                        *:border-b-transparent *:cursor-pointer `}>
+                        *:border-b-transparent *:cursor-pointer *:whitespace-nowrap `}>
                             {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
                                 themeSett.top_menu.map((menu: any, index: any) => {
 
@@ -136,7 +136,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                                     } else {
                                         return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
-                                            className={` hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150`}>
+                                            className={` whitespace-nowrap hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150`}>
                                             {menu.title}
                                         </CustomLinkMain>
                                     }
