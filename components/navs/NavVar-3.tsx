@@ -150,7 +150,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
                                 : <button className={`flex items-center space-x-2 px-5 py-2.5 rounded-md font-medium transition-all duration-300 group 
-                                    hover:shadow-2xl border border-${themeSett.primary_color} 
+                                    hover:shadow-2xl border border-${themeSett.primary_color} cursor-pointer 
                                     ${isScrolled
                                         ? `bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`
                                         : `bg-white text-${themeSett.primary_color}`}`} >
