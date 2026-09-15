@@ -42,7 +42,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
         return (
             <nav className={`w-full flex justify-between items-center px-8 py-2 z-50 h-20 relative
             ${is_transparent ? "bg-transparent" : "bg-white shadow-md"}`}>
-                <CustomLinkMain href={`${themeSett.theme_prefix}/home`} is_theme={is_theme} className="font-medium text-2xl">
+                <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl">
                     <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                 </CustomLinkMain>
                 <div className={`flex items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
@@ -65,7 +65,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                     {(user.isLogged)
                         ? <LoggedInMenu is_theme={is_theme} />
-                        : <CustomLinkMain href={`${themeSett.theme_prefix}/login`} is_theme={is_theme} className={`transition-all ease-in hover:delay-150 mx-3 rounded
+                        : <CustomLinkMain href={`/login`} is_theme={is_theme} className={`transition-all ease-in hover:delay-150 mx-3 rounded
                         bg-${themeSett.primary_color} !text-white hover:shadow-2xl !px-8 !border-b-0`}>Login</CustomLinkMain>
                     }
                 </div>

@@ -26,8 +26,8 @@ const SubMenuContainer = ({ menu, themeSett, is_theme }: { menu: any, themeSett:
         <div className={` `}>{menu.title}</div>
 
         {is_menu_shown && (
-            <div className='absolute w-[290px] top-[60px] right-0 border-x border-b border-gray-300 bg-white shadow-2xl 
-            flex flex-col *:flex *:px-5 *:py-4 divide-y divide-gray-200 rounded-b-2xl max-h-[300px] overflow-y-auto'>
+            <div className='absolute w-[290px] top-[60px] right-0  bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
+            divide-y divide-gray-200 rounded-md max-h-[300px] overflow-y-auto'>
                 {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) && (
                     menu.sub_menu.map((sub_menu: any, index: any) => {
                         return <CustomLinkMain key={index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}

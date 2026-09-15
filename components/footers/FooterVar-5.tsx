@@ -117,7 +117,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     <h3 className="text-2xl font-semibold">
                                         {themeSett?.footer_settings?.newsletter_header || "Stay Updated"}
                                     </h3>
-                                    <p className="mt-1 text-white/60 text-sm">
+                                    <p className="max-w-md mt-1 text-white/60 text-sm">
                                         {themeSett?.footer_settings?.newsletter_sub_header || "Get the latest listings and market insights."}
                                     </p>
                                 </div>

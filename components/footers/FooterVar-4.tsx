@@ -112,10 +112,10 @@ const FooterVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 <div className="border-b border-white/10">
                     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
                         <div className="flex flex-col items-center text-center">
-                            <h2 className="text-3xl font-light tracking-tight md:text-4xl">
+                            <h2 className="max-w-sm text-3xl font-light tracking-tight md:text-4xl">
                                 {themeSett?.footer_settings?.footer_cta_header || `Find Your Dream Home`}
                             </h2>
-                            <p className="mt-4 text-sm text-white/60">
+                            <p className=" max-w-sm mt-4 text-sm text-white/60">
                                 {themeSett?.footer_settings?.footer_cta_sub_header || `Schedule a private consultation with our luxury real estate specialists`}
                             </p>
                             <CustomLinkMain href={`/contact-us`} is_theme={is_theme} className={`mt-6 px-8 py-4 rounded-md cursor-pointer 
