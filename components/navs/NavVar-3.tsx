@@ -34,7 +34,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
         const navWidth = navRef.current.clientWidth
         const logoWidth = logoRef.current.offsetWidth
         const rightWidth = rightRef.current.offsetWidth
-        const safety = 56                               // breathing room
+        const safety = 140                               // breathing room
 
         const available = navWidth - logoWidth - rightWidth - safety
         const required = measureRef.current.scrollWidth
