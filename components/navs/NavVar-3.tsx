@@ -37,8 +37,8 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav className={`fixed flex w-full items-center h-20 z-50 transition-all duration-500 ease-out ${isScrolled
-                ? "top-4 left-4 right-4 bg-white rounded-lg shadow-xl px-6"
+            <nav className={`fixed flex items-center h-20 z-50 transition-all duration-500 ease-out ${isScrolled
+                ? `top-4 left-4 right-4 bg-white ${isMenuOpen ? `rounded-t-lg` : `rounded-lg`} shadow-xl px-6`
                 : "top-0 left-0 right-0 bg-[#f8f6f3] px-8"}`} >
                 <div className="w-full max-w-7xl mx-auto">
                     <div className="flex items-center justify-between">
@@ -47,20 +47,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                         </CustomLinkMain>
 
                         <div className={`hidden md:flex space-x-1 items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
-                        *:border-b-transparent *:cursor-pointer  `}>
-                            {/* {["Features", "Pricing", "Resources", "Enterprise"].map((item) => (
-                                <a
-                                    key={item}
-                                    href="#"
-                                    className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${isScrolled
-                                        ? "text-gray-600 hover:text-violet-600 hover:bg-violet-50"
-                                        : "text-gray-600 hover:text-violet-600 hover:bg-violet-50"
-                                        }`}
-                                >
-                                    {item}
-                                </a>
-                            ))} */}
-
+                        *:border-b-transparent *:cursor-pointer `}>
                             {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
                                 themeSett.top_menu.map((menu: any, index: any) => {
 
@@ -104,6 +91,29 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             )}
                         </button>
                     </div>
+
+                    {isMenuOpen &&
+                        <div className=' absolute w-full max---w-[90%] top-20 right-0  bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
+                            divide-y divide-gray-200 rounded-b-md max-h-[300px] overflow-y-auto'>
+                            {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
+                                themeSett.top_menu.map((menu: any, index: any) => {
+
+                                    //Submenu
+                                    if (Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) {
+
+
+
+                                    } else {
+                                        return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                            className={` text-gray-900 hover:bg-${themeSett.primary_color} hover:text-white transition-all 
+                                                ease-in hover:delay-150`}>
+                                            {menu.title}
+                                        </CustomLinkMain>
+                                    }
+                                })
+                            ) : null}
+                        </div>
+                    }
                 </div>
             </nav>
         )
