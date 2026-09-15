@@ -21,7 +21,7 @@ const SubMenuContainer = ({ menu, themeSett, is_theme }: { menu: any, themeSett:
         };
     }, [menuRef]);
 
-    return <div className={`relative hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150`}
+    return <div className={`relative hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150 whitespace-nowrap`}
         ref={menuRef} onClick={() => setIsMenuShown(true)}>
         <div className={` `}>{menu.title}</div>
 
