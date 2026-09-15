@@ -159,7 +159,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             }
                         </div>
 
-                        <button className={forceMobile ? "block" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
+                        <button className={!isReady || forceMobile ? "block" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
                             {isMenuOpen ? (
                                 <BiX className={"text-gray-900"} size={24} />
                             ) : (
