@@ -123,9 +123,9 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                 <input
                                     type="email"
                                     placeholder="Your email address"
-                                    className="bg-white border border-stone-200 flex-1 px-4 shadow-lg rounded"
+                                    className="bg-white border border-stone-200 flex-1 px-4 min-h-12 max-h-12 shadow-lg rounded"
                                 />
-                                <button className={`w-fit flex items-center space-x-1 px-4 py-2 rounded cursor-pointer 
+                                <button className={`w-fit flex items-center space-x-1 px-4 py-2 h-12 rounded cursor-pointer 
                                     bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-xl 
                                     hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
                                     <span>{themeSett?.footer_settings?.newsletter_button_text || "Subscribe"}</span>
