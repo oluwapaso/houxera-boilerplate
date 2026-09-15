@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "@/app/GlobalRedux/store"
 import SubMenuContainer from "./SubMenuContainer"
 import LoggedInMenu from "./LoggedInMenu"
+import MobileSubMenuContaier from "./MobileSubMenuContaier"
 
 const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
@@ -177,7 +178,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                                     //Submenu
                                     if (Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) {
 
-
+                                        return <MobileSubMenuContaier key={index} menu={menu} themeSett={themeSett} is_theme={is_theme} />
 
                                     } else {
                                         return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
