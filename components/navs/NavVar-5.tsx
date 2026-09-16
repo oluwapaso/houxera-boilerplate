@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { BiEnvelope, BiMenu, BiPhoneOutgoing, BiX } from "react-icons/bi"
-import { BsArrowRight, BsDot } from "react-icons/bs"
+import { BsArrowRight, BsDot, BsTwitterX, BsWhatsapp } from "react-icons/bs"
 import CustomLinkMain from "../CustomLink"
 import Image from "next/image"
 import { useSelector } from "react-redux"
@@ -11,7 +11,12 @@ import SubMenuContainer from "./SubMenuContainer"
 import LoggedInMenu from "./LoggedInMenu"
 import MobileSubMenuContaier from "./MobileSubMenuContaier"
 import Link from "next/link"
+import { FaFacebook } from "react-icons/fa6"
+import { LiaLinkedin } from "react-icons/lia"
+import { FaYoutube } from "react-icons/fa"
+import { Helpers } from '@/_lib/helper';
 
+const helpers = new Helpers();
 const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
@@ -109,16 +114,11 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                 flex items-center justify-between text-sm p-1 px-6 gap-4 overflow-hidden`}>
 
-                    {/* Left side - can shrink and truncate */}
-                    <div className="font-medium min-w-0 flex-1 truncate">
-                        {themeSett?.nav_settings?.nav_header || `Welcome Back`}
-                    </div>
-
-                    {/* Right side - can also shrink if needed */}
+                    {/* Left side - can also shrink if needed */}
                     <div className="flex items-center space-x-3 min-w-0 shrink">
                         <Link
                             href={`tel:${brker_info?.contact_info?.phone_cell}`}
-                            className={`flex items-center space-x-1.5 min-w-0 hover:text-${themeSett.primary_color}`}
+                            className={`flex items-center space-x-1.5 min-w-0`}
                         >
                             <BiPhoneOutgoing size={16} className="shrink-0" />
                             <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
@@ -128,11 +128,58 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                         <Link
                             href={`mailto:${brker_info?.email}`}
-                            className={`flex items-center space-x-1.5 min-w-0 hover:text-${themeSett.primary_color}`}
+                            className={`flex items-center space-x-1.5 min-w-0`}
                         >
                             <BiEnvelope size={16} className="shrink-0" />
                             <span className="truncate">{brker_info?.email}</span>
                         </Link>
+                    </div>
+
+                    {/* Right side - can shrink and truncate */}
+                    <div className="flex gap-4 min-w-0 flex-1 truncate items-center justify-end">
+                        {brker_info?.social_accounts?.facebook &&
+                            <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                <FaFacebook size={18} />
+                            </Link>
+                        }
+
+                        {brker_info?.social_accounts?.twitter &&
+                            <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                    transition-colors
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                <BsTwitterX size={18} />
+                            </Link>
+                        }
+
+                        {brker_info?.social_accounts?.linkedin &&
+                            <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                    transition-colors
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                <LiaLinkedin size={18} />
+                            </Link>
+                        }
+
+                        {brker_info?.social_accounts?.youtube &&
+                            <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                    transition-colors
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                <FaYoutube size={18} />
+                            </Link>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                    transition-colors
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                <BsWhatsapp size={18} />
+                            </Link>
+                        }
                     </div>
                 </div>
 
