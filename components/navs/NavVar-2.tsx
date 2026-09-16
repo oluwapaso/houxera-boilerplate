@@ -9,6 +9,7 @@ import CustomLinkMain from "../CustomLink"
 import Image from "next/image"
 import SubMenuContainer from "./SubMenuContainer"
 import LoggedInMenu from "./LoggedInMenu"
+import MobileSubMenuContaier from "./MobileSubMenuContaier"
 
 const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
@@ -207,6 +208,30 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 {/* Animated border bottom */}
                 <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
                 duration-700 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
+
+                {isMenuOpen &&
+                    <div className={` absolute w-full ${isScrolled ? "top-[60px]" : "top-20 right-[2.5%] max-w-[95%]"} bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
+                        divide-y divide-gray-200 rounded-b-md overflow-y-auto transition-all duration-500 ease-out
+                        ${isScrolled ? "max-h-[calc(100dvh-96px)]" : "max-h-[calc(100dvh-80px)]"}  `}>
+                        {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
+                            themeSett.top_menu.map((menu: any, index: any) => {
+
+                                //Submenu
+                                if (Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) {
+
+                                    return <MobileSubMenuContaier key={index} menu={menu} themeSett={themeSett} is_theme={is_theme} />
+
+                                } else {
+                                    return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                        className={` text-gray-900 hover:bg-${themeSett.primary_color} hover:text-white transition-all 
+                                            ease-in hover:delay-150`}>
+                                        {menu.title}
+                                    </CustomLinkMain>
+                                }
+                            })
+                        ) : null}
+                    </div>
+                }
             </nav>
         )
     }
