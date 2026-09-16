@@ -37,14 +37,13 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
     const checkOverflow = useCallback(() => {
-        if (!navRef.current || !measureRef.current || !logoRef.current || !rightRef.current) return
+        if (!navRef.current || !measureRef.current || !logoRef.current) return
 
         const navWidth = navRef.current.clientWidth
         const logoWidth = logoRef.current.offsetWidth
-        const rightWidth = rightRef.current.offsetWidth
         const safety = 165 // breathing room
 
-        const available = navWidth - logoWidth - rightWidth - safety
+        const available = navWidth - logoWidth - safety
         const required = measureRef.current.scrollWidth
         // Hysteresis: only switch when we clearly overflow / have room
         // This stops oscillation when the difference is only a few pixels
@@ -109,85 +108,13 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex flex-col items-center h-24 z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
+            <nav ref={navRef} className={`fixed flex flex-col items-center ${!isReady || forceMobile ? "h-18" : "h-[100px]"} z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
 
-                <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
-                flex items-center justify-between text-sm p-1 px-6 gap-4 overflow-hidden`}>
-
-                    {/* Left side - can also shrink if needed */}
-                    <div className="flex items-center space-x-3 min-w-0 shrink">
-                        <Link
-                            href={`tel:${brker_info?.contact_info?.phone_cell}`}
-                            className={`flex items-center space-x-1.5 min-w-0`}
-                        >
-                            <BiPhoneOutgoing size={16} className="shrink-0" />
-                            <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
-                        </Link>
-
-                        <BsDot size={16} className="shrink-0" />
-
-                        <Link
-                            href={`mailto:${brker_info?.email}`}
-                            className={`flex items-center space-x-1.5 min-w-0`}
-                        >
-                            <BiEnvelope size={16} className="shrink-0" />
-                            <span className="truncate">{brker_info?.email}</span>
-                        </Link>
-                    </div>
-
-                    {/* Right side - can shrink and truncate */}
-                    <div className="flex gap-4 min-w-0 flex-1 truncate items-center justify-end">
-                        {brker_info?.social_accounts?.facebook &&
-                            <Link href={`${brker_info?.social_accounts?.facebook}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <FaFacebook size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.twitter &&
-                            <Link href={`${brker_info?.social_accounts?.twitter}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <BsTwitterX size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.linkedin &&
-                            <Link href={`${brker_info?.social_accounts?.linkedin}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <LiaLinkedin size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.youtube &&
-                            <Link href={`${brker_info?.social_accounts?.youtube}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <FaYoutube size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.whatsapp &&
-                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
-                                <BsWhatsapp size={18} />
-                            </Link>
-                        }
-                    </div>
-                </div>
-
-                <div className="w-full max-w-7xl mx-auto grow px-6">
+                <div className={`w-full max-w-7xl mx-auto grow`}>
                     <div className="flex items-center h-full justify-between">
-                        <div ref={logoRef} className="shrink-0">
+                        <div ref={logoRef} className={`shrink-0 h-full flex items-center justify-center px-6 bg-${themeSett.primary_color}`}>
                             <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
-                                <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                             </CustomLinkMain>
                         </div>
 
@@ -203,53 +130,131 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                                 themeSett.top_menu.map((menu: any, index: number) => (
                                     <div key={`measure-${index}`} className="px-6 py-3">
                                         {menu.title}
-                                        {/* if SubMenuContainer adds a chevron, mimic it here */}
-                                        {/* {Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0 && (
-                                            <span className="ml-1">▾</span>
-                                        )} */}
                                     </div>
                                 ))}
                         </div>
                         {/* ===== HIDDEN MEASURING ROW (never affects layout) ===== */}
 
 
-                        <div className={`${!isReady || forceMobile ? "hidden" : "flex"} shrink-0 hidden-md:flex space-x-1 items-center 
-                        rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 *:border-b-transparent 
-                        *:cursor-pointer *:whitespace-nowrap `}>
-                            {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
-                                themeSett.top_menu.map((menu: any, index: any) => {
+                        <div className={`${!isReady || forceMobile ? "hidden" : "flex flex-col"} grow h-full shrink-0 hidden-md:flex`}>
 
-                                    //Submenu
-                                    if (Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) {
+                            <div className={`w-full flex items-center justify-between text-sm py-2 px-6 gap-4 overflow-hidden`}>
 
-                                        return <SubMenuContainer key={index} menu={menu} themeSett={themeSett} is_theme={is_theme} />
+                                {/* Left side - can also shrink if needed */}
+                                <div className="flex items-center space-x-3 min-w-0 shrink">
+                                    <Link
+                                        href={`tel:${brker_info?.contact_info?.phone_cell}`}
+                                        className={`flex items-center space-x-1.5 min-w-0`}
+                                    >
+                                        <BiPhoneOutgoing size={16} className="shrink-0" />
+                                        <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
+                                    </Link>
 
-                                    } else {
-                                        return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
-                                            className={` whitespace-nowrap hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150`}>
-                                            {menu.title}
-                                        </CustomLinkMain>
+                                    <BsDot size={16} className="shrink-0" />
+
+                                    <Link
+                                        href={`mailto:${brker_info?.email}`}
+                                        className={`flex items-center space-x-1.5 min-w-0`}
+                                    >
+                                        <BiEnvelope size={16} className="shrink-0" />
+                                        <span className="truncate">{brker_info?.email}</span>
+                                    </Link>
+                                </div>
+
+                                {/* Right side - can shrink and truncate */}
+                                <div className="flex gap-4 min-w-0 flex-1 truncate items-center justify-end">
+                                    {brker_info?.social_accounts?.facebook &&
+                                        <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaFacebook size={18} />
+                                        </Link>
                                     }
-                                })
-                            ) : null}
+
+                                    {brker_info?.social_accounts?.twitter &&
+                                        <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                            transition-colors
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <BsTwitterX size={18} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.linkedin &&
+                                        <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                            transition-colors
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <LiaLinkedin size={18} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.youtube &&
+                                        <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                            transition-colors
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaYoutube size={18} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.whatsapp &&
+                                        <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center 
+                                            transition-colors
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                            <BsWhatsapp size={18} />
+                                        </Link>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                                transition-opacity duration-700 `} />
+
+                            <div className=" flex grow items-center justify-end space-x-2.5">
+                                <div className={`flex h-full shrink-0 hidden-md:flex space-x-1 items-center 
+                                    rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 *:border-b-transparent 
+                                    *:cursor-pointer *:whitespace-nowrap `}>
+                                    {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
+                                        themeSett.top_menu.map((menu: any, index: any) => {
+
+                                            //Submenu
+                                            if (Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) {
+
+                                                return <SubMenuContainer key={index} menu={menu} themeSett={themeSett} is_theme={is_theme} />
+
+                                            } else {
+                                                return <CustomLinkMain key={index} href={`${menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                    className={` whitespace-nowrap hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150`}>
+                                                    {menu.title}
+                                                </CustomLinkMain>
+                                            }
+                                        })
+                                    ) : null}
+                                </div>
+
+                                {/* Right side (login / logged-in menu) */}
+                                <div className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} h-full pr-6 shrink-0 items-center space-x-3`}>
+                                    {(user.isLogged)
+                                        ? <LoggedInMenu is_theme={is_theme} />
+                                        : <button className={`flex items-center space-x-2 px-5 py-2 rounded-md font-medium transition-all duration-300 group 
+                                        hover:shadow-2xl border border-${themeSett.primary_color} cursor-pointer 
+                                        ${isScrolled
+                                                ? `bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`
+                                                : `bg-white text-${themeSett.primary_color}`}`} >
+                                            <span>Log in</span>
+                                            <BsArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+
                         </div>
 
-                        {/* Right side (login / logged-in menu) */}
-                        <div ref={rightRef} className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} shrink-0 items-center space-x-3`}>
-                            {(user.isLogged)
-                                ? <LoggedInMenu is_theme={is_theme} />
-                                : <button className={`flex items-center space-x-2 px-5 py-2.5 rounded-md font-medium transition-all duration-300 group 
-                                    hover:shadow-2xl border border-${themeSett.primary_color} cursor-pointer 
-                                    ${isScrolled
-                                        ? `bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`
-                                        : `bg-white text-${themeSett.primary_color}`}`} >
-                                    <span>Log in</span>
-                                    <BsArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            }
-                        </div>
 
-                        <button className={!isReady || forceMobile ? "block cursor-pointer" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
+
+                        <button className={!isReady || forceMobile ? "block cursor-pointer pr-6" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
                             {isMenuOpen ? (
                                 <BiX className={"text-gray-900"} size={24} />
                             ) : (

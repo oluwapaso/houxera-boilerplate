@@ -17,7 +17,7 @@ import { FaYoutube } from "react-icons/fa"
 import { Helpers } from '@/_lib/helper';
 
 const helpers = new Helpers();
-const NavVar4 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
+const NavVar6 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
@@ -287,4 +287,4 @@ const NavVar4 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
     }
 }
 
-export default NavVar4
+export default NavVar6
