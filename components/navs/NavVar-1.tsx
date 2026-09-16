@@ -36,7 +36,6 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
         const available = navWidth - logoWidth - safety
         const required = measureRef.current.scrollWidth
-        console.log("navWidth", navWidth, "required", required, "available", available)
         // Hysteresis: only switch when we clearly overflow / have room
         // This stops oscillation when the difference is only a few pixels
         setForceMobile(prev => {

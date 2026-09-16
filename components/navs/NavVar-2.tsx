@@ -57,8 +57,6 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
         const available = navWidth - logoWidth - rightWidth - safety
         const required = measureRef.current.scrollWidth
 
-        console.log("nav", navWidth, "req", required, "avl", available, "logo", logoWidth, "right", rightWidth)
-
         setForceMobile(prev => {
             if (required > available + 12) return true
             if (required < available - 32) return false
