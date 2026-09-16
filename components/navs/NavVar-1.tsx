@@ -32,7 +32,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
         const navWidth = navRef.current.clientWidth
         const logoWidth = logoRef.current.offsetWidth
-        const safety = 140                               // breathing room
+        const safety = 165 // breathing room
 
         const available = navWidth - logoWidth - safety
         const required = measureRef.current.scrollWidth
@@ -104,6 +104,14 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
             setThemeSett(theme.theme_settings);
         }
     }, [theme]);
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflowY = 'hidden';
+        } else {
+            document.body.style.overflowY = 'auto';
+        }
+    }, [isMenuOpen]);
 
     if (themeSett) {
 
