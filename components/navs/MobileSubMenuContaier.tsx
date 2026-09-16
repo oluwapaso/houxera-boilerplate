@@ -8,19 +8,17 @@ const MobileSubMenuContaier = ({ menu, themeSett, is_theme }: { menu: any, theme
 
     return <div className={`relative flex flex-col hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150 whitespace-nowrap`}>
         <div className={`font-semibold`}>{menu.title}</div>
-        <div className='mt-2 flex space-x-1.5'>
-            <FaArrowRightLong size={18} className='shrink-0' />
-            <div className='grow flex flex-col *:flex *:py-4 *:w-full divide-y divide-gray-200 '>
-                {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) && (
-                    menu.sub_menu.map((sub_menu: any, index: any) => {
-                        return <CustomLinkMain key={index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
-                            className={` text-gray-900 hover:bg-${themeSett.primary_color} hover:text-white transition-all 
+        <div className='mt-2 w-full flex flex-col *:space-x-1.5 *:flex *:py-4 *:w-full divide-y divide-gray-200 '>
+            {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) && (
+                menu.sub_menu.map((sub_menu: any, index: any) => {
+                    return <CustomLinkMain key={index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                        className={` text-gray-900 hover:bg-${themeSett.primary_color} hover:text-white transition-all 
                                 ease-in hover:delay-150`}>
-                            {sub_menu.title}
-                        </CustomLinkMain>
-                    })
-                )}
-            </div>
+                        <FaArrowRightLong size={18} className='shrink-0' />
+                        <span> {sub_menu.title}</span>
+                    </CustomLinkMain>
+                })
+            )}
         </div>
     </div>
 }
