@@ -119,7 +119,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
             <nav ref={navRef} className={`fixed w-full flex justify-between items-center px-8 py-2 z-50 h-20 
                 transition-all duration-500 ease-out ${(!isScrolled && is_transparent) ? "bg-transparent" : "bg-white shadow-md"}`}>
                 <div ref={logoRef} className="shrink-0">
-                    <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl">
+                    <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                         <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                     </CustomLinkMain>
                 </div>

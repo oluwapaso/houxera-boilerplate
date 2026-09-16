@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import CustomLinkMain from '../CustomLink'
 
-const SubMenuContainer = ({ menu, themeSett, is_theme }: { menu: any, themeSett: any, is_theme: boolean }) => {
+const SubMenuContainer = ({ menu, themeSett, is_theme, classes }: { menu: any, themeSett: any, is_theme: boolean, classes?: string }) => {
 
     const [is_menu_shown, setIsMenuShown] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ const SubMenuContainer = ({ menu, themeSett, is_theme }: { menu: any, themeSett:
         };
     }, [menuRef]);
 
-    return <div className={`relative hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150 whitespace-nowrap`}
+    return <div className={`${classes} relative hover:border-b-${themeSett.primary_color} transition-all ease-in hover:delay-150 whitespace-nowrap`}
         ref={menuRef} onClick={() => setIsMenuShown(true)}>
         <div className={` `}>{menu.title}</div>
 

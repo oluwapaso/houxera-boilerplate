@@ -35,7 +35,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
         const navWidth = navRef.current.clientWidth
         const logoWidth = logoRef.current.offsetWidth
         const rightWidth = rightRef.current.offsetWidth
-        const safety = 140 // breathing room
+        const safety = 165 // breathing room
 
         const available = navWidth - logoWidth - rightWidth - safety
         const required = measureRef.current.scrollWidth
@@ -108,7 +108,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 <div className="w-full max-w-7xl mx-auto">
                     <div className="flex items-center justify-between">
                         <div ref={logoRef} className="shrink-0">
-                            <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl">
+                            <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                                 <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                             </CustomLinkMain>
                         </div>
@@ -135,8 +135,9 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                         {/* ===== HIDDEN MEASURING ROW (never affects layout) ===== */}
 
 
-                        <div className={`${!isReady || forceMobile ? "hidden" : "flex"} shrink-0 hidden-md:flex space-x-1 items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
-                        *:border-b-transparent *:cursor-pointer *:whitespace-nowrap `}>
+                        <div className={`${!isReady || forceMobile ? "hidden" : "flex"} shrink-0 hidden-md:flex space-x-1 items-center 
+                        rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 *:border-b-transparent 
+                        *:cursor-pointer *:whitespace-nowrap `}>
                             {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
                                 themeSett.top_menu.map((menu: any, index: any) => {
 
@@ -156,7 +157,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                         </div>
 
                         {/* Right side (login / logged-in menu) */}
-                        <div ref={rightRef} className={`${!isReady || forceMobile ? "hidden" : "flex"} shrink-0 items-center space-x-3`}>
+                        <div ref={rightRef} className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} shrink-0 items-center space-x-3`}>
                             {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
                                 : <button className={`flex items-center space-x-2 px-5 py-2.5 rounded-md font-medium transition-all duration-300 group 

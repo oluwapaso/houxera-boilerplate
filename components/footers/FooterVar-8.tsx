@@ -112,8 +112,8 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 {/* Newsletter */}
                 {themeSett?.footer_settings?.show_newsletter == "Yes" &&
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="py-16 border-b border-stone-200 text-center">
-                            <h3 className="text-2xl font-serif text-stone-800">
+                        <div className="py-16 text-center">
+                            <h3 className="text-2xl text-stone-800">
                                 {themeSett?.footer_settings?.newsletter_header || "Stay Updated"}
                             </h3>
                             <p className="mt-2 text-stone-500 text-sm max-w-md mx-auto">
@@ -135,6 +135,11 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         </div>
                     </div>
                 }
+
+                <div className='mx-auto max-w-7xl'>
+                    <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 `} />
+                </div>
 
                 {/* Main Content */}
                 <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
@@ -256,6 +261,9 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 </div>
 
                 {/* Bottom */}
+                <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 `} />
+
                 <div className="border-t border-stone-200">
                     <div className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-400">
