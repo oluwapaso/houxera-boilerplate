@@ -170,8 +170,8 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                     </div>
 
                     {isMenuOpen &&
-                        <div className=' absolute w-full max---w-[90%] top-20 right-0  bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
-                            divide-y divide-gray-200 rounded-b-md max-h-[300px] overflow-y-auto'>
+                        <div className=' absolute w-full max---w-[90%] top-20 right-0 bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
+                            divide-y divide-gray-200 rounded-b-md max-h-[calc(100dvh - 80px)] border border-red-600 overflow-y-auto'>
                             {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
                                 themeSett.top_menu.map((menu: any, index: any) => {
 
