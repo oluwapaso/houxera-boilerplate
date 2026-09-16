@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { BiEnvelope, BiMenu, BiPhoneOutgoing, BiX } from "react-icons/bi"
-import { BsArrowRight } from "react-icons/bs"
+import { BsArrowRight, BsDot } from "react-icons/bs"
 import CustomLinkMain from "../CustomLink"
 import Image from "next/image"
 import { useSelector } from "react-redux"
@@ -104,28 +104,40 @@ const NavVar4 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex items-center h-20 z-50 transition-all duration-500 ease-out ${isScrolled
-                ? `top-4 left-4 right-4 bg-white ${isMenuOpen ? `rounded-t-lg` : `rounded-lg`} shadow-xl px-6`
-                : "top-0 left-0 right-0 bg-[#f8f6f3] px-8"}`}>
+            <nav ref={navRef} className={`fixed flex flex-col items-center h-24 z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
 
-                <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} flex items-center p-2`}>
-                    <div>xxxxx</div>
+                <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                flex items-center justify-between text-sm p-1 px-6 gap-4 overflow-hidden`}>
 
-                    <div className=" flex items-center space-x-1.5">
-                        <Link href={`tel:${brker_info?.contact_info?.phone_cell}`} className={` flex items-center space-x-1.5 hover:text-${themeSett.primary_color}`}>
-                            <BiEnvelope size={16} />
-                            <span>{brker_info?.contact_info?.phone_cell}</span>
+                    {/* Left side - can shrink and truncate */}
+                    <div className="font-medium min-w-0 flex-1 truncate">
+                        {themeSett?.nav_settings?.nav_header || `Welcome Back`}
+                    </div>
+
+                    {/* Right side - can also shrink if needed */}
+                    <div className="flex items-center space-x-3 min-w-0 shrink">
+                        <Link
+                            href={`tel:${brker_info?.contact_info?.phone_cell}`}
+                            className={`flex items-center space-x-1.5 min-w-0 hover:text-${themeSett.primary_color}`}
+                        >
+                            <BiPhoneOutgoing size={16} className="shrink-0" />
+                            <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
                         </Link>
 
-                        <Link href={`mailto:${brker_info?.email}`} className={`flex items-center space-x-1.5 hover:text-${themeSett.primary_color}`}>
-                            <BiPhoneOutgoing size={16} />
-                            <span>{brker_info?.email}</span>
+                        <BsDot size={16} className="shrink-0" />
+
+                        <Link
+                            href={`mailto:${brker_info?.email}`}
+                            className={`flex items-center space-x-1.5 min-w-0 hover:text-${themeSett.primary_color}`}
+                        >
+                            <BiEnvelope size={16} className="shrink-0" />
+                            <span className="truncate">{brker_info?.email}</span>
                         </Link>
                     </div>
                 </div>
 
-                <div className="w-full max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between">
+                <div className="w-full max-w-7xl mx-auto grow px-6">
+                    <div className="flex items-center h-full justify-between">
                         <div ref={logoRef} className="shrink-0">
                             <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                                 <Image src={`${themeSett?.light_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
@@ -200,7 +212,7 @@ const NavVar4 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                     </div>
 
                     {isMenuOpen &&
-                        <div className={` absolute w-full top-20 right-0 bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
+                        <div className={` absolute w-full top-24 right-0 bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
                             divide-y divide-gray-200 rounded-b-md overflow-y-auto transition-all duration-500 ease-out
                             ${isScrolled ? "max-h-[calc(100dvh-96px)]" : "max-h-[calc(100dvh-80px)]"}  `}>
                             {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
