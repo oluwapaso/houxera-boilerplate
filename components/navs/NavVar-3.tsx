@@ -39,7 +39,6 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
         const available = navWidth - logoWidth - rightWidth - safety
         const required = measureRef.current.scrollWidth
-        console.log("navWidth", navWidth, "required", required, "available", available)
         // Hysteresis: only switch when we clearly overflow / have room
         // This stops oscillation when the difference is only a few pixels
         setForceMobile(prev => {
@@ -106,6 +105,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             </CustomLinkMain>
                         </div>
 
+
                         {/* ===== HIDDEN MEASURING ROW (never affects layout) ===== */}
                         <div
                             ref={measureRef}
@@ -124,6 +124,8 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                                     </div>
                                 ))}
                         </div>
+                        {/* ===== HIDDEN MEASURING ROW (never affects layout) ===== */}
+
 
                         <div className={`${!isReady || forceMobile ? "hidden" : "flex"} shrink-0 hidden-md:flex space-x-1 items-center rounded *:flex *:items-center *:justify-center *:px-6 *:py-3 *:border-b-4 
                         *:border-b-transparent *:cursor-pointer *:whitespace-nowrap `}>
@@ -160,7 +162,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             }
                         </div>
 
-                        <button className={!isReady || forceMobile ? "block" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
+                        <button className={!isReady || forceMobile ? "block cursor-pointer" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
                             {isMenuOpen ? (
                                 <BiX className={"text-gray-900"} size={24} />
                             ) : (
