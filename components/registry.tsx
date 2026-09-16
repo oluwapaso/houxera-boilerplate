@@ -10,6 +10,7 @@ import NavVar1 from "./navs/NavVar-1";
 import NavVar2 from "./navs/NavVar-2";
 import NavVar3 from "./navs/NavVar-3";
 import NavVar4 from "./navs/NavVar-4";
+import NavVar5 from "./navs/NavVar-5";
 
 //Footers
 import FooterVar1 from "./footers/FooterVar-1";
@@ -159,6 +160,7 @@ type ComponentPropsMap = {
     NavVar2: React.ComponentProps<typeof NavVar2>;
     NavVar3: React.ComponentProps<typeof NavVar3>;
     NavVar4: React.ComponentProps<typeof NavVar4>;
+    NavVar5: React.ComponentProps<typeof NavVar5>;
 
     HeaderVar1: React.ComponentProps<typeof HeaderVar1>;
     FeaturedListsingsVar1: React.ComponentProps<typeof FeaturedListsingsVar1>;
@@ -315,6 +317,7 @@ export const componentRegistry = {
     NavVar2,
     NavVar3,
     NavVar4,
+    NavVar5,
 
     HeaderVar1,
     FeaturedListsingsVar1,
