@@ -36,6 +36,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [AuthParams, setAuthParams] = useState(auth_params);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAuthParams((prev_state) => {
@@ -145,13 +146,23 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+        if (raw_data?.component_index == 0) {
+            console.log("themeSett.nav_component", themeSett?.nav_component)
+            if (themeSett?.nav_component?.type == "NavVar6") {
+                setFirstCompPt("pt-52")
+            }
+
+        }
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (user.isLogged) {
         router.push(`${themeSett.channel_website}/home`);
     } else {
 
         if (themeSett) {
             return (
-                <section className="min-h-screen flex items-center justify-center bg-white px-6 py-35 relative">
+                <section className={`min-h-screen flex items-center justify-center bg-white px-6 ${first_comp_pt} pb-35 relative`}>
                     <div className="w-full max-w-md">
                         {/* Header */}
                         <div className="text-center mb-8">

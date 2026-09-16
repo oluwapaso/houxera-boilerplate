@@ -165,7 +165,7 @@ const LivePreviewPage = () => {
             }
         }
 
-        // If ther is no other componet with Navs in the sections
+        // If there is no other componet with Navs in the sections
         if (!NavFound) {
             // Get the actual component
             NavComponent = getComponent(navBlock?.type);

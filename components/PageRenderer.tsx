@@ -2,7 +2,8 @@
 
 import { componentRegistry, type ComponentBlock } from './registry';
 
-export default function PageRenderer({ data, is_theme = true }: { data: { sections: ComponentBlock[] }, is_theme: boolean }) {
+export default function PageRenderer({ data, is_theme = true }:
+    { data: { sections: ComponentBlock[] }, is_theme: boolean }) {
 
     // If no sections, render NoComponents
     if (!data.sections || data.sections.length === 0) {
