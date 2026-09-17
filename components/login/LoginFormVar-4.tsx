@@ -152,9 +152,9 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         if (themeSett) {
 
             return (
-                <section className="min-h-screen bg-white relative pt-15 pb-15">
+                <section className="min-h-screen bg-white relative pt-45 pb-15">
 
-                    <div className={`w-full min-h-screen max-w-7xl mx-auto flex items-stretch`}>
+                    <div className={`w-full min-h-[calc(100dvh-100px)] max-w-7xl mx-auto flex items-stretch`}>
                         {/* Left Side - Image/Gradient */}
                         <div className={`hidden rounded-2xl lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
                             to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>

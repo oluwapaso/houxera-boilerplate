@@ -176,20 +176,20 @@ const LivePreviewPage = () => {
         return <div className="flex flex-col min-h-screen">
 
             {/* Dynamic Nav */}
-            {/* {NavComponent ? (<NavComponent {...(navBlock?.props || {})} is_theme={true} transparent={true} />) : null} */}
+            {(NavComponent && (pageData?.slug != "/login" && pageData?.slug != "/register"))
+                ? (<NavComponent {...(navBlock?.props || {})} is_theme={true} transparent={true} />)
+                : null
+            }
 
             <main className="w-full">
                 <PageRenderer data={pageData} is_theme={true} />
             </main>
 
             {/* Dynamic Footer */}
-            {/* {FooterComponent ? (
-                <FooterComponent {...(footerBlock?.props || {})} is_theme={true} />
-            ) : (
-                <footer className="h-20 bg-gray-900 flex items-center justify-center text-white">
-                    Footer Component Not Found
-                </footer>
-            )} */}
+            {(FooterComponent && (pageData?.slug != "/login" && pageData?.slug != "/register"))
+                ? (<FooterComponent {...(footerBlock?.props || {})} is_theme={true} />)
+                : null
+            }
 
             {
                 /*{NavComponent ? (<NavComponent {...(navBlock?.props || {})} is_theme={true} transparent={true} />) : (
