@@ -13,7 +13,7 @@ import MobileSubMenuContaier from "./MobileSubMenuContaier"
 import Link from "next/link"
 import { FaFacebook } from "react-icons/fa6"
 import { LiaLinkedin } from "react-icons/lia"
-import { FaYoutube } from "react-icons/fa"
+import { FaMapMarkerAlt, FaYoutube } from "react-icons/fa"
 import { Helpers } from '@/_lib/helper';
 
 const helpers = new Helpers();
@@ -100,90 +100,51 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex flex-col space-y-2 items-center h-[150px] z-50 transition-all duration-500 
-            ease-out top-0 left-0 right-0 ${isScrolled ? "bg-white" : " bg-[#f8f6f3]"}`}>
+            <nav ref={navRef} id="NavVar7" data-is-mobile={forceMobile} className={`fixed flex flex-col space-y-2 items-center z-50 transition-all duration-500 
+                ease-out top-0 left-0 right-0 bg-white ${!isReady || forceMobile ? "h-[80px]" : "h-[130px]"} `}>
 
-                <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
-                    flex items-center justify-between text-sm p-1 shrink-0 px-6 gap-4 overflow-hidden`}>
+                <div className="w-full mx-auto grow flex flex-col">
 
-                    {/* Left side - can also shrink if needed */}
-                    <div className="flex items-center space-x-3 min-w-0 shrink">
-                        <Link
-                            href={`tel:${brker_info?.contact_info?.phone_cell}`}
-                            className={`flex items-center space-x-1.5 min-w-0`}
-                        >
-                            <BiPhoneOutgoing size={16} className="shrink-0" />
-                            <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
-                        </Link>
-
-                        <BsDot size={16} className="shrink-0" />
-
-                        <Link
-                            href={`mailto:${brker_info?.email}`}
-                            className={`flex items-center space-x-1.5 min-w-0`}
-                        >
-                            <BiEnvelope size={16} className="shrink-0" />
-                            <span className="truncate">{brker_info?.email}</span>
-                        </Link>
-                    </div>
-
-                    {/* Right side - can shrink and truncate */}
-                    <div className="flex gap-4 min-w-0 flex-1 truncate items-center justify-end">
-                        {brker_info?.social_accounts?.facebook &&
-                            <Link href={`${brker_info?.social_accounts?.facebook}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <FaFacebook size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.twitter &&
-                            <Link href={`${brker_info?.social_accounts?.twitter}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <BsTwitterX size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.linkedin &&
-                            <Link href={`${brker_info?.social_accounts?.linkedin}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <LiaLinkedin size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.youtube &&
-                            <Link href={`${brker_info?.social_accounts?.youtube}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
-                                <FaYoutube size={18} />
-                            </Link>
-                        }
-
-                        {brker_info?.social_accounts?.whatsapp &&
-                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center 
-                                    transition-colors
-                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
-                                <BsWhatsapp size={18} />
-                            </Link>
-                        }
-                    </div>
-                </div>
-
-                <div className="w-full max-w-7xl mx-auto grow px-6 flex flex-col">
-
-                    <div className="w-full flex items-center justify-center shrink-0">
-                        <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                    <div className=" flex items-center gap-2.5 px-6 py-4">
+                        <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium shrink-0 text-2xl cursor-pointer">
                             <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                         </CustomLinkMain>
+
+                        <div className={` grow flex items-center justify-end gap-8`}>
+                            <div className=" hidden md:flex space-x-1.5">
+                                <div>
+                                    <FaMapMarkerAlt size={35} className={`mt-0.5 text-${themeSett.primary_color}`} />
+                                </div>
+                                <span className='text-sm flex flex-col grow'>
+                                    <span className="font-medium text- text-gray-900"> {brker_info?.contact_info?.address}</span>
+                                    {(brker_info?.contact_info?.address_2 && brker_info?.contact_info?.address_2 != "")
+                                        ? <span className="text-gray-500 text-sm">{brker_info?.contact_info?.address_2}</span> : null}
+                                </span>
+                            </div>
+
+                            <Link href={`tel:${brker_info?.contact_info?.phone_cell}`}
+                                className={` hidden 2xs:flex hover:text-${themeSett.primary_color} space-x-1.5`}>
+                                <div className=" shrink-0">
+                                    <BiPhoneOutgoing size={35} className={`mt-0.5 text-${themeSett.primary_color}`} />
+                                </div>
+                                <span className='text-sm flex flex-col grow'>
+                                    <span className="font-medium text- text-gray-900">{brker_info?.contact_info?.phone_cell}</span>
+                                    <span className="text-gray-500 text-sm">Call Us</span>
+                                </span>
+                            </Link>
+                        </div>
+
+                        <button className={!isReady || forceMobile ? "block cursor-pointer" : "md:hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
+                            {isMenuOpen ? (
+                                <BiX className={"text-gray-900"} size={24} />
+                            ) : (
+                                <BiMenu className={"text-gray-900"} size={24} />
+                            )}
+                        </button>
                     </div>
 
-                    <div className="flex items-center grow justify-center">
+                    <div className={` ${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} w-full px-6 
+                        bg-${themeSett.primary_color} text-${themeSett.primary_button_text} items-center grow justify-center`}>
                         {/* ===== HIDDEN MEASURING ROW (never affects layout) ===== */}
                         <div
                             ref={measureRef}
@@ -231,10 +192,7 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                             {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
                                 : <button className={`flex items-center space-x-2 px-5 py-2 rounded-md font-medium transition-all duration-300 group 
-                                    hover:shadow-2xl border border-${themeSett.primary_color} cursor-pointer 
-                                    ${isScrolled
-                                        ? `bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`
-                                        : `bg-white text-${themeSett.primary_color}`}`} >
+                                    border border-${themeSett.primary_color} cursor-pointer bg-white text-${themeSett.primary_color}`} >
                                     <span>Log in</span>
                                     <BsArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
@@ -251,8 +209,8 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                     </div>
 
                     {/* Animated border bottom */}
-                    <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
-                        duration-700 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
+                    <div className={`h-0.5 w-full bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
+                    duration-700 ${!isReady || forceMobile ? "opacity-100" : "opacity-0"}`} />
 
                     {isMenuOpen &&
                         <div className={` absolute w-full top-24 right-0 bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 

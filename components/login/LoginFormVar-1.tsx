@@ -147,13 +147,39 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     }, [theme]);
 
     useEffect(() => {
-        if (raw_data?.component_index == 0) {
-            console.log("themeSett.nav_component", themeSett?.nav_component)
-            if (themeSett?.nav_component?.type == "NavVar6") {
-                setFirstCompPt("pt-52")
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
             }
 
+            return () => observer.disconnect();
         }
+
     }, [themeSett?.nav_component?.type, raw_data?.component_index]);
 
     if (user.isLogged) {
