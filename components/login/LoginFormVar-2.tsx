@@ -34,6 +34,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [AuthParams, setAuthParams] = useState(auth_params);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -81,6 +82,15 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     }
 
     const handleLogin = async () => {
+
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         if (window.MLS_Util) {
 
             toast.dismiss();
@@ -143,15 +153,53 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (user.isLogged) {
         router.push(`${themeSett.channel_website}/home`);
     } else {
         if (themeSett) {
             return (
                 <section className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-${themeSett.primary_color} 
-                via-${helpers.adjustColorShade(themeSett.primary_color, -1)} to-${helpers.adjustColorShade(themeSett.primary_color, 2)} 
-                px-6 py-35 relative`}>
-                    <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+                    via-${helpers.adjustColorShade(themeSett.primary_color, -1)} to-${helpers.adjustColorShade(themeSett.primary_color, 2)} 
+                    px-3 xs:px-6 ${first_comp_pt} pb-35 relative`}>
+                    <div className="w-full 2xs:max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl 
+                        px-4 2xs:px-4 xs:px-8 py-8">
                         {/* Header */}
                         <div className="text-center mb-8">
                             <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl mb-4
@@ -179,11 +227,19 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
 
                             <div className="flex items-center justify-between">
-                                <label className="flex items-center cursor-pointer" htmlFor='remember_me'>
-                                    <input type="checkbox" className="w-5 h-5 rounded border-gray-300" id='remember_me' />
-                                    <span className="ml-2 text-sm text-gray-600"> Keep me signed in</span>
+                                <label className="flex items-center gap-2 cursor-pointer group">
+                                    <div className="relative">
+                                        <input type="checkbox" className="peer sr-only" id='remember_me' />
+                                        <div className={`w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-${themeSett.primary_color} transition-colors duration-300`}></div>
+                                        <div className={`absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5`}></div>
+                                    </div>
+                                    <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                                        Remember me
+                                    </span>
                                 </label>
-                                <CustomLink href={`${themeSett.channel_website}/forgot-password`} className='text-sky-600 text-sm'>Forgot password?</CustomLink>
+
+                                <CustomLink href={`${themeSett.channel_website}/forgot-password`} is_theme={is_theme}
+                                    className='text-sky-600 text-sm'>Forgot password?</CustomLink>
                             </div>
 
                             <div className='w-full mt-2'>
@@ -210,10 +266,11 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
 
                         {/* Footer */}
-                        <p className="text-center text-gray-600 text-sm mt-6">
-                            Don't have an account
-                            yet? <CustomLink href={`${themeSett.channel_website}/register`}
-                                className='text-sky-700'>Click here to sign up</CustomLink>
+                        <p className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                            <span>Don't have an account yet?</span>
+                            <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
+                                className='text-sky-700'>Click here to sign up
+                            </CustomLink>
                         </p>
                     </div>
 

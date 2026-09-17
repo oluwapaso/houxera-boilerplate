@@ -152,99 +152,103 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         if (themeSett) {
 
             return (
-                <section className="min-h-screen flex bg-white relative">
-                    {/* Left Side - Image/Gradient */}
-                    <div className={`hidden lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
-                    to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>
-                        <div className="text-white max-w-md">
-                            <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
-                            <p className="text-blue-100 mb-8">
-                                {raw_data.service_sub_header || "Join our community and unlock amazing services"}
-                            </p>
-                            <div className="space-y-4">
-                                <div className="flex items-start gap-3">
-                                    <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                        <span className="text-blue-700 text-sm font-bold">✓</span>
+                <section className="min-h-screen bg-white relative pt-15 pb-15">
+
+                    <div className={`w-full min-h-screen max-w-7xl mx-auto flex items-stretch`}>
+                        {/* Left Side - Image/Gradient */}
+                        <div className={`hidden rounded-2xl lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
+                            to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>
+                            <div className="text-white max-w-md">
+                                <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
+                                <p className="text-blue-100 mb-8">
+                                    {raw_data.service_sub_header || "Join our community and unlock amazing services"}
+                                </p>
+                                <div className="space-y-4">
+                                    <div className="flex items-start gap-3">
+                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
+                                            <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        </div>
+                                        <p> {raw_data.top_service_1 || "Secure and encrypted"}</p>
                                     </div>
-                                    <p> {raw_data.top_service_1 || "Secure and encrypted"}</p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                        <span className="text-blue-700 text-sm font-bold">✓</span>
+                                    <div className="flex items-start gap-3">
+                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
+                                            <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        </div>
+                                        <p>{raw_data.top_service_2 || "24/7 customer support"}</p>
                                     </div>
-                                    <p>{raw_data.top_service_2 || "24/7 customer support"}</p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                        <span className="text-blue-700 text-sm font-bold">✓</span>
+                                    <div className="flex items-start gap-3">
+                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
+                                            <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        </div>
+                                        <p>{raw_data.top_service_3 || "Lightning fast experience"}</p>
                                     </div>
-                                    <p>{raw_data.top_service_3 || "Lightning fast experience"}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Right Side - Form */}
-                    <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-35">
-                        <div className="w-full max-w-md">
-                            {/* Header */}
-                            <div className="mb-10">
-                                <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg mb-4
+                        {/* Right Side - Form */}
+                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6">
+                            <div className="w-full max-w-md">
+                                {/* Header */}
+                                <div className="mb-10">
+                                    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg mb-4
                                 bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
-                                    <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
-                                </div>
-                                <h1 className="text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Welcome Back"}</h1>
-                                <p className="text-gray-600">{raw_data.sub_header || "Sign in with your credentials"}</p>
-                            </div>
-
-                            {/* Form */}
-                            <div className="space-y-5">
-                                <div className='w-full'>
-                                    <FloatingInput name='username' label='Email' placeholder='Email'
-                                        handleChange={(e) => handleChange(e)} value={AuthParams.username} required />
+                                        <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
+                                    </div>
+                                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Welcome Back"}</h1>
+                                    <p className="text-gray-600">{raw_data.sub_header || "Sign in with your credentials"}</p>
                                 </div>
 
-                                <div className='w-full mt-4'>
-                                    <FloatingPasswordInput type='password' name='password' label='Password' placeholder='••••••••'
-                                        handleChange={(e) => handleChange(e)} value={AuthParams.password} required />
-                                </div>
+                                {/* Form */}
+                                <div className="space-y-5">
+                                    <div className='w-full'>
+                                        <FloatingInput name='username' label='Email' placeholder='Email'
+                                            handleChange={(e) => handleChange(e)} value={AuthParams.username} required />
+                                    </div>
 
-                                <div className="flex items-center justify-between">
-                                    <label className="flex items-center cursor-pointer" htmlFor='remember_me'>
-                                        <input type="checkbox" className="w-5 h-5 rounded border-gray-300" id='remember_me' />
-                                        <span className="ml-2 text-sm text-gray-600"> Keep me signed in</span>
-                                    </label>
-                                    <CustomLink href={`${themeSett.channel_website}/forgot-password`} className='text-sky-700 text-sm'>Forgot password?</CustomLink>
-                                </div>
+                                    <div className='w-full mt-4'>
+                                        <FloatingPasswordInput type='password' name='password' label='Password' placeholder='••••••••'
+                                            handleChange={(e) => handleChange(e)} value={AuthParams.password} required />
+                                    </div>
 
-                                <div className='w-full mt-2'>
-                                    {!user.isLogginIn ?
-                                        <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
+                                    <div className="flex items-center justify-between">
+                                        <label className="flex items-center cursor-pointer" htmlFor='remember_me'>
+                                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300" id='remember_me' />
+                                            <span className="ml-2 text-sm text-gray-600"> Keep me signed in</span>
+                                        </label>
+                                        <CustomLink href={`${themeSett.channel_website}/forgot-password`} className='text-sky-700 text-sm'>Forgot password?</CustomLink>
+                                    </div>
+
+                                    <div className='w-full mt-2'>
+                                        {!user.isLogginIn ?
+                                            <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
                                             text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
                                             font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
-                                            onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
-                                        <div className={`w-full border-2 border-${themeSett.primary_color} 
+                                                onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
+                                            <div className={`w-full border-2 border-${themeSett.primary_color} 
                                             text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
                                             justify-center cursor-not-allowed font-medium`}>
-                                            <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
-                                                className='animate-spin ml-2' />
-                                        </div>
-                                    }
+                                                <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
+                                                    className='animate-spin ml-2' />
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Footer */}
-                            <p className="text-center text-gray-600 text-sm mt-6">
-                                Don't have an account
-                                yet? <CustomLink href={`${themeSett.channel_website}/register`}
-                                    className='text-sky-700 font-semibold'>Click here to sign up</CustomLink>
-                            </p>
+                                {/* Footer */}
+                                <p className="text-center text-gray-600 text-sm mt-6">
+                                    Don't have an account
+                                    yet? <CustomLink href={`${themeSett.channel_website}/register`}
+                                        className='text-sky-700 font-semibold'>Click here to sign up</CustomLink>
+                                </p>
+                            </div>
                         </div>
+
                     </div>
 
                     {is_theme && (
                         <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                        *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
 
                             <div id='editor_settings' className='hover:shadow-2xl relative group'
                                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>

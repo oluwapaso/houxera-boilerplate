@@ -105,7 +105,7 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                 <div className="w-full mx-auto grow flex flex-col">
 
-                    <div className=" flex items-center gap-2.5 px-6 py-4">
+                    <div className={`flex items-center gap-2.5 px-6 py-4 ${!isReady || forceMobile ? "h-full" : ""}`}>
                         <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium shrink-0 text-2xl cursor-pointer">
                             <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                         </CustomLinkMain>
@@ -209,8 +209,8 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                     </div>
 
                     {/* Animated border bottom */}
-                    <div className={`h-0.5 w-full bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
-                    duration-700 ${!isReady || forceMobile ? "opacity-100" : "opacity-0"}`} />
+                    <div className={`w-full bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
+                    duration-700 ${!isReady || forceMobile ? "h-0.5 opacity-100" : "h-0 opacity-0"}`} />
 
                     {isMenuOpen &&
                         <div className={` absolute w-full top-24 right-0 bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 

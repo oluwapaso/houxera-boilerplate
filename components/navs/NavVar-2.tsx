@@ -206,8 +206,8 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 </div>
 
                 {/* Animated border bottom */}
-                <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
-                duration-700 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
+                <div className={`bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent transition-opacity 
+                duration-700 ${isScrolled ? "h-0.5 opacity-100" : "h-0 opacity-0"}`} />
 
                 {isMenuOpen &&
                     <div className={` absolute w-full ${isScrolled ? "top-[60px]" : "top-20 right-[2.5%] max-w-[95%]"} bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
