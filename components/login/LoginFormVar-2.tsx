@@ -83,6 +83,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     const handleLogin = async () => {
 
+        toast.dismiss();
         if (is_theme) {
             toast.error(`Can not complete this request in design mode.`, {
                 position: "top-center",
@@ -93,7 +94,6 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
         if (window.MLS_Util) {
 
-            toast.dismiss();
             window.MLS_Util.Init(process.env.NEXT_PUBLIC_API_KEY, process.env.NEXT_PUBLIC_ACCOUNT_ID, process.env.NEXT_PUBLIC_MLS_NUMBER, process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP);
 
             const payload = {
@@ -197,81 +197,84 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             return (
                 <section className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-${themeSett.primary_color} 
                     via-${helpers.adjustColorShade(themeSett.primary_color, -1)} to-${helpers.adjustColorShade(themeSett.primary_color, 2)} 
-                    px-3 xs:px-6 ${first_comp_pt} pb-35 relative`}>
-                    <div className="w-full 2xs:max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl 
-                        px-4 2xs:px-4 xs:px-8 py-8">
-                        {/* Header */}
-                        <div className="text-center mb-8">
-                            <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl mb-4
-                            bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
-                                <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
+                    px-3 xs:px-6 py-15 relative`}>
+
+                    <div className="w-full xs:max-w-[500px]">
+                        <div className="w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl 
+                            px-4 2xs:px-4 xs:px-8 py-8">
+                            {/* Header */}
+                            <div className="text-center mb-8">
+                                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl mb-4
+                                bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
+                                    <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
+                                </div>
+                                <h1 className={`text-3xl font-bold text-${themeSett.primary_color} bg-clip-text`}>
+                                    {raw_data.header || "Welcome Back"}
+                                </h1>
+                                <p className="text-gray-600 mt-2">
+                                    {raw_data.sub_header || "Sign in with your credentials"}
+                                </p>
                             </div>
-                            <h1 className={`text-3xl font-bold text-${themeSett.primary_color} bg-clip-text`}>
-                                {raw_data.header || "Welcome Back"}
-                            </h1>
-                            <p className="text-gray-600 mt-2">
-                                {raw_data.sub_header || "Sign in with your credentials"}
-                            </p>
+
+                            {/* Form */}
+                            <div className="space-y-5">
+                                <div className='w-full'>
+                                    <FloatingInput name='username' label='Email' placeholder='Email'
+                                        handleChange={(e) => handleChange(e)} value={AuthParams.username} required />
+                                </div>
+
+                                <div className='w-full mt-4'>
+                                    <FloatingPasswordInput type='password' name='password' label='Password' placeholder='••••••••'
+                                        handleChange={(e) => handleChange(e)} value={AuthParams.password} required />
+                                </div>
+
+                                <div className="flex items-center justify-between">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <div className="relative">
+                                            <input type="checkbox" className="peer sr-only" id='remember_me' />
+                                            <div className={`w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-${themeSett.primary_color} transition-colors duration-300`}></div>
+                                            <div className={`absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5`}></div>
+                                        </div>
+                                        <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                                            Remember me
+                                        </span>
+                                    </label>
+
+                                    <CustomLink href={`${themeSett.channel_website}/forgot-password`} is_theme={is_theme}
+                                        className='text-sky-600 text-sm cursor-pointer'>Forgot password?</CustomLink>
+                                </div>
+
+                                <div className='w-full mt-2'>
+                                    {!user.isLogginIn ?
+                                        <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
+                                            text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
+                                            font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
+                                            onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
+                                        <div className={`w-full border-2 border-${themeSett.primary_color} 
+                                            text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
+                                            justify-center cursor-not-allowed font-medium`}>
+                                            <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
+                                                className='animate-spin ml-2' />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="flex items-center gap-3 my-6">
+                                <div className="flex-1 h-px bg-gray-200"></div>
+                                <span className="text-gray-500 text-sm">or</span>
+                                <div className="flex-1 h-px bg-gray-200"></div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                                <span>Don't have an account yet?</span>
+                                <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
+                                    className='text-sky-700 cursor-pointer'>Click here to sign up
+                                </CustomLink>
+                            </div>
                         </div>
-
-                        {/* Form */}
-                        <div className="space-y-5">
-                            <div className='w-full'>
-                                <FloatingInput name='username' label='Email' placeholder='Email'
-                                    handleChange={(e) => handleChange(e)} value={AuthParams.username} required />
-                            </div>
-
-                            <div className='w-full mt-4'>
-                                <FloatingPasswordInput type='password' name='password' label='Password' placeholder='••••••••'
-                                    handleChange={(e) => handleChange(e)} value={AuthParams.password} required />
-                            </div>
-
-                            <div className="flex items-center justify-between">
-                                <label className="flex items-center gap-2 cursor-pointer group">
-                                    <div className="relative">
-                                        <input type="checkbox" className="peer sr-only" id='remember_me' />
-                                        <div className={`w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-${themeSett.primary_color} transition-colors duration-300`}></div>
-                                        <div className={`absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5`}></div>
-                                    </div>
-                                    <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
-                                        Remember me
-                                    </span>
-                                </label>
-
-                                <CustomLink href={`${themeSett.channel_website}/forgot-password`} is_theme={is_theme}
-                                    className='text-sky-600 text-sm'>Forgot password?</CustomLink>
-                            </div>
-
-                            <div className='w-full mt-2'>
-                                {!user.isLogginIn ?
-                                    <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
-                                        text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
-                                        font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
-                                        onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
-                                    <div className={`w-full border-2 border-${themeSett.primary_color} 
-                                        text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
-                                        justify-center cursor-not-allowed font-medium`}>
-                                        <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
-                                            className='animate-spin ml-2' />
-                                    </div>
-                                }
-                            </div>
-                        </div>
-
-                        {/* Divider */}
-                        <div className="flex items-center gap-3 my-6">
-                            <div className="flex-1 h-px bg-gray-200"></div>
-                            <span className="text-gray-500 text-sm">or</span>
-                            <div className="flex-1 h-px bg-gray-200"></div>
-                        </div>
-
-                        {/* Footer */}
-                        <p className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
-                            <span>Don't have an account yet?</span>
-                            <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
-                                className='text-sky-700'>Click here to sign up
-                            </CustomLink>
-                        </p>
                     </div>
 
                     {is_theme && (

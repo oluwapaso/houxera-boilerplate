@@ -49,6 +49,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     const handleLogin = async () => {
 
+        toast.dismiss();
         if (is_theme) {
             toast.error(`Can not complete this request in design mode.`, {
                 position: "top-center",
@@ -59,7 +60,6 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
         if (window.MLS_Util) {
 
-            toast.dismiss();
             window.MLS_Util.Init(process.env.NEXT_PUBLIC_API_KEY, process.env.NEXT_PUBLIC_ACCOUNT_ID, process.env.NEXT_PUBLIC_MLS_NUMBER, process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP);
 
             const payload = {
@@ -197,7 +197,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
         if (themeSett) {
             return (
-                <section className={`min-h-screen flex items-center justify-center bg-white px-6 ${first_comp_pt} pb-35 relative`}>
+                <section className={`min-h-screen flex items-center justify-center bg-white px-6 py-15 relative`}>
                     <div className="w-full max-w-md">
                         {/* Header */}
                         <div className="text-center mb-8">
@@ -235,7 +235,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 </label>
 
                                 <CustomLink href={`${themeSett.channel_website}/forgot-password`} is_theme={is_theme}
-                                    className='text-sky-600 text-sm'>Forgot password?</CustomLink>
+                                    className='text-sky-600 text-sm cursor-pointer'>Forgot password?</CustomLink>
                             </div>
 
                             <div className='w-full mt-2'>
@@ -255,11 +255,12 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
 
                         {/* Footer */}
-                        <p className="text-center text-gray-600 text-sm mt-6">
-                            Don't have an account
-                            yet? <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
-                                className='text-sky-700'>Click here to sign up</CustomLink>
-                        </p>
+                        <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                            <span>Don't have an account yet?</span>
+                            <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
+                                className='text-sky-700 cursor-pointer'>Click here to sign up
+                            </CustomLink>
+                        </div>
                     </div>
 
                     {is_theme && (

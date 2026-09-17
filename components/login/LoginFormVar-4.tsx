@@ -48,9 +48,18 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     }
 
     const handleLogin = async () => {
+
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         if (window.MLS_Util) {
 
-            toast.dismiss();
             window.MLS_Util.Init(process.env.NEXT_PUBLIC_API_KEY, process.env.NEXT_PUBLIC_ACCOUNT_ID, process.env.NEXT_PUBLIC_MLS_NUMBER, process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP);
 
             const payload = {
@@ -152,11 +161,11 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         if (themeSett) {
 
             return (
-                <section className="min-h-screen bg-white relative pt-45 pb-15">
+                <section className="min-h-screen bg-white relative py-15">
 
                     <div className={`w-full min-h-[calc(100dvh-100px)] max-w-7xl mx-auto flex items-stretch`}>
                         {/* Left Side - Image/Gradient */}
-                        <div className={`hidden rounded-2xl lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
+                        <div className={`hidden rounded-2xl shadow-2xl lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
                             to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>
                             <div className="text-white max-w-md">
                                 <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
@@ -212,11 +221,18 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     </div>
 
                                     <div className="flex items-center justify-between">
-                                        <label className="flex items-center cursor-pointer" htmlFor='remember_me'>
-                                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300" id='remember_me' />
-                                            <span className="ml-2 text-sm text-gray-600"> Keep me signed in</span>
+                                        <label className="flex items-center gap-2 cursor-pointer group">
+                                            <div className="relative">
+                                                <input type="checkbox" className="peer sr-only" id='remember_me' />
+                                                <div className={`w-10 h-5 bg-gray-200 rounded-full peer-checked:bg-${themeSett.primary_color} transition-colors duration-300`}></div>
+                                                <div className={`absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-5`}></div>
+                                            </div>
+                                            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                                                Remember me
+                                            </span>
                                         </label>
-                                        <CustomLink href={`${themeSett.channel_website}/forgot-password`} className='text-sky-700 text-sm'>Forgot password?</CustomLink>
+                                        <CustomLink href={`${themeSett.channel_website}/forgot-password`} is_theme={is_theme}
+                                            className='text-sky-700 text-sm cursor-pointer'>Forgot password?</CustomLink>
                                     </div>
 
                                     <div className='w-full mt-2'>
@@ -236,11 +252,12 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 </div>
 
                                 {/* Footer */}
-                                <p className="text-center text-gray-600 text-sm mt-6">
-                                    Don't have an account
-                                    yet? <CustomLink href={`${themeSett.channel_website}/register`}
-                                        className='text-sky-700 font-semibold'>Click here to sign up</CustomLink>
-                                </p>
+                                <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                                    <span>Don't have an account yet?</span>
+                                    <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
+                                        className='text-sky-700 cursor-pointer'>Click here to sign up
+                                    </CustomLink>
+                                </div>
                             </div>
                         </div>
 
