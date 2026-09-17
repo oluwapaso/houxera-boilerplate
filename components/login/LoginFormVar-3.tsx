@@ -264,7 +264,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 </div>
 
                                 {/* Footer */}
-                                <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                                <div className="text-left text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
                                     <span>Don't have an account yet?</span>
                                     <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
                                         className='text-sky-700 cursor-pointer'>Click here to sign up
