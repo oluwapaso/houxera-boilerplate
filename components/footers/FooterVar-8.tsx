@@ -258,7 +258,7 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
 
                 {/* Bottom */}
                 <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
-                        transition-opacity duration-700 `} />
+                    transition-opacity duration-700 `} />
 
                 <div className="border-t border-stone-200">
                     <div className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
