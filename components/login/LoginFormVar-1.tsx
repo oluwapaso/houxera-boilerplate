@@ -17,12 +17,12 @@ import FloatingInput from '@/components/FloatingInput'
 import { BiLogIn } from 'react-icons/bi'
 import { Helpers } from '@/_lib/helper';
 import FloatingPasswordInput from '../FloatingPasswordInput';
-import CustomLinkMain from '../CustomLinkXX';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaYoutube } from 'react-icons/fa6';
 import { LiaLinkedin } from 'react-icons/lia';
 import { FaFacebook } from 'react-icons/fa';
+import CustomLinkMain from '@/components/CustomLink';
 
 const helpers = new Helpers();
 const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -204,7 +204,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
         if (themeSett) {
             return (
-                <section className={`min-h-screen flex flex-col items-center justify-center bg-white px-6 py-32 relative`}>
+                <section className={`min-h-screen flex flex-col items-center justify-center bg-white px-6 pt-40 pb-20 relative`}>
 
                     <div className="absolute top-3.5 left-3.5">
                         <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">

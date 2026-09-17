@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BiEnvelopeOpen, BiLock, BiLogIn, BiRefresh, BiTrash } from 'react-icons/bi';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { hidePageLoader } from '@/app/GlobalRedux/app/appSlice';
-import { BsArrowDown, BsArrowUp, BsGear } from 'react-icons/bs';
+import { BsArrowDown, BsArrowUp, BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 import { useRouter, useSearchParams } from 'next/navigation';
 import FloatingInput from '../FloatingInput';
 import { toast } from 'react-toastify'
@@ -15,6 +15,11 @@ import { Helpers } from '@/_lib/helper';
 import CustomLink from '@/components/CustomLink'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import FloatingPasswordInput from '../FloatingPasswordInput';
+import Image from 'next/image';
+import CustomLinkMain from '@/components/CustomLink';
+import Link from 'next/link';
+import { FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { LiaLinkedin } from 'react-icons/lia';
 
 const helpers = new Helpers();
 const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -34,6 +39,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [AuthParams, setAuthParams] = useState(auth_params);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const brker_info = useSelector((state: RootState) => state.broker);
     const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
@@ -195,12 +201,18 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     } else {
         if (themeSett) {
             return (
-                <section className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-${themeSett.primary_color} 
-                    via-${helpers.adjustColorShade(themeSett.primary_color, -1)} to-${helpers.adjustColorShade(themeSett.primary_color, 2)} 
-                    px-3 xs:px-6 py-15 relative`}>
+                <section className={`min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-3 xs:px-6 
+                    pt-40 pb-20 relative`}
+                    style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+
+                    <div className="absolute top-3.5 left-3.5">
+                        <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                            <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                        </CustomLinkMain>
+                    </div>
 
                     <div className="w-full xs:max-w-[500px]">
-                        <div className="w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl 
+                        <div className="w-full bg-white/95 backdrop-blur-2xl rounded-2xl shadow-2xl 
                             px-4 2xs:px-4 xs:px-8 py-8">
                             {/* Header */}
                             <div className="text-center mb-8">
@@ -274,6 +286,58 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     className='text-sky-700 cursor-pointer'>Click here to sign up
                                 </CustomLink>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className={`h-0.5 w-full mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 `} />
+
+                    <div className="w-full flex flex-col items-center md:items-end mt-10">
+                        <div className="w-full flex items-center justify-center gap-4">
+                            {brker_info?.social_accounts?.facebook &&
+                                <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <FaFacebook size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.twitter &&
+                                <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <BsTwitterX size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.linkedin &&
+                                <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <LiaLinkedin size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.youtube &&
+                                <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <FaYoutube size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.whatsapp &&
+                                <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                    <BsWhatsapp size={20} />
+                                </Link>
+                            }
                         </div>
                     </div>
 
