@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { BiLock } from 'react-icons/bi';
+import { BiEnvelope, BiLock, BiPhoneOutgoing } from 'react-icons/bi';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { BiRefresh, BiTrash } from 'react-icons/bi';
-import { BsGear } from 'react-icons/bs';
+import { BsDot, BsGear } from 'react-icons/bs';
 
 import CustomLink from '@/components/CustomLink'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -18,6 +18,9 @@ import FloatingInput from '@/components/FloatingInput'
 import { BiLogIn } from 'react-icons/bi'
 import { Helpers } from '@/_lib/helper';
 import FloatingPasswordInput from '../FloatingPasswordInput';
+import CustomLinkMain from '@/components/CustomLink';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const helpers = new Helpers();
 const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -26,6 +29,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const searchParams = useSearchParams();
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
+    const brker_info = useSelector((state: RootState) => state.broker);
     const redirect = searchParams?.get("redirect") as string || "/home";
 
     const dispatch = useDispatch<AppDispatch>();
@@ -163,45 +167,53 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             return (
                 <section className="min-h-screen bg-white relative p-0">
 
-                    <div className={`w-full min-h-100dvh mx-auto flex items-stretch`}>
+                    <div className={`w-full min-h-screen mx-auto flex items-stretch`}>
                         {/* Left Side - Image/Gradient */}
-                        <div className={`hidden lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
-                            to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>
-                            <div className="text-white max-w-md">
+                        <div className={`hidden relative lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
+                            to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-end justify-start p-8`}>
+
+                            <div className="absolute top-3.5 left-3.5">
+                                <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                                    <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                </CustomLinkMain>
+                            </div>
+
+                            <div className={`text-${themeSett.primary_button_text} max-w-md`}>
                                 <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
-                                <p className="text-blue-100 mb-8">
+                                <p className={`text-${themeSett.primary_button_text} mb-8`}>
                                     {raw_data.service_sub_header || "Join our community and unlock amazing services"}
                                 </p>
-                                <div className="space-y-4">
-                                    <div className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                            <span className="text-blue-700 text-sm font-bold">✓</span>
-                                        </div>
-                                        <p> {raw_data.top_service_1 || "Secure and encrypted"}</p>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                            <span className="text-blue-700 text-sm font-bold">✓</span>
-                                        </div>
-                                        <p>{raw_data.top_service_2 || "24/7 customer support"}</p>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                            <span className="text-blue-700 text-sm font-bold">✓</span>
-                                        </div>
-                                        <p>{raw_data.top_service_3 || "Lightning fast experience"}</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
                         {/* Right Side - Form */}
-                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6">
+                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 relative">
+                            <div className="w-full absolute bottom-3.5 right-3.5 flex justify-end items-center 
+                            space-x-3 min-w-0 shrink text-gray-500 ">
+                                <Link
+                                    href={`tel:${brker_info?.contact_info?.phone_cell}`}
+                                    className={`flex items-center space-x-1.5 min-w-0`}
+                                >
+                                    <BiPhoneOutgoing size={16} className="shrink-0" />
+                                    <span className="truncate">{brker_info?.contact_info?.phone_cell}</span>
+                                </Link>
+
+                                <BsDot size={16} className="shrink-0" />
+
+                                <Link
+                                    href={`mailto:${brker_info?.email}`}
+                                    className={`flex items-center space-x-1.5 min-w-0`}
+                                >
+                                    <BiEnvelope size={16} className="shrink-0" />
+                                    <span className="truncate">{brker_info?.email}</span>
+                                </Link>
+                            </div>
+
                             <div className="w-full max-w-md">
                                 {/* Header */}
                                 <div className="mb-10">
                                     <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg mb-4
-                                bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
+                                    bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
                                         <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
                                     </div>
                                     <h1 className="text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Welcome Back"}</h1>
@@ -238,12 +250,12 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     <div className='w-full mt-2'>
                                         {!user.isLogginIn ?
                                             <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
-                                            text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
-                                            font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
+                                                text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
+                                                font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                                                 onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
                                             <div className={`w-full border-2 border-${themeSett.primary_color} 
-                                            text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
-                                            justify-center cursor-not-allowed font-medium`}>
+                                                text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
+                                                justify-center cursor-not-allowed font-medium`}>
                                                 <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
                                                     className='animate-spin ml-2' />
                                             </div>
@@ -272,7 +284,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 <BsGear size={17} />
 
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Section settings
                                 </span>
                             </div>
@@ -282,7 +294,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 <BiRefresh size={17} />
 
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Replace Section
                                 </span>
                             </div>
@@ -292,7 +304,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 <BiTrash size={17} />
 
                                 <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Remove Section Down
                                 </span>
                             </div>

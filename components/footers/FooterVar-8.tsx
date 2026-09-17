@@ -1,19 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import { FaArrowRightLong, FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { FaFacebook, FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsArrowDown, BsArrowRight, BsArrowUp, BsArrowUpRight, BsChevronBarUp, BsClock, BsGear, BsGithub, BsInstagram, BsLinkedin, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
-import { BiBuilding, BiChat, BiEnvelopeOpen, BiHeart, BiHome, BiLayerPlus, BiMapPin, BiPhone, BiRefresh, BiTrash } from 'react-icons/bi';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { PiPhoneIncoming } from 'react-icons/pi';
+import { BsArrowRight, BsChevronBarUp, BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiChat, BiRefresh } from 'react-icons/bi';
 import { LiaLinkedin } from 'react-icons/lia';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
 import CustomLinkMain from '../CustomLink';
-import { Button } from '../Button';
-import { CgMail } from 'react-icons/cg';
 import { Helpers } from '@/_lib/helper';
 
 const helpers = new Helpers();
