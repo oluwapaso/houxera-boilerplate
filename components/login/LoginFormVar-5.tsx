@@ -168,10 +168,10 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
             return (
                 <section className="min-h-screen flex items-center justify-center bg-gradient-to-br 
-                from-${themeSett.primary_color} to-${themeSett.primary_color} px-6 py-15 relative bg-cover bg-center "
+                from-${themeSett.primary_color} to-${themeSett.primary_color} pt-35 pb-54 relative bg-cover bg-center "
                     style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
 
-                    <div className=' w-full flex items-center px-20 '>
+                    <div className=' w-full flex items-center max-md:justify-center px-3 2xs:px-4 xs:px-6 md:px-20 '>
                         <div className="w-full max-w-md">
                             {/* Card */}
                             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-100">
@@ -180,7 +180,7 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 via-${helpers.adjustColorShade(themeSett.primary_color, -1)} 
                                 to-${themeSett.primary_color}`}></div>
 
-                                <div className="p-8">
+                                <div className="px-3 xs:px-6 sm:px-8 py-8">
                                     {/* Header */}
                                     <div className="text-center mb-8">
                                         <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br rounded-full mb-4
@@ -254,14 +254,14 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
                     </div>
 
-                    <div className="absolute top-3.5 right-3.5">
+                    <div className="absolute top-3.5 max-md:left-3.5 right-3.5">
                         <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                             <Image src={`${themeSett?.light_logo || "/Houxera-logo-white.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
                         </CustomLinkMain>
                     </div>
 
 
-                    <div className="absolute bottom-3.5 right-3.5 flex flex-col items-center md:items-end">
+                    <div className="w-full absolute bottom-3.5 right-3.5 flex flex-col items-center justify-center md:justify-end md:items-end">
                         <h4 className="text-xs uppercase tracking-wider text-stone-400 mb-4">Get in Touch</h4>
                         <div className=' flex flex-col space-y-1 items-center md:items-end'>
                             <span className="text-sm text-stone-400">

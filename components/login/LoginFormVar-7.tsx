@@ -172,7 +172,8 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                     <div className={`w-full min-h-screen mx-auto flex items-stretch`}>
 
                         {/* Left Side - Image/Gradient */}
-                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 relative">
+                        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-6 max-lg:pt-40 max-lg:pb-20 relative">
+
                             <div className="absolute top-3.5 left-3.5">
                                 <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                                     <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
@@ -241,6 +242,59 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     </CustomLink>
                                 </div>
                             </div>
+
+                            <div className={`h-0.5 w-full lg:hidden mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                                transition-opacity duration-700 `} />
+
+                            <div className="w-full flex flex-col lg:hidden items-center md:items-end mt-10">
+                                <div className="w-full flex items-center justify-center gap-4">
+                                    {brker_info?.social_accounts?.facebook &&
+                                        <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaFacebook size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.twitter &&
+                                        <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <BsTwitterX size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.linkedin &&
+                                        <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <LiaLinkedin size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.youtube &&
+                                        <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaYoutube size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.whatsapp &&
+                                        <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                            <BsWhatsapp size={20} />
+                                        </Link>
+                                    }
+                                </div>
+                            </div>
+
                         </div>
 
                         {/* Right Side - Form */}

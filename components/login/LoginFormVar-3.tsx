@@ -188,6 +188,13 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         {/* Right Side - Form */}
                         <div className="w-full lg:w-1/2 flex items-center justify-center px-6 relative">
+
+                            <div className="absolute flex lg:hidden top-3.5 left-3.5">
+                                <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                                    <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                </CustomLinkMain>
+                            </div>
+
                             <div className="w-full absolute bottom-3.5 right-3.5 flex justify-end items-center 
                             space-x-3 min-w-0 shrink text-gray-500 ">
                                 <Link

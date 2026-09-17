@@ -5,7 +5,7 @@ import { BiLock } from 'react-icons/bi';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { BiRefresh, BiTrash } from 'react-icons/bi';
-import { BsGear } from 'react-icons/bs';
+import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 
 import CustomLink from '@/components/CustomLink'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -18,6 +18,12 @@ import FloatingInput from '@/components/FloatingInput'
 import { BiLogIn } from 'react-icons/bi'
 import { Helpers } from '@/_lib/helper';
 import FloatingPasswordInput from '../FloatingPasswordInput';
+import CustomLinkMain from '@/components/CustomLink';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaYoutube } from 'react-icons/fa6';
+import { LiaLinkedin } from 'react-icons/lia';
+import { FaFacebook } from 'react-icons/fa';
 
 const helpers = new Helpers();
 const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -37,6 +43,7 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [AuthParams, setAuthParams] = useState(auth_params);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const brker_info = useSelector((state: RootState) => state.broker);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAuthParams((prev_state) => {
@@ -163,11 +170,12 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             return (
                 <section className="min-h-screen bg-white relative py-15">
 
-                    <div className={`w-full min-h-[calc(100dvh-100px)] max-w-7xl mx-auto flex items-stretch`}>
+                    <div className={`w-full min-h-[calc(100dvh-100px)] max-w-7xl px-6 mx-auto flex items-stretch`}>
+
                         {/* Left Side - Image/Gradient */}
                         <div className={`hidden rounded-2xl shadow-2xl lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
-                            to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-center justify-center p-8`}>
-                            <div className="text-white max-w-md">
+                            to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center p-8`}>
+                            <div className="text-white max-w-md grow flex flex-col justify-center">
                                 <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
                                 <p className="text-blue-100 mb-8">
                                     {raw_data.service_sub_header || "Join our community and unlock amazing services"}
@@ -193,10 +201,71 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     </div>
                                 </div>
                             </div>
+
+                            <div className=' w-full flex flex-col shrink-0'>
+                                <div className={`h-0.5 w-full mt-16 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                                    transition-opacity duration-700 `} />
+
+                                <div className="w-full flex flex-col items-center md:items-end mt-10">
+                                    <div className="w-full flex items-center justify-center gap-4">
+                                        {brker_info?.social_accounts?.facebook &&
+                                            <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                                className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                                transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                                <FaFacebook size={20} />
+                                            </Link>
+                                        }
+
+                                        {brker_info?.social_accounts?.twitter &&
+                                            <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                                className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                                transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                                <BsTwitterX size={20} />
+                                            </Link>
+                                        }
+
+                                        {brker_info?.social_accounts?.linkedin &&
+                                            <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                                className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                                transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                                <LiaLinkedin size={20} />
+                                            </Link>
+                                        }
+
+                                        {brker_info?.social_accounts?.youtube &&
+                                            <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                                className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                                transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                                <FaYoutube size={20} />
+                                            </Link>
+                                        }
+
+                                        {brker_info?.social_accounts?.whatsapp &&
+                                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                                className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                                transition-colors text-stone-200 hover:text-${themeSett.primary_button_text}
+                                                hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                                <BsWhatsapp size={20} />
+                                            </Link>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Right Side - Form */}
                         <div className="w-full lg:w-1/2 flex items-center justify-center px-6">
+
+                            <div className="absolute flex lg:hidden top-3.5 left-3.5">
+                                <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                                    <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                </CustomLinkMain>
+                            </div>
+
                             <div className="w-full max-w-md">
                                 {/* Header */}
                                 <div className="mb-10">
@@ -252,7 +321,7 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 </div>
 
                                 {/* Footer */}
-                                <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                                <div className="text-left text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
                                     <span>Don't have an account yet?</span>
                                     <CustomLink href={`${themeSett.channel_website}/register`} is_theme={is_theme}
                                         className='text-sky-700 cursor-pointer'>Click here to sign up
