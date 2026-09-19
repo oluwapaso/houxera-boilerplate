@@ -168,7 +168,7 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
             return (
                 <section className="min-h-screen flex items-center justify-center bg-gradient-to-br 
-                from-${themeSett.primary_color} to-${themeSett.primary_color} pt-35 pb-54 relative bg-cover bg-center "
+                    from-${themeSett.primary_color} to-${themeSett.primary_color} pt-35 pb-54 relative bg-cover bg-center "
                     style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
 
                     <div className=' w-full flex items-center max-md:justify-center px-3 2xs:px-4 xs:px-6 md:px-20 '>
@@ -184,11 +184,11 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     {/* Header */}
                                     <div className="text-center mb-8">
                                         <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br rounded-full mb-4
-                                    from-${helpers.adjustColorShade(themeSett.primary_color, -1)} 
-                                    to-${helpers.adjustColorShade(themeSett.primary_color, 2)}`}>
+                                        from-${helpers.adjustColorShade(themeSett.primary_color, -1)} 
+                                        to-${helpers.adjustColorShade(themeSett.primary_color, 2)}`}>
                                             <BiLock className={`w-8 h-8 text-${themeSett.primary_button_text}`} />
                                         </div>
-                                        <h1 className="text-3xl font-black text-gray-900 mb-1">{raw_data.header || "Welcome Back"}</h1>
+                                        <h1 className="text-2xl xs:text-3xl font-black text-gray-900 mb-1">{raw_data.header || "Welcome Back"}</h1>
                                         <p className="text-gray-700 font-medium">{raw_data.sub_header || "Sign in with your credentials"}</p>
                                     </div>
 

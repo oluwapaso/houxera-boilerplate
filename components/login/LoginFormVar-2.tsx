@@ -202,8 +202,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         if (themeSett) {
             return (
                 <section className={`min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-3 xs:px-6 
-                    pt-40 pb-20 relative`}
-                    style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+                    pt-40 pb-20 relative`} style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
 
                     <div className="absolute top-3.5 left-3.5">
                         <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">

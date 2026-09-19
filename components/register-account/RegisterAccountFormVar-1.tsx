@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiRefresh, BiTrash, BiUserPlus } from 'react-icons/bi';
-import { BsGear } from 'react-icons/bs';
+import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { toast } from 'react-toastify'
@@ -18,6 +18,11 @@ import { Helpers } from '@/_lib/helper';
 import { UserInfo } from "@/components/types";
 import useRequiredFields from '@/_hooks/useReqiredFields';
 import CustomLink from '@/components/CustomLink'
+import CustomLinkMain from '@/components/CustomLink';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaFacebook, FaYoutube } from 'react-icons/fa6';
+import { LiaLinkedin } from 'react-icons/lia';
 
 const helpers = new Helpers();
 const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -30,6 +35,7 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
 
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const brker_info = useSelector((state: RootState) => state.broker);
 
     const reg_params = {
         firstname: "",
@@ -82,9 +88,18 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
     }
 
     const handleRegister = async () => {
+
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         if (window.MLS_Util) {
 
-            toast.dismiss();
             const { validateFields, errorFields } = useRequiredFields();
             window.MLS_Util.Init(process.env.NEXT_PUBLIC_API_KEY, process.env.NEXT_PUBLIC_ACCOUNT_ID, process.env.NEXT_PUBLIC_MLS_NUMBER, process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP);
 
@@ -227,7 +242,14 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
 
         if (themeSett) {
             return (
-                <section className="min-h-screen flex items-center justify-center bg-white px-6 py-35 relative">
+                <section className="min-h-screen flex flex-col items-center justify-center bg-white px-3 2xs:px-6 pt-40 pb-20 relative">
+
+                    <div className="absolute top-3.5 left-3.5">
+                        <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                            <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                        </CustomLinkMain>
+                    </div>
+
                     <div className="w-full max-w-lg">
                         {/* Header */}
                         <div className="text-center mb-8">
@@ -235,14 +257,18 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
                             bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} rounded-lg mb-4`}>
                                 <BiUserPlus className={`w-6 h-6 text-${themeSett.primary_color}`} />
                             </div>
-                            <h1 className="text-3xl font-bold text-gray-900">{raw_data.header || "Create a New Account"}</h1>
-                            <p className="text-gray-600 mt-2">{raw_data.sub_header || "Provide your info to register a new account."}</p>
+                            <h1 className="text-2xl xs:text-3xl font-bold text-gray-900">
+                                {raw_data.header || "Create a New Account"}
+                            </h1>
+                            <p className="text-gray-600 mt-2">
+                                {raw_data.sub_header || "Provide your info to register a new account."}
+                            </p>
                         </div>
 
                         {/* Form */}
-                        <div className="space-y-4 w-full flex flex-col">
+                        <div className="space-y-2 w-full flex flex-col">
 
-                            <div className="w-full mt-4 grid grid-cols-2 gap-4">
+                            <div className="w-full mt-4 grid grid-cols-1 xs:grid-cols-2 max-xs:space-y-2 gap-4">
                                 <div className=''>
                                     <FloatingInput name='firstname' label='Firstname' placeholder='Firstname'
                                         handleChange={(e) => handleChange(e)} value={RegParams.firstname} required />
@@ -294,9 +320,61 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                         {/* Footer */}
                         <p className="text-center text-gray-600 text-sm mt-6">
-                            Already have an account? <CustomLink href={`${themeSett.channel_website}/login`}
+                            Already have an account? <CustomLink href={`${themeSett.channel_website}/login`} is_theme={is_theme}
                                 className='text-sky-700'>Click here to login</CustomLink>
                         </p>
+                    </div>
+
+                    <div className={`h-0.5 w-full mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 `} />
+
+                    <div className="w-full flex flex-col items-center md:items-end mt-10">
+                        <div className="w-full flex items-center justify-center gap-4">
+                            {brker_info?.social_accounts?.facebook &&
+                                <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <FaFacebook size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.twitter &&
+                                <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <BsTwitterX size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.linkedin &&
+                                <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <LiaLinkedin size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.youtube &&
+                                <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    <FaYoutube size={20} />
+                                </Link>
+                            }
+
+                            {brker_info?.social_accounts?.whatsapp &&
+                                <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                    className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                    <BsWhatsapp size={20} />
+                                </Link>
+                            }
+                        </div>
                     </div>
 
                     {is_theme && (

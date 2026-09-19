@@ -167,9 +167,10 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             return (
                 <section className="min-h-screen bg-white relative p-0">
 
-                    <div className={`w-full min-h-screen mx-auto flex items-stretch`}>
+                    <div className={`w-full min-h-screen mx-auto flex justify-end items-stretch`}>
+
                         {/* Left Side - Image/Gradient */}
-                        <div className={`hidden relative lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
+                        <div className={`hidden fixed h-full left-0 lg:flex lg:w-1/2 bg-gradient-to-br from-${themeSett.primary_color} 
                             to-${helpers.adjustColorShade(themeSett.primary_color, 2)} items-end justify-start p-8`}>
 
                             <div className="absolute top-3.5 left-3.5">
@@ -187,7 +188,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
 
                         {/* Right Side - Form */}
-                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 relative">
+                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 relative py-15">
 
                             <div className="absolute flex lg:hidden top-3.5 left-3.5">
                                 <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
