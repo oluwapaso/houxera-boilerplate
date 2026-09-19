@@ -187,7 +187,7 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                     bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)}`}>
                                         <BiLock className={`w-7 h-7 text-${themeSett.primary_color}`} />
                                     </div>
-                                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Welcome Back"}</h1>
+                                    <h1 className="text-2xl xs:text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Welcome Back"}</h1>
                                     <p className="text-gray-600">{raw_data.sub_header || "Sign in with your credentials"}</p>
                                 </div>
 
