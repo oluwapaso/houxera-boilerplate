@@ -359,7 +359,7 @@ const RegisterAccountFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                                 {/* Footer */}
                                 <p className="text-center text-slate-400 text-sm mt-8">
-                                    Already have an account? <CustomLink href={`${themeSett.channel_website}/login`}
+                                    Already have an account? <CustomLink href={`${themeSett.channel_website}/login`} is_theme={is_theme}
                                         className='text-sky-700'>Click here to login</CustomLink>
                                 </p>
                             </div>

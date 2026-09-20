@@ -253,7 +253,7 @@ const RegisterAccountFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme
                             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-100">
                                 {/* Bold Header Bar */}
                                 <div className={`h-1 bg-gradient-to-r from-${helpers.adjustColorShade(themeSett.primary_color, -2)} 
-                                via-${helpers.adjustColorShade(themeSett.primary_color, -1)} 
+                                via-${helpers.adjustColorShade(themeSett.primary_color, -1)}  
                                 to-${themeSett.primary_color}`}></div>
 
                                 <div className="px-3 2xs:px-6 xs:px-8 py-8">
@@ -321,14 +321,16 @@ const RegisterAccountFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme
                                         </div>
                                     </div>
 
-                                    {/* Social Login */}
-                                    <div className="mt-6 space-y-3">
-                                        <p className="text-center text-gray-600 font-semibold">Or</p>
+                                    {/* Divider */}
+                                    <div className="flex items-center gap-3 my-6">
+                                        <div className="flex-1 h-px bg-gray-200"></div>
+                                        <span className="text-gray-500 text-sm">OR</span>
+                                        <div className="flex-1 h-px bg-gray-200"></div>
                                     </div>
 
                                     {/* Footer */}
                                     <p className="text-center text-gray-700 text-sm mt-6 font-medium">
-                                        Already have an account? <CustomLink href={`${themeSett.channel_website}/login`}
+                                        Already have an account? <CustomLink href={`${themeSett.channel_website}/login`} is_theme={is_theme}
                                             className='text-sky-700'>Click here to login</CustomLink>
                                     </p>
                                 </div>

@@ -176,27 +176,28 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         <div className={`hidden lg:flex lg:w-1/2 items-center relative`}>
                             <div className={` w-full h-[90dvh] rounded-2xl shadow-2xl lg:flex bg-gradient-to-br from-${themeSett.primary_color} 
                                 to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center p-8`}>
-                                <div className="text-white max-w-md grow flex flex-col justify-center">
+
+                                <div className={`text-${themeSett.primary_button_text} max-w-md grow flex flex-col justify-center`}>
                                     <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
-                                    <p className="text-blue-100 mb-8">
+                                    <p className="  mb-8">
                                         {raw_data.service_sub_header || "Join our community and unlock amazing services"}
                                     </p>
                                     <div className="space-y-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                                <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className={`flex-shrink-0 w-6 h-6 bg-${themeSett.primary_button_text} text-${themeSett.primary_color} rounded-full flex items-center justify-center mt-1`}>
+                                                <span className=" text-sm font-bold">✓</span>
                                             </div>
                                             <p> {raw_data.top_service_1 || "Secure and encrypted"}</p>
                                         </div>
-                                        <div className="flex items-start gap-3">
-                                            <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                                <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className={`flex-shrink-0 w-6 h-6 bg-${themeSett.primary_button_text} text-${themeSett.primary_color} rounded-full flex items-center justify-center mt-1`}>
+                                                <span className=" text-sm font-bold">✓</span>
                                             </div>
                                             <p>{raw_data.top_service_2 || "24/7 customer support"}</p>
                                         </div>
-                                        <div className="flex items-start gap-3">
-                                            <div className="flex-shrink-0 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center mt-1">
-                                                <span className="text-blue-700 text-sm font-bold">✓</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className={`flex-shrink-0 w-6 h-6 bg-${themeSett.primary_button_text} text-${themeSett.primary_color} rounded-full flex items-center justify-center mt-1`}>
+                                                <span className=" text-sm font-bold">✓</span>
                                             </div>
                                             <p>{raw_data.top_service_3 || "Lightning fast experience"}</p>
                                         </div>

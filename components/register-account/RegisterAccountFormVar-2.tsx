@@ -337,8 +337,6 @@ const RegisterAccountFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme
                         </div>
                     </div>
 
-
-
                     <div className={`h-0.5 w-full mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
                         transition-opacity duration-700 `} />
 
