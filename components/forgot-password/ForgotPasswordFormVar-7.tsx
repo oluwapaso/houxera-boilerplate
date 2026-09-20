@@ -32,7 +32,6 @@ const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?
     const searchParams = useSearchParams();
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
-    const redirect = searchParams?.get("redirect") as string || "/home";
 
     const dispatch = useDispatch<AppDispatch>();
     const reset_params = {
@@ -168,7 +167,6 @@ const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?
                 <section className="min-h-screen bg-white relative p-0">
 
                     <div className={`w-full min-h-screen mx-auto flex items-stretch`}>
-
 
                         {/* Left Side - Image/Gradient */}
                         <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-3 2xs:px-6 

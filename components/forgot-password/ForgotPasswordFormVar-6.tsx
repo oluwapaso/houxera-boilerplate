@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiLock, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 
 import CustomLink from '@/components/CustomLink'
@@ -192,7 +192,7 @@ const ForgotPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?
                                 </div>
 
                                 {/* Form */}
-                                <div className="space-y-5">
+                                <div className="space-y-4">
                                     <div className='w-full'>
                                         <FloatingInput name='email' label='Account Email' placeholder='Account Email'
                                             handleChange={(e) => handleChange(e)} value={ResetParams.email} required />
@@ -366,14 +366,14 @@ const ForgotPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
                     {is_theme && (
                         <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                        *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
 
                             <div id='editor_settings' className='hover:shadow-2xl relative group'
                                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                                 <BsGear size={17} />
 
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Section settings
                                 </span>
                             </div>
@@ -383,7 +383,7 @@ const ForgotPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?
                                 <BiRefresh size={17} />
 
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Replace Section
                                 </span>
                             </div>
@@ -393,7 +393,7 @@ const ForgotPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?
                                 <BiTrash size={17} />
 
                                 <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
+                                text-white text-xs'>
                                     Remove Section Down
                                 </span>
                             </div>
