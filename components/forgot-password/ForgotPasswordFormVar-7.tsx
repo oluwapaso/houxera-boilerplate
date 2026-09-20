@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiLock, BiRefresh, BiTrash } from 'react-icons/bi';
-import { BsGear } from 'react-icons/bs';
+import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 
 import CustomLink from '@/components/CustomLink'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -18,6 +18,12 @@ import { BiLogIn } from 'react-icons/bi'
 import { Helpers } from '@/_lib/helper';
 import { UserInfo } from "@/components/types";
 import { MdLockReset } from 'react-icons/md';
+import Link from 'next/link';
+import { FaYoutube } from 'react-icons/fa';
+import { LiaLinkedin } from 'react-icons/lia';
+import { FaFacebook } from 'react-icons/fa6';
+import CustomLinkMain from '@/components/CustomLink';
+import Image from 'next/image';
 
 const helpers = new Helpers();
 const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -37,6 +43,7 @@ const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [isResetting, setIsResetting] = useState<boolean>(false);
+    const brker_info = useSelector((state: RootState) => state.broker);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setResetParams((prev_state) => {
@@ -48,9 +55,18 @@ const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?
     }
 
     const handlePasswordReset = async () => {
+
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         if (window.MLS_Util) {
 
-            toast.dismiss();
             window.MLS_Util.Init(process.env.NEXT_PUBLIC_API_KEY, process.env.NEXT_PUBLIC_ACCOUNT_ID, process.env.NEXT_PUBLIC_MLS_NUMBER, process.env.NEXT_PUBLIC_PROPERTY_DETAILS_EP);
 
             const payload = {
@@ -149,76 +165,196 @@ const ForgotPasswordFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
         if (themeSett) {
             return (
-                <section className="min-h-screen flex items-center justify-center bg-black px-6 py-35 overflow-hidden relative">
-                    {/* Luxury gradient background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
-                    <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-amber-900/20 to-transparent rounded-full blur-3xl"></div>
+                <section className="min-h-screen bg-white relative p-0">
 
-                    <div className="w-full max-w-lg relative z-10">
-                        {/* Premium Card */}
-                        <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-black border border-amber-500/30 rounded-3xl p-10 shadow-2xl">
-                            {/* Gold accent line */}
-                            <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r 
-                            from-transparent via-${helpers.adjustColorShade(themeSett.primary_color, -1)} to-transparent rounded-full`}></div>
+                    <div className={`w-full min-h-screen mx-auto flex items-stretch`}>
 
-                            {/* Header */}
-                            <div className="text-center mb-10">
-                                <div className={`inline-flex items-center justify-center w-16 h-16 
-                                bg-gradient-to-br rounded-2xl mb-6 shadow-2xl shadow-amber-900/50 
-                                from-${helpers.adjustColorShade(themeSett.primary_color, 1)} 
-                                to-${helpers.adjustColorShade(themeSett.primary_color, 3)} `}>
-                                    <MdLockReset className={`text-${themeSett.primary_button_text} w-8 h-8`} />
-                                </div>
-                                <h1 className={`text-gray-300 text-4xl font-bold mb-2 tracking-tight`}>{raw_data.header || "Forgot Password?"}</h1>
-                                <p className={`text-gray-300 font-ligh`}>{raw_data.sub_header || "Enter account email below. We will send you a link to reset your password."}</p>
+
+                        {/* Left Side - Image/Gradient */}
+                        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-3 2xs:px-6 
+                            pt-35 pb-20 relative">
+
+                            <div className="absolute top-3.5 left-3.5">
+                                <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
+                                    <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
+                                </CustomLinkMain>
                             </div>
 
-                            {/* Form */}
-                            <div className="space-y-6">
-                                <div className='w-full'>
-                                    <FloatingInput name='email' label='Account Email' placeholder='Account Email'
-                                        handleChange={(e) => handleChange(e)} value={ResetParams.email} required />
+                            {/* Main Card */}
+                            <div className={`w-full max-w-xl `}>
+
+                                {/* Header */}
+                                <div className="text-center mb-10">
+                                    <div className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br rounded-xl mb-4 shadow-lg
+                                        from-${helpers.adjustColorShade(themeSett.primary_color, 1)} 
+                                        to-${helpers.adjustColorShade(themeSett.primary_color, 3)} `}>
+                                        <MdLockReset className={`text-${themeSett.primary_button_text} w-8 h-8`} />
+                                    </div>
+                                    <h1 className="text-2xl xs:text-3xl font-bold text-gray-900 mb-2">{raw_data.header || "Forgot Password?"}</h1>
+                                    <p className="text-gray-600">{raw_data.sub_header || "Enter account email below. We will send you a link to reset your password."}</p>
                                 </div>
 
-                                <div className='w-full mt-2'>
-                                    {!isResetting ?
-                                        <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
-                                            text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
-                                            font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
-                                            onClick={handlePasswordReset}> <span>{raw_data.button_text || "Send Reset Link"}</span> <BiLogIn size={16} /> </button> :
-                                        <div className={`w-full border-2 border-${themeSett.primary_color} 
-                                            text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
-                                            justify-center cursor-not-allowed font-medium`}>
-                                            <span>Sending Link... Please Wait</span> <AiOutlineLoading3Quarters size={16}
-                                                className='animate-spin ml-2' />
-                                        </div>
+                                {/* Form */}
+                                <div className="space-y-6">
+                                    <div className='w-full'>
+                                        <FloatingInput name='email' label='Account Email' placeholder='Account Email'
+                                            handleChange={(e) => handleChange(e)} value={ResetParams.email} required />
+                                    </div>
+
+                                    <div className='w-full mt-2'>
+                                        {!isResetting ?
+                                            <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
+                                                text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
+                                                font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
+                                                onClick={handlePasswordReset}> <span>{raw_data.button_text || "Send Reset Link"}</span> <BiLogIn size={16} /> </button> :
+                                            <div className={`w-full border-2 border-${themeSett.primary_color} 
+                                                text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
+                                                justify-center cursor-not-allowed font-medium`}>
+                                                <span>Sending Link... Please Wait</span> <AiOutlineLoading3Quarters size={16}
+                                                    className='animate-spin ml-2' />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                {/* Divider */}
+                                <div className="flex items-center gap-3 my-6">
+                                    <div className="flex-1 h-px bg-slate-300"></div>
+                                    <span className="text-slate-500 text-xs uppercase">Or</span>
+                                    <div className="flex-1 h-px bg-slate-300"></div>
+                                </div>
+
+                                {/* Footer */}
+                                <div className="text-center text-gray-600 text-sm mt-6 flex flex-col space-y-1.5">
+                                    <CustomLink href={`${themeSett.channel_website}/login`}
+                                        is_theme={is_theme}
+                                        className='text-sky-700'>Back to login</CustomLink>
+                                </div>
+                            </div>
+
+                            <div className={`h-0.5 w-full lg:hidden mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                                    transition-opacity duration-700 `} />
+
+                            <div className="w-full flex flex-col lg:hidden items-center md:items-end mt-10">
+                                <div className="w-full flex items-center justify-center gap-4">
+                                    {brker_info?.social_accounts?.facebook &&
+                                        <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaFacebook size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.twitter &&
+                                        <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <BsTwitterX size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.linkedin &&
+                                        <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <LiaLinkedin size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.youtube &&
+                                        <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaYoutube size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.whatsapp &&
+                                        <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                            <BsWhatsapp size={20} />
+                                        </Link>
                                     }
                                 </div>
                             </div>
 
-                            {/* Divider */}
-                            <div className="flex items-center gap-3 my-8">
-                                <div className="flex-1 h-px bg-amber-500/10"></div>
-                                <span className="text-gray-300 text-xs font-light uppercase">Or</span>
-                                <div className="flex-1 h-px bg-amber-500/10"></div>
+                        </div>
+
+                        {/* Right Side - Form */}
+                        <div className={`hidden fixed right-0 h-full lg:flex lg:w-1/2 flex-col p-8 bg-cover bg-center `}
+                            style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+
+                            <div className='grow flex items-center justify-center'>
+                                <div className='w-full max-w-xl p-8 flex flex-col rounded-xl 
+                                bg-white/10 backdrop-blur-xs text-gray-200'>
+                                    <h3 className='text-3xl font-medium'>{raw_data.right_header || "Get started"}</h3>
+                                    <div className=''>
+                                        {raw_data.right_sub_header || "Join our community and unlock amazing services"}
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Footer */}
-                            <p className="text-center text-gray-300 text-sm mt-8 font-light">
-                                <CustomLink href={`${themeSett.channel_website}/login`} className='text-sky-700'>Back to login</CustomLink>
-                            </p>
+                            <div className="w-full flex flex-col items-center md:items-end">
+                                <div className="w-full flex items-center justify-center gap-4">
+                                    {brker_info?.social_accounts?.facebook &&
+                                        <Link href={`${brker_info?.social_accounts?.facebook}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-300 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaFacebook size={20} />
+                                        </Link>
+                                    }
 
-                            {/* Security badge */}
-                            <div className="mt-8 pt-6 border-t border-amber-500/10 flex items-center justify-center gap-2 text-gray-300 text-xs">
-                                <BiLock size={14} />
-                                <span>Secured & Verified</span>
+                                    {brker_info?.social_accounts?.twitter &&
+                                        <Link href={`${brker_info?.social_accounts?.twitter}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-300 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <BsTwitterX size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.linkedin &&
+                                        <Link href={`${brker_info?.social_accounts?.linkedin}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-300 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <LiaLinkedin size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.youtube &&
+                                        <Link href={`${brker_info?.social_accounts?.youtube}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-300 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                            <FaYoutube size={20} />
+                                        </Link>
+                                    }
+
+                                    {brker_info?.social_accounts?.whatsapp &&
+                                        <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
+                                            className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
+                                            transition-colors text-stone-300 hover:text-${themeSett.primary_button_text}
+                                            hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                            <BsWhatsapp size={20} />
+                                        </Link>
+                                    }
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                     {is_theme && (
                         <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                        *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
 
                             <div id='editor_settings' className='hover:shadow-2xl relative group'
                                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
