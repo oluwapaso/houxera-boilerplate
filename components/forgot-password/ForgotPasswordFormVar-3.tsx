@@ -17,7 +17,6 @@ import FloatingInput from '@/components/FloatingInput'
 import { BiLogIn } from 'react-icons/bi'
 import { Helpers } from '@/_lib/helper';
 import { UserInfo } from "@/components/types";
-import { MdLockReset } from 'react-icons/md';
 import CustomLinkMain from '@/components/CustomLink';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -183,7 +182,6 @@ const ForgotPasswordFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?
                             </div>
                         </div>
 
-
                         {/* Right Side - Form */}
                         <div className="w-full lg:w-1/2 flex items-center justify-center px-3 xs:px-6 py-25 relative">
 
@@ -255,10 +253,9 @@ const ForgotPasswordFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?
                                         className='text-sky-700'>Back to login</CustomLink>
                                 </p>
                             </div>
+
                         </div>
                     </div>
-
-
 
                     {is_theme && (
                         <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 

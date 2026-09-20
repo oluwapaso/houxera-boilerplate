@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiLock, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
 
 import CustomLink from '@/components/CustomLink'
@@ -257,7 +257,7 @@ const ForgotPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?
                         </div>
 
                         {/* Right Side - Form */}
-                        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-15">
+                        <div className="w-full lg:w-1/2 flex  items-center justify-center px-6 py-15">
                             <div className="absolute flex lg:hidden top-3.5 left-3.5">
                                 <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                                     <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />
