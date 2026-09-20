@@ -213,7 +213,7 @@ const ForgotPasswordFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
                         </div>
                     </div>
 
-                    <div className={`h-0.5 w-full mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                    <div className={`h-0.5 w-full mt-15 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
                         transition-opacity duration-700 `} />
 
                     <div className="w-full flex flex-col items-center md:items-end mt-10">

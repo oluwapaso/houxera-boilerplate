@@ -177,7 +177,7 @@ const LivePreviewPage = () => {
 
             {/* Dynamic Nav */}
             {(NavComponent && (pageData?.slug != "/login" && pageData?.slug != "/register" && pageData?.slug != "/forgot-password"
-                && pageData?.slug != "reset-password"))
+                && pageData?.slug != "/reset-password"))
                 ? (<NavComponent {...(navBlock?.props || {})} is_theme={true} transparent={true} />)
                 : null
             }
@@ -188,7 +188,7 @@ const LivePreviewPage = () => {
 
             {/* Dynamic Footer */}
             {(FooterComponent && (pageData?.slug != "/login" && pageData?.slug != "/register" && pageData?.slug != "/forgot-password"
-                && pageData?.slug != "reset-password"))
+                && pageData?.slug != "/reset-password"))
                 ? (<FooterComponent {...(footerBlock?.props || {})} is_theme={true} />)
                 : null
             }
