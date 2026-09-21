@@ -11,12 +11,8 @@ import SubMenuContainer from "./SubMenuContainer"
 import LoggedInMenu from "./LoggedInMenu"
 import MobileSubMenuContaier from "./MobileSubMenuContaier"
 import Link from "next/link"
-import { FaFacebook } from "react-icons/fa6"
-import { LiaLinkedin } from "react-icons/lia"
-import { FaMapMarkerAlt, FaYoutube } from "react-icons/fa"
-import { Helpers } from '@/_lib/helper';
+import { FaMapMarkerAlt } from "react-icons/fa"
 
-const helpers = new Helpers();
 const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
