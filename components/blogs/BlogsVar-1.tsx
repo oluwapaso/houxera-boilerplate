@@ -11,17 +11,29 @@ import { Helpers } from '@/_lib/helper';
 import BlogCardVar1 from '../blog-cards/BlogCardVar-1';
 import { BiLayerPlus, BiRefresh, BiTrash } from 'react-icons/bi';
 import { useSearchParams } from 'next/navigation';
+import ReactivePagination from '../ReactivePagination';
 
 const helpers = new Helpers();
 const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     const searchParams = useSearchParams();
-    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
-    const channel_uid = searchParams?.get("channel_uid") as string || "";
-
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
+    const pageSize = size;
+    const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
+    const category = searchParams?.get("ref") ?? "";
+    const keyword_params = searchParams?.get("keyword") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+
+    const [keyword, setKeyword] = useState(keyword_params);
+    const [currPage, setCurrPage] = useState(current_page);
+
+    const [loading, setLoading] = useState(true);
+    const [totalPages, setTotalPages] = useState(0);
 
     const [blogs, setBlogs] = useState<any[]>([]);
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
@@ -83,18 +95,26 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
             "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "size": size,
+            "category_uid": category,
+            "keyword": keyword,
+            "size": pageSize,
             "skip": "0",
             "fields": "*"
         }
 
         try {
             const response = await window.MLS_Util.LoadBlogPosts(payload);
-
             let resp_message = response.message;
             let status_code = response.status_code;
             if (status_code == 200) {
                 setBlogs(response.data.all_posts);
+                setTotalPages(Math.ceil(response.data.total_records / pageSize));
+
+                // Set featured post only on page 1
+                if (currPage === 1 && response.data.all_posts.length > 0) {
+                    localStorage.setItem('featuredPost', JSON.stringify(response.data.all_posts[0]));
+                }
+
             } else {
                 setBlogsError(resp_message)
             }
@@ -103,6 +123,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
             setBlogsError("Failed to load posts")
         } finally {
             setBlogsLoaded(true);
+            setLoading(false);
         }
 
     }
@@ -195,15 +216,18 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             }))
                         }
 
-                        {raw_data?.show_more == "Yes" &&
-                            <div className='flex md:hidden col-span-full w-full mt-10 items-center justify-center'>
-                                <CustomLinkMain href={`${themeSett.theme_prefix}/blog-posts?page=1`} is_theme={is_theme}
-                                    className={`px-8 py-5 text-white cursor-pointer flex items-center justify-center rounded space-x-2.5 
-                                        hover:shadow-2xl bg-${themeSett.primary_color} 
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}>
-                                    <span>{raw_data?.show_more_text || 'See All Services'}</span>
-                                    <FaArrowRightLong size={18} />
-                                </CustomLinkMain>
+
+                        {/* Pagination */}
+                        {(!loading && blogsError == "" && totalPages > 0) &&
+                            <ReactivePagination totalPage={totalPages} curr_page={current_page} is_theme={is_theme}
+                                changeTigger={setCurrPage} trigger_loader={setBlogsLoaded}
+                                url_path={`/blog-posts?${category ? `ref=${category}&` : ""}`} />
+                        }
+
+                        {/* Error message  */}
+                        {!loading && blogsError != "" &&
+                            <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
+                                {blogsError}
                             </div>
                         }
                     </div>

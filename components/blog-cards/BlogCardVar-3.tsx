@@ -5,14 +5,16 @@ import { BlogPost } from "../types";
 
 export function BlogCardVar3({ blog_post, is_theme }: { blog_post: BlogPost, is_theme: boolean }) {
 
-    const { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
+    var { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
         clicks, views, comments, channels, date_added, } = blog_post
 
+    header_image_large = header_image_large ? header_image_large : "../no-image-found.jpg"
     const tags = ["Abuja", "Rentals", "Short-let"]
     return (
-        <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme} className="bg-white drop-shadow cursor-pointer">
-            <div className="relative w-full h-40 sm:h-56 overflow-hidden !bg-cover !bg-center"
-                style={{ background: `url('${header_image_large}')` }}>
+        <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme}
+            className="bg-white drop-shadow hover:drop-shadow-xl cursor-pointer">
+            <div className="relative w-full aspect-[3/2] sm:aspect-[4/2] md:aspect-[3/2] overflow-hidden !bg-cover !bg-center 
+            border-b border-gray-300" style={{ background: `url('${header_image_large}')` }}>
             </div>
 
             <div className="p-4">

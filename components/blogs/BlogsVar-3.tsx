@@ -28,11 +28,15 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
     const searchParams = useSearchParams()
     const pageSize = size
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
     const category = searchParams?.get("ref") ?? ""
     const keyword_params = searchParams?.get("keyword") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [blogs, setBlogs] = useState<any[]>([]);
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
@@ -43,8 +47,8 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [isPending, startTransition] = useTransition();
 
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
     const [totalPages, setTotalPages] = useState(0)
+    const [first_comp_pt, setFirstCompPt] = useState("pt-25 md:pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -97,7 +101,8 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const LoadBlogs = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "category_uid": category,
             "keyword": keyword,
@@ -150,6 +155,42 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     }, [window.MLS_Util]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35 md:pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -159,7 +200,7 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         return (
             <section className="min-h-screen bg-gray-100 relative">
                 {/* Header */}
-                <header className={`bg-${themeSett.primary_color} relative !bg-cover !bg-center py-8 md:py-35`}
+                <header className={`bg-${themeSett.primary_color} relative !bg-cover !bg-center ${first_comp_pt} pb-25 `}
                     style={{ background: `url('https://cdn.prod.website-files.com/65b037d6e4e7f59136c20121/66a3398f56e80252b006489a_The%20Golden%20Rule%20of%20Selling.jpg')` }}>
                     <div className="container mx-auto max-w-[1200px] px-4 relative z-20">
                         <h1 className="text-3xl md:text-4xl font-bold mb-1 text-gray-100">
@@ -215,7 +256,7 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
                         <div className='hidden lg:block lg:col-span-2'>
 
-                            <div className='w-full'>
+                            <div className='w-full drop-shadow '>
                                 <BlogCategoryLists />
                             </div>
 

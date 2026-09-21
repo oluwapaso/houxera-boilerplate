@@ -4,15 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
-import { BsArrowDown, BsArrowRight, BsArrowUp, BsGear } from 'react-icons/bs';
+import { BsArrowRight, BsGear } from 'react-icons/bs';
 import CustomLinkMain from '../CustomLink';
-import { FaArrowRightLong } from 'react-icons/fa6';
 import { Helpers } from '@/_lib/helper';
-import BlogCardVar1 from '../blog-cards/BlogCardVar-1';
-import { BiLayerPlus, BiRefresh, BiTrash } from 'react-icons/bi';
+import { BiRefresh, BiTrash } from 'react-icons/bi';
 
-import Link from "next/link"
-import Image from "next/image"
 import { useSearchParams } from 'next/navigation';
 import { BlogCardVar2 } from '../blog-cards/BlogCardVar-2';
 import BlogCategoryLists from '../blog-cards/BlogCategoryLists';
@@ -27,11 +23,15 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
     const searchParams = useSearchParams();
     const pageSize = size;
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
     const category = searchParams?.get("ref") ?? "";
     const keyword_params = searchParams?.get("keyword") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
     const [featured, setFeatured] = useState<BlogPost | null>(null);
@@ -40,6 +40,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [keyword, setKeyword] = useState(keyword_params);
     const [currPage, setCurrPage] = useState(current_page);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-25");
 
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(0);
@@ -83,7 +84,8 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
     const LoadBlogs = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "category_uid": category,
             "keyword": keyword,
@@ -129,6 +131,43 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
         }
     }, [blogsLoaded]);
 
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-40");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25" : "pt-40");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -137,12 +176,12 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-background text-foreground relative py-35">
+            <section className={`min-h-screen bg-background text-foreground relative ${first_comp_pt} pb-35`}>
 
-                <div className=' container mx-auto max-w-[1280px] flex flex-col space-y-10'>
+                <div className=' container mx-auto max-w-[1280px] flex flex-col space-y-10 px-3'>
                     {/* Featured Section */}
                     <section className="w-full">
-                        <div className="relative rounded-3xl overflow-hidden h-96 sm:h-96 lg:h-96 !bg-cover !bg-center"
+                        <div className="relative rounded-xl shadow-xl overflow-hidden h-96 sm:h-96 lg:h-96 !bg-cover !bg-center"
                             style={{ background: `url('${featured?.header_image_large}')` }}>
 
                             {/* Overlay and Content */}
@@ -159,7 +198,6 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
                                     </p>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <div></div>
                                     <CustomLinkMain href={`/blog-post/${featured?.slug}`} is_theme={is_theme} className={`py-1.5 px-4.5 cursor-pointer rounded transition-colors flex items-center space-x-1.5 
                                        bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:shadow-2xl`}>
@@ -183,7 +221,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
 
                             {/* Blog Grid */}
                             {(!loading && blogsError == "" && Array.isArray(blogs)) &&
-                                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
                                     {blogs.map((post) => (
                                         <BlogCardVar2 key={post.category_uid} is_theme={is_theme} blog_post={post} />
                                     ))}
@@ -210,7 +248,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
                             <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogsLoaded} />
 
                             <div className='w-full'>
-                                <BlogCategoryLists />
+                                <BlogCategoryLists is_theme={is_theme} />
                             </div>
 
                             <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
