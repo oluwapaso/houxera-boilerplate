@@ -11,8 +11,10 @@ import { RootState } from "@/app/GlobalRedux/store";
 
 export function BlogCardVar4({ blog_post, is_theme, featured = false }: { blog_post: BlogPost, is_theme: boolean, featured?: boolean }) {
 
-    const { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
+    var { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
         clicks, views, comments, channels, date_added, } = blog_post
+
+    header_image_large = header_image_large ? header_image_large : "../no-image-found.jpg"
 
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
@@ -28,7 +30,7 @@ export function BlogCardVar4({ blog_post, is_theme, featured = false }: { blog_p
             <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme}
                 className="flex flex-col md:flex-row gap-0 md:gap-6 cursor-pointer group">
                 <div className="w-full md:w-2/5 flex-shrink-0">
-                    <div className="relative w-full h-48 md:h-56 overflow-hidden !bg-cover !bg-center"
+                    <div className="relative w-full aspect-[5/4] sm:aspect-[4/2] md:aspect-[5/3] overflow-hidden !bg-cover !bg-center rounded-md"
                         style={{ background: `url('${header_image_large}')` }}>
                         <div className=" absolute top-1.5 left-1.5 px-5 py-2 bg-black/50 backdrop-blur-sm text-white flex 
                         items-center space-x-1.5 rounded text-sm font-semibold">
@@ -43,6 +45,7 @@ export function BlogCardVar4({ blog_post, is_theme, featured = false }: { blog_p
                             {summary}
                         </p>
                     </div>
+
                     <div className="flex items-center justify-between gap-3 py-3 border-t border-gray-200">
                         <div className="text-sm">
                             <p className="font-medium text-gray-900 flex items-center space-x-1.5">
@@ -64,8 +67,9 @@ export function BlogCardVar4({ blog_post, is_theme, featured = false }: { blog_p
     if (themeSett) {
         return (
             <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme}
-                className="flex flex-col h-full border border-gray-200 cursor-pointer group">
-                <div className="relative w-full h-40 sm:h-56 overflow-hidden !bg-cover !bg-center"
+                className="flex flex-col h-full border border-gray-200 cursor-pointer group bg-white 
+                drop-shadow hover:drop-shadow-xl">
+                <div className="relative w-full aspect-[3/2] sm:aspect-[4/2] md:aspect-[3/2] overflow-hidden !bg-cover !bg-center"
                     style={{ background: `url('${header_image_large}')` }}>
                 </div>
 
@@ -78,7 +82,11 @@ export function BlogCardVar4({ blog_post, is_theme, featured = false }: { blog_p
                             {summary}
                         </p>
                     </div>
-                    <div className="flex items-center justify-between gap-3 mt-4 pt-4 border-t border-gray-200">
+
+                    <div className={`h-0.5 w-full my-4 bg-gradient-to-r rounded-full from-transparent 
+                    via-${themeSett.primary_color} to-transparent transition-opacity duration-700 `} />
+
+                    <div className="flex items-center justify-between gap-3">
                         <div className="text-xs">
                             <p className="font-medium text-gray-900 flex items-center space-x-1.5">
                                 <span className="font-medium">Views:</span> <span>{views}</span>

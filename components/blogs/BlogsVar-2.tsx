@@ -248,7 +248,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
                             <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogsLoaded} />
 
                             <div className='w-full'>
-                                <BlogCategoryLists is_theme={is_theme} />
+                                <BlogCategoryLists curr_cat={category} is_theme={is_theme} />
                             </div>
 
                             <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>

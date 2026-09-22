@@ -22,11 +22,15 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
     const searchParams = useSearchParams()
     const pageSize = size
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
     const category = searchParams?.get("ref") ?? ""
     const keyword_params = searchParams?.get("keyword") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
@@ -39,6 +43,7 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [totalPages, setTotalPages] = useState(0)
     const [featured, setFeatured] = useState<BlogPost | null>(null);
     const [isPending, startTransition] = useTransition();
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -92,7 +97,8 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const LoadBlogs = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "category_uid": category,
             "keyword": keyword,
@@ -152,6 +158,44 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         }
     }, [blogsLoaded]);
 
+
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-25 md:pt-30");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -160,7 +204,7 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
     if (themeSett) {
         return (
-            <section className="w-full bg-gray-50 min-h-screen relative py-35">
+            <section className={`w-full bg-gray-50 min-h-screen relative ${first_comp_pt} pb-25`}>
 
                 <main className="container mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
                     {/* Featured Section */}
@@ -183,23 +227,23 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                                             {featured.summary}
                                         </p>
                                         <CustomLinkMain href={`/blog-post/${featured.slug}`} is_theme={is_theme}
-                                            className={`inline-flex items-center gap-2 text-white hover:gap-3 transition-all text-sm 
-                                                font-medium cursor-pointer hover:px-5 py-2 rounded
-                                                hover:bg-${themeSett.primary_color} hover:text-${themeSett.primary_button_text}`}>
+                                            className={`inline-flex items-center gap-2 hover:gap-3 transition-all text-sm 
+                                                font-medium cursor-pointer px-4 hover:px-5 py-2 rounded
+                                                bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`}>
                                             <span>Read more</span>
                                             <FaArrowRightLong size={16} />
                                         </CustomLinkMain>
                                     </div>
                                 </div>
 
-                                <div className=' absolute top-0 w-full h-full bg-black/50 backdrop-blur-xs z-10'></div>
+                                <div className=' absolute top-0 w-full h-full bg-black/70 backdrop-blur--lg z-10'></div>
                             </div>
                         </section>
                     }
 
                     {/* Blog Posts Section */}
-                    <section className="w-full mx-auto mb-10">
-                        <div className=' flex justify-between items-start'>
+                    <section className="w-full mx-auto">
+                        <div className=' flex flex-col md:flex-row md:justify-between items-start'>
                             <div className=' flex flex-col w-full'>
                                 <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-1">
                                     {raw_data.header || "Latest Real Estate News"}
@@ -209,21 +253,21 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                                 </p>
                             </div>
 
-                            <div className="flex gap-0">
+                            <div className="max-md:w-full flex gap-0">
                                 <input type="text" placeholder="Search posts..." value={keyword} name='keyword'
                                     className="px-4 py-2 h-[55px] text-gray-900 text-sm rounded-tl rounded-bl border-1 border-gray-300 
-                                    bg-gray-100 outline-0 w-[355px]" onChange={(e) => handleChange(e)}
+                                    bg-gray-100 outline-0 max-md:grow md:w-[355px]" onChange={(e) => handleChange(e)}
                                 />
                                 <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} px-6 py-2 text-sm 
                                 font-medium rounded-tr rounded-br hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} flex items-center 
-                                justify-center space-x-1.5 cursor-pointer h-[55px]`} onClick={handleSearch}>
+                                justify-center space-x-1.5 shrink-0 cursor-pointer h-[55px]`} onClick={handleSearch}>
                                     <BiSearch size={17} /> <span>Search</span>
                                 </button>
                             </div>
                         </div>
 
                         {/* Blog Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-md:mt-10 mb-12">
                             {blogs.map((post) => (
                                 <BlogCardVar5 is_theme={is_theme} blog_post={post} />
                             ))}
@@ -240,7 +284,7 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                     </section>
 
                     <div className='w-full'>
-                        <BlogCategoryPills curr_cat={category} />
+                        <BlogCategoryPills curr_cat={category} is_theme={is_theme} />
                     </div>
                 </main>
             </section>

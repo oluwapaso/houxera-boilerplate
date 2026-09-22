@@ -21,11 +21,15 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
     const searchParams = useSearchParams()
     const pageSize = size
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
     const category = searchParams?.get("ref") ?? ""
     const keyword_params = searchParams?.get("keyword") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [blogs, setBlogs] = useState<any[]>([]);
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
@@ -38,6 +42,7 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [error, setError] = useState("")
     const [totalPages, setTotalPages] = useState(0)
     const [featured, setFeatured] = useState<BlogPost | null>(null);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-25");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -91,8 +96,11 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const LoadBlogs = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "size": size,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
+            "size": pageSize,
+            "category_uid": category,
+            "keyword": keyword,
             "skip": "0",
             "fields": "*"
         }
@@ -130,6 +138,42 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     }, [blogsLoaded]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-25");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25" : "pt-40");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -137,11 +181,11 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-gray-50 py-28 relative">
+            <section className={`min-h-screen bg-gray-50 ${first_comp_pt} pb-15 relative`}>
 
                 <main className="container mx-auto max-w-[1280px] px-4 sm:px-6">
                     {/* Hero Section */}
-                    <section className="py-5 border-b border-gray-200">
+                    <section className="py-5">
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
                             {raw_data.header || "Latest Real Estate News"}
                         </h1>
@@ -150,23 +194,29 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         </p>
                     </section>
 
+                    <div className={`h-0.5 w-full my-3 bg-gradient-to-r rounded-full from-transparent 
+                    via-${themeSett.primary_color} to-transparent transition-opacity duration-700 `} />
+
                     {/* Featured Article */}
                     {featured &&
-                        <section className="py-12 border-b border-gray-200">
+                        <section className="py-8 ">
                             <BlogCardVar4 is_theme={is_theme} blog_post={featured} featured={true} />
                         </section>
                     }
 
+                    <div className={`h-0.5 w-full my-3 bg-gradient-to-r rounded-full from-transparent 
+                    via-${themeSett.primary_color} to-transparent transition-opacity duration-700 `} />
+
                     {/* Categories Sidebar & Articles Grid */}
-                    <section className="py-12">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+                    <section className="pt-10">
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-12">
                             {/* Categories */}
-                            <div className="md:col-span-1">
+                            <div className="hidden lg:block lg:col-span-1">
 
                                 <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogsLoaded} />
 
-                                <div className='w-full'>
-                                    <BlogCategoryLists curr_cat={category} />
+                                <div className='w-full drop-shadow'>
+                                    <BlogCategoryLists curr_cat={category} is_theme={is_theme} />
                                 </div>
 
                                 <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
@@ -175,9 +225,9 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             </div>
 
                             {/* Articles Grid */}
-                            <div className="md:col-span-3">
+                            <div className="lg:col-span-3">
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
                                     {blogs.map((post) => (
                                         <BlogCardVar4 key={post.category_uid} is_theme={is_theme} blog_post={post} />
                                     ))}

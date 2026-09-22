@@ -257,7 +257,7 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         <div className='hidden lg:block lg:col-span-2'>
 
                             <div className='w-full drop-shadow '>
-                                <BlogCategoryLists />
+                                <BlogCategoryLists curr_cat={category} is_theme={is_theme} />
                             </div>
 
                             <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
