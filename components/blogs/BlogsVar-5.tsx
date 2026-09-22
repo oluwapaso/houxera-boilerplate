@@ -158,8 +158,6 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         }
     }, [blogsLoaded]);
 
-
-
     useEffect(() => {
 
         if (raw_data?.component_index !== 0) return;

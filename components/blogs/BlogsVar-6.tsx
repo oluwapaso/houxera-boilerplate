@@ -33,6 +33,9 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const category = searchParams?.get("ref") ?? ""
     const keyword_params = searchParams?.get("keyword") as string || "";
 
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
     const [blogsError, setBlogsError] = useState("");
@@ -46,6 +49,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [totalPages, setTotalPages] = useState(0)
     const [email, setEmail] = useState('')
     const [isPending, startTransition] = useTransition();
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30");
 
     const handleSubscribe = (e: React.FormEvent) => {
         e.preventDefault()
@@ -105,7 +109,8 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const LoadBlogs = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "category_uid": category,
             "keyword": keyword,
@@ -166,6 +171,43 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         }
     }, [blogsLoaded]);
 
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-25 md:pt-30");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -174,7 +216,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
     if (themeSett) {
         return (
-            <section className="bg-white text-black min-h-screen relative py-12 sm:py-16 md:py-35">
+            <section className={`bg-white text-black min-h-screen relative ${first_comp_pt} pb-25`}>
                 <main className="container mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
                     {/* Hero Section */}
                     <div className="w-full mx-auto">
@@ -206,7 +248,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         <section className="w-full mx-auto py-12 md:py-16">
                             <h2 className="text-2xl font-bold mb-4">Recent blog posts</h2>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 tab:gap-8">
                                 {/* Featured Post - Large on Left */}
                                 <div className="md:col-span-1">
                                     <BlogCardVar6 blog_post={featured[0]} is_theme={is_theme} variant="featured" />
@@ -243,7 +285,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                     </section>
 
                     <div className='w-full'>
-                        <BlogCategoryPills curr_cat={category} />
+                        <BlogCategoryPills curr_cat={category} is_theme={is_theme} />
                     </div>
                 </main>
             </section>

@@ -4,18 +4,26 @@ import { BsArrowUpRight } from 'react-icons/bs'
 import { BlogPost } from '../types'
 import moment from 'moment';
 import CustomLinkMain from '../CustomLink';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/GlobalRedux/store';
+import { useState } from 'react';
 
 export function BlogCardVar6({ blog_post, is_theme, variant }: { blog_post: BlogPost, is_theme: boolean, variant: string }) {
 
-    const { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
+    var { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
         clicks, views, comments, channels, date_added, } = blog_post
+
+    const theme = useSelector((state: RootState) => state.theme);
+    const [themeSett, setThemeSett] = useState<any | null>(null);
+
+    header_image_large = header_image_large ? header_image_large : "../no-image-found.jpg"
 
     const tags = ["Abuja", "Rentals", "Short-let"]
     if (variant === 'featured') {
         return (
             <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme} className="group cursor-pointer">
                 <div className="space-y-4">
-                    <div className="relative h-64 sm:h-72 md:h-96 w-full overflow-hidden rounded-lg bg-gray-200">
+                    <div className="relative aspect-[1/1] sm:aspect-[4/2] md:aspect-[1/1] w-full overflow-hidden rounded-lg bg-gray-200">
                         <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 !bg-cover !bg-center"
                             style={{ background: `url('${header_image_large}')` }}>
                         </div>
@@ -50,8 +58,8 @@ export function BlogCardVar6({ blog_post, is_theme, variant }: { blog_post: Blog
     if (variant === 'side') {
         return (
             <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme} className="group flex flex-col gap-3 cursor-pointer">
-                <div className="flex gap-3 flex-col sm:flex-row">
-                    <div className="relative w-full sm:w-32 h-32 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
+                <div className="flex gap-3 flex-col xs:flex-row">
+                    <div className="relative w-full xs:w-32 h-44 xs:h-32 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
                         <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 !bg-cover !bg-center"
                             style={{ background: `url('${header_image_large}')` }}>
                         </div>
