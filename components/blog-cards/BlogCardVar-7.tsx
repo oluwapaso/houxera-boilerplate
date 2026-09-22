@@ -7,14 +7,16 @@ import CustomLinkMain from '../CustomLink';
 
 export default function BlogCardVar7({ blog_post, is_theme }: { blog_post: BlogPost, is_theme: boolean }) {
 
-    const { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
+    var { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
         clicks, views, comments, channels, date_added, } = blog_post
+
+    header_image_large = header_image_large ? header_image_large : "../no-image-found.jpg"
 
     return (
         <CustomLinkMain href={`/blog-post/${slug}`} is_theme={is_theme} className="flex flex-col">
             {/* Image Container */}
             <div className="relative mb-4 overflow-hidden">
-                <div className="w-full h-48 md:h-56 object-cover transition-transform duration-300 !bg-cover !bg-center"
+                <div className="w-full aspect-[5/4] sm:aspect-[4/2] md:aspect-[5/3] object-cover transition-transform duration-300 !bg-cover !bg-center"
                     style={{ background: `url('${header_image_large}')` }}>
                 </div>
                 {/* Category Tag */}

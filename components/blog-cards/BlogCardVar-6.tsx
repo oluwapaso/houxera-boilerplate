@@ -4,17 +4,11 @@ import { BsArrowUpRight } from 'react-icons/bs'
 import { BlogPost } from '../types'
 import moment from 'moment';
 import CustomLinkMain from '../CustomLink';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/GlobalRedux/store';
-import { useState } from 'react';
 
 export function BlogCardVar6({ blog_post, is_theme, variant }: { blog_post: BlogPost, is_theme: boolean, variant: string }) {
 
     var { post_uid, company_uid, title, slug, category_uid, category_name, summary, post_body, header_image_large, header_image_small,
         clicks, views, comments, channels, date_added, } = blog_post
-
-    const theme = useSelector((state: RootState) => state.theme);
-    const [themeSett, setThemeSett] = useState<any | null>(null);
 
     header_image_large = header_image_large ? header_image_large : "../no-image-found.jpg"
 
