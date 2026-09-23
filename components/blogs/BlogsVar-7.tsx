@@ -1,127 +1,19 @@
 'use client';
 
 import React, { useEffect, useState, useTransition } from 'react'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
-import { BsArrowDown, BsArrowRight, BsArrowUp, BsGear } from 'react-icons/bs';
+import { BsArrowRight } from 'react-icons/bs';
 import CustomLinkMain from '../CustomLink';
-import { FaArrowRightLong } from 'react-icons/fa6';
 import { Helpers } from '@/_lib/helper';
-import BlogCardVar1 from '../blog-cards/BlogCardVar-1';
-import { BiLayerPlus, BiRefresh, BiSearch, BiTrash } from 'react-icons/bi';
+import { BiSearch } from 'react-icons/bi';
 
-import Link from "next/link"
 import { useRouter, useSearchParams } from 'next/navigation';
 import BlogCardVar7 from '../blog-cards/BlogCardVar-7';
 import { BlogPost } from '../types';
 import moment from 'moment';
 import ReactivePagination from '../ReactivePagination';
 import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
-
-const BLOG_POSTS = [
-    {
-        id: 1,
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop',
-        category: 'Destination',
-        title: 'Unveiling the Secrets Beyond the Tourist Trails',
-        date: '30 Jan 2024',
-        readTime: '10 mins read',
-        author: 'Seraphina Isabella',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Seraphina',
-        description: 'Dive into the local culture, discover hidden spots, and experience the authentic charm that often...'
-    },
-    {
-        id: 2,
-        image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop',
-        category: 'Lifestyle',
-        title: 'A Fashionista\'s Guide to Wanderlust',
-        date: '29 Jan 2024',
-        readTime: '6 mins read',
-        author: 'Maximilian Blackthorpe',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Maximilian',
-        description: 'Explore the intersection of fashion and travel as we uncover the essentials, fresh...'
-    },
-    {
-        id: 3,
-        image: 'https://images.unsplash.com/photo-1505228395891-9a51e7e86e81?w=600&h=400&fit=crop',
-        category: 'Tips & Hacks',
-        title: 'Top 5 Apps and Gadgets That Will Transform Your Journeys',
-        date: '26 Jan 2024',
-        readTime: '15 mins read',
-        author: 'Anastasia Evangeline',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anastasia',
-        description: 'Explore the latest in travel technology with our guide to must-have apps & gadgets...'
-    },
-    {
-        id: 4,
-        image: 'https://images.unsplash.com/photo-1495576066178-9349aa8aa663?w=600&h=400&fit=crop',
-        category: 'Culinary',
-        title: 'Savoring the World: Gastronomic Delights',
-        date: '24 Jan 2024',
-        readTime: '10 mins read',
-        author: 'Nathaniel Regnald',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nathaniel',
-        description: 'Street food is often the best in dining, uncover the diverse and delectable world of...'
-    },
-    {
-        id: 5,
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop',
-        category: 'Destination',
-        title: 'Journey Through Time',
-        date: '20 Jan 2024',
-        readTime: '8 mins read',
-        author: 'Percival Thaddeus',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Percival',
-        description: 'Wander through ancient streets, with iconic landmarks, and immerse yourself in the tales...'
-    },
-    {
-        id: 6,
-        image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=600&h=400&fit=crop',
-        category: 'Culinary',
-        title: 'Experiencing Sustainable Culinary Tourism',
-        date: '18 Jan 2024',
-        readTime: '8 mins read',
-        author: 'Sebastian Montgomery',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sebastian',
-        description: 'Join us on a sustainable culinary voyage, exploring destinations that prioritize farm-to-table...'
-    },
-    {
-        id: 7,
-        image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=400&fit=crop',
-        category: 'Lifestyle',
-        title: 'Navigating the Nomad\'s Lifestyle',
-        date: '17 Jan 2024',
-        readTime: '5 mins read',
-        author: 'Arabella Serenity',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Arabella',
-        description: 'Dive into the world of balancing a vibrant travel lifestyle - from managing work...'
-    },
-    {
-        id: 8,
-        image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe3e?w=600&h=400&fit=crop',
-        category: 'Tips & Hacks',
-        title: '10 Essential Packing Hacks for Stress-Free Travel',
-        date: '12 Jan 2024',
-        readTime: '6 mins read',
-        author: 'Benjamin Augustus',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Benjamin',
-        description: 'Uncover the secrets to efficient packing strategies that revolutionized your travel experience...'
-    },
-    {
-        id: 9,
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop',
-        category: 'Destination',
-        title: 'Adrenaline-Pumping Adventures',
-        date: '10 Jan 2024',
-        readTime: '10 mins read',
-        author: 'Callista Gwendolyn',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Callista',
-        description: 'Join us on an exploration of Adventure Destinations, where heart-pounding activities are...'
-    }
-];
-
-const CATEGORIES = ['All', 'Destination', 'Culinary', 'Lifestyle', 'Tips & Hacks'];
 
 const helpers = new Helpers();
 const BlogsVar7 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -152,28 +44,6 @@ const BlogsVar7 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [totalPages, setTotalPages] = useState(0)
     const [email, setEmail] = useState('')
     const [isPending, startTransition] = useTransition();
-
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const [currentPage, setCurrentPage] = useState(1);
-    const postsPerPage = 9;
-
-    const filteredPosts = selectedCategory === 'All'
-        ? BLOG_POSTS
-        : BLOG_POSTS.filter(post => post.category === selectedCategory);
-
-    const startIndex = (currentPage - 1) * postsPerPage;
-    const paginatedPosts = filteredPosts.slice(startIndex, startIndex + postsPerPage);
-
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const handleSubscribe = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log('Subscribed:', email)
-        setEmail('')
-    }
 
     const handleSettingsClick = () => {
         // Send a message to the parent window

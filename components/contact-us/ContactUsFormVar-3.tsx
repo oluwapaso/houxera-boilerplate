@@ -21,6 +21,7 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const init_val = {
         firstname: "",
@@ -107,9 +108,17 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -188,6 +197,42 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -196,7 +241,7 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     if (themeSett) {
 
         return (
-            <section className="py-35 px-6 relative">
+            <section className={`${first_comp_pt} pb-15 px-6 relative`}>
                 <div className="max-w-6xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-24">
                         {/* Left Column */}
@@ -257,7 +302,7 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
                         {/* Right Column - Form */}
                         <div className='w-full flex flex-col space-y-5 mt-4'>
-                            <div className='grid grid-cols-2 gap-4'>
+                            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                                 <div>
                                     <FloatingInput name='firstname' label='First Name' placeholder='Enter your first name'
                                         handleChange={(e) => handleInputChange(e)} value={formData.firstname} required />

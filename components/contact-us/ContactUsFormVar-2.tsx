@@ -20,6 +20,7 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const init_val = {
         firstname: "",
@@ -106,9 +107,17 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -185,6 +194,41 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         dispatch(hidePageLoader());
     }, []);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
 
     useEffect(() => {
         if (theme) {
@@ -194,10 +238,10 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     if (themeSett) {
         return (
-            <section className={`w-full py-35 relative ${themeSett.primary_font}`}>
-                <div className={`container mx-auto max-w-[1250px] grid grid-cols-2 gap-10
-                    ${(is_theme && sectionHover) ? "p-[10px] border-2 border-sky-800 transition-all duration-300" : null}`}>
-                    <div data-has-bg="yes" className="relative overflow-hidden rounded-2xl shadow-2xl"
+            <section className={`w-full ${first_comp_pt} pb-15 relative ${themeSett.primary_font}`}>
+                <div className={`container mx-auto max-w-2xl lg:max-w-[1250px] grid grid-cols-1 lg:grid-cols-2 gap-10 px-3 xs:px-6`}>
+
+                    <div data-has-bg="yes" className="relative overflow-hidden rounded-md shadow-xl lg:shadow-2xl max-lg:aspect-[5/2]"
                         style={{
                             backgroundSize: `cover`,
                             backgroundRepeat: `none`,
@@ -215,7 +259,7 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                         </div>
 
                         <div className='w-full flex flex-col space-y-5 mt-4'>
-                            <div className='grid grid-cols-2 gap-4'>
+                            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                                 <div>
                                     <FloatingInput name='firstname' label='First Name' placeholder='Enter your first name'
                                         handleChange={(e) => handleInputChange(e)} value={formData.firstname} required />
@@ -252,27 +296,31 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div className=' pt-20 pb-5 col-span-full grid grid-cols-3 *:flex *:flex-col *:space-y-3 *:items-center *:justify-start'>
+                <div className={`container mt-20 mx-auto max-w-[1250px] px-3 md:px-6`}>
+
+                    <div className='pb-5 gap-y-10 gap-x-1.5 col-span-full grid grid-cols-1 sm:grid-cols-3 
+                    *:flex *:flex-col *:space-y-3 *:items-center *:justify-start'>
                         <div>
-                            <div className=' size-[60px] rounded-md bg-amber-100 text-amber-600 flex items-center justify-center'>
+                            <div className=' size-[60px] drop-shadow-md rounded-md bg-amber-100 text-amber-600 flex items-center justify-center'>
                                 <BiMapPin size={30} />
                             </div>
 
                             <div className={`font-semibold text-lg ${themeSett.secondary_font}`}>Address</div>
-                            <div className='text-gray-500 font-medium flex flex-col space-y-1'>
+                            <div className='text-gray-500 font-medium flex flex-col items-center justify-center text-center space-y-1'>
                                 <span>{brker_info?.contact_info?.address}, {brker_info?.contact_info?.address_2}</span>
                                 <span>{brker_info?.contact_info?.city} {brker_info?.contact_info?.state}</span>
                             </div>
                         </div>
 
                         <div>
-                            <div className=' size-[60px] rounded-md bg-green-100 text-green-600 flex items-center justify-center'>
+                            <div className=' size-[60px] drop-shadow-md rounded-md bg-green-100 text-green-600 flex items-center justify-center'>
                                 <BiPhoneIncoming size={30} />
                             </div>
 
                             <div className={`font-semibold text-lg ${themeSett.secondary_font}`}>Contact</div>
-                            <div className='text-gray-500 font-medium flex flex-col space-y-1'>
+                            <div className='text-gray-500 font-medium flex flex-col items-center justify-center text-center space-y-1'>
                                 <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className="font-medium hover:text-sky-700 transition-colors">
                                     {brker_info?.contact_info?.phone_cell}
                                 </a>
@@ -286,12 +334,12 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                         </div>
 
                         <div>
-                            <div className=' size-[60px] rounded-md bg-sky-100 text-sky-600 flex items-center justify-center'>
+                            <div className=' size-[60px] drop-shadow-md rounded-md bg-sky-100 text-sky-600 flex items-center justify-center'>
                                 <BiEnvelope size={30} />
                             </div>
 
                             <div className={`font-semibold text-lg ${themeSett.secondary_font}`}>Email</div>
-                            <div className='text-gray-500 font-medium flex flex-col space-y-1'>
+                            <div className='text-gray-500 font-medium flex flex-col items-center justify-center text-center space-y-1'>
                                 <a href={`mailto:${brker_info?.email}`} className=" font-medium hover:text-sky-700 transition-colors">
                                     {brker_info?.email}
                                 </a>
@@ -301,8 +349,8 @@ const ContactUsVarForm2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
                 {is_theme && (
                     <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
                     *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>

@@ -21,6 +21,7 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-50");
 
     const init_val = {
         firstname: "",
@@ -107,9 +108,17 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -187,6 +196,42 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     }, []);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35 md:pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -194,11 +239,11 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     if (themeSett) {
         return (
-            <section className="w-full pt-30 md:pt-50 pb-15 tab:pb-20 relative">
-                <div className={`container mx-auto max-w-[1150px] px-4 xl:px-0 flex flex-col 
+            <section className={`w-full ${first_comp_pt} pb-15 tab:pb-20 relative`}>
+                <div className={`container mx-auto max-w-xl tab:max-w-[1150px] px-4 xl:px-0 flex flex-col 
                     ${(is_theme && sectionHover) ? "p-[10px] border-2 border-sky-800 transition-all duration-300" : null}`}>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+                    <div className="grid grid-cols-1 tab:grid-cols-2 gap-6">
 
                         <div className=" flex flex-col">
                             <div className="font-bold text-3xl">{raw_data.header || "Let's talk?"}</div>
@@ -206,9 +251,7 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 {raw_data.sub_header || "It's all about the humans behind a brand and those experiencing it, we're right there. In the middle."}
                             </div>
 
-                            <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-1 tab:grid-cols-2 gap-6 xs:gap-6 
-                             xs:divide-x xs:divide-gray-300 md:divide-none tab:divide-x mt-14 
-                                *:flex *:items-center *:space-x-5'>
+                            <div className='grid grid-cols-1 gap-8 mt-8 *:flex *:items-center *:space-x-5'>
                                 <div className=''>
                                     <div className='shrink-0 relative'>
                                         <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} size-14 hover:shadow-2xl 
