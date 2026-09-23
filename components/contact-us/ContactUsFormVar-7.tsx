@@ -24,6 +24,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [selectedInterest, setSelectedInterest] = useState("")
+    const [first_comp_pt, setFirstCompPt] = useState("pt-8 xs:pt-16");
 
     const init_val = {
         firstname: "",
@@ -110,9 +111,17 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -189,6 +198,42 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         dispatch(hidePageLoader());
     }, []);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-18 xs:pt-25");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-22" : "pt-32");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
 
     useEffect(() => {
         if (theme) {
@@ -196,78 +241,96 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         }
     }, [theme]);
 
-    const interests = [
-        { id: "buying", icon: BiHome, label: "Buying", desc: "Looking to purchase" },
-        { id: "selling", icon: BiBuilding, label: "Selling", desc: "List your property" },
-        { id: "investing", icon: FaLandmark, label: "Investing", desc: "Investment opportunities" },
-    ]
-
     if (themeSett) {
 
         return (
-            <div className="min-h-screen bg-[#0f0f0f] text-white overflow-hidden">
+            <div className="min-h-screen bg-gray-50 overflow-hidden">
 
                 {/* Main Content */}
                 <section className="relative pt-24">
                     {/* Giant Text Background */}
                     <div className="absolute top-0 left-0 right-0 pointer-events-none select-none overflow-hidden">
-                        <div className="text-[20vw] font-black leading-none text-white/[0.03] tracking-tighter whitespace-nowrap">
-                            CONTACT
+                        <div className="text-[20vw] text-gray-200 font-black leading-none /[0.03] tracking-tighter whitespace-nowrap">
+                            {raw_data.header_3 || "CONTACT"}
                         </div>
                     </div>
 
-                    <div className="relative max-w-7xl mx-auto px-6 py-16">
-                        <div className="grid lg:grid-cols-2 gap-16 items-start">
+                    <div className={`relative max-w-2xl lg:max-w-7xl mx-auto px-3 xs:px-6 ${first_comp_pt} pb-15`}>
+                        <div className="grid lg:grid-cols-2 gap-8 2xl:gap-16 items-start">
                             {/* Left - Info */}
                             <div className="space-y-16">
                                 <div>
-                                    <p className="text-red-500 text-sm font-medium mb-4 tracking-wider">GET IN TOUCH</p>
+                                    <p className={`text-${themeSett.primary_color} text-sm font-medium mb-4 tracking-wider`}>
+                                        {raw_data.header_2 || "GET IN TOUCH"}
+                                    </p>
                                     <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight mb-6">
-                                        LET&apos;S<br />
-                                        TALK<br />
-                                        <span className="text-red-500">REAL ESTATE</span>
+                                        {raw_data.header || "LET&apos;S TALK"}<br />
+                                        <span className={`text-${themeSett.primary_color}`}>
+                                            {raw_data.header_2 || "REAL ESTATE"}
+                                        </span>
                                     </h1>
-                                    <p className="text-white/50 text-lg max-w-md">
-                                        Ready to make your next move? Our team of experts is standing by
-                                        to turn your property dreams into reality.
+                                    <p className=" text-lg max-w-md">
+                                        {raw_data.sub_header || `Ready to make your next move? Our team of experts is standing by
+                                        to turn your property dreams into reality.`}
                                     </p>
                                 </div>
 
                                 <div className="grid gap-6">
-                                    <a href="tel:+15558887777" className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-red-500 group-hover:border-red-500 transition-all">
+                                    <div className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
+                                        <div className="flex items-start gap-4">
+                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <BiPhoneCall className="h-5 w-5" />
                                             </div>
-                                            <div>
-                                                <p className="text-white/40 text-xs uppercase tracking-wider">Phone</p>
-                                                <p className="text-xl font-medium">+1 (555) 888-7777</p>
+                                            <div className='flex flex-col space-y-1.5'>
+                                                <p className=" text-xs uppercase tracking-wider">Phone</p>
+                                                <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                    {brker_info?.contact_info?.phone_cell}
+                                                </a>
+                                                <a href={`tel:${brker_info?.contact_info?.phone_local}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                    {brker_info?.contact_info?.phone_local}
+                                                </a>
+                                                <a href={`tel:${brker_info?.contact_info?.phone_toll_free}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                    {brker_info?.contact_info?.phone_toll_free}
+                                                </a>
                                             </div>
                                         </div>
                                         <BsArrowRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </a>
+                                    </div>
 
-                                    <a href="mailto:contact@metro.com" className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-red-500 group-hover:border-red-500 transition-all">
+                                    <div className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
+                                        <div className="flex items-start gap-4">
+                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <CgMail className="h-5 w-5" />
                                             </div>
                                             <div>
-                                                <p className="text-white/40 text-xs uppercase tracking-wider">Email</p>
-                                                <p className="text-xl font-medium">contact@metro.com</p>
+                                                <p className=" text-xs uppercase tracking-wider">Email</p>
+                                                <p className="text-[#1a1a1a] text-xl flex flex-col space-y-1.5">
+                                                    <a href={`mailto:${brker_info?.email}`} className=" font-medium hover:text-sky-700 transition-colors">
+                                                        {brker_info?.email}
+                                                    </a>
+                                                    <a href={`mailto:${brker_info?.departments_info?.support_email}`} className=" font-medium hover:text-sky-700 transition-colors">
+                                                        {brker_info?.departments_info?.support_email}
+                                                    </a>
+                                                </p>
                                             </div>
                                         </div>
                                         <BsArrowRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </a>
+                                    </div>
 
                                     <div className="group flex items-center justify-between py-6 border-t border-b border-white/10">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
+                                        <div className="flex items-start gap-4">
+                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <BiMapPin className="h-5 w-5" />
                                             </div>
                                             <div>
-                                                <p className="text-white/40 text-xs uppercase tracking-wider">Location</p>
-                                                <p className="text-xl font-medium">Chicago, IL</p>
+                                                <p className=" text-xs uppercase tracking-wider">Address</p>
+                                                <p className="text-[#1a1a1a] text-xl flex flex-col space-y-1.5">
+                                                    <span>{brker_info?.contact_info?.address}, {brker_info?.contact_info?.address_2}</span>
+                                                    <span>{brker_info?.contact_info?.city} {brker_info?.contact_info?.state}</span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -275,59 +338,48 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                             </div>
 
                             {/* Right - Form */}
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 md:p-12">
-                                <h2 className="text-2xl font-bold mb-2">Send a Message</h2>
-                                <p className="text-white/50 mb-8">Fill out the form and we&apos;ll be in touch.</p>
+                            {/* <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 md:p-12"> */}
+                            <div className={` bg-white shadow-xl px-4 py-5 xs:px-8 xs:py-8 flex items-center rounded-md`}>
+                                <div className='w-full flex flex-col space-y-5'>
+                                    <div className='grid grid-cols-1 xs:grid-cols-2 gap-4'>
+                                        <div>
+                                            <FloatingInput name='firstname' label='First Name' placeholder='Enter your first name'
+                                                handleChange={(e) => handleInputChange(e)} value={formData.firstname} required />
+                                        </div>
 
-                                <form onSubmit={handleSubmitClick} className="space-y-6">
-                                    <div>
-                                        <label className="text-xs uppercase tracking-wider text-white/40 block mb-3">Name</label>
-                                        <input
-                                            value={formData.firstname}
-                                            onChange={handleInputChange}
-                                            className="bg-transparent border-0 border-b border-white/20 rounded-none h-12 px-0 text-white placeholder:text-white/30 focus-visible:ring-0 focus-visible:border-red-500"
-                                            placeholder="Your full name"
-                                        />
+                                        <div>
+                                            <FloatingInput name='lastname' label='Last Name' placeholder='Enter your last name'
+                                                handleChange={(e) => handleInputChange(e)} value={formData.lastname} required />
+                                        </div>
                                     </div>
 
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-white/40 block mb-3">Email</label>
-                                        <input
-                                            type="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            className="bg-transparent border-0 border-b border-white/20 rounded-none h-12 px-0 text-white placeholder:text-white/30 focus-visible:ring-0 focus-visible:border-red-500"
-                                            placeholder="you@email.com"
-                                        />
+                                        <FloatingInput name='email' label='Email' placeholder='Enter your email'
+                                            handleChange={(e) => handleInputChange(e)} value={formData.email} required />
                                     </div>
-
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-white/40 block mb-3">Phone</label>
-                                        <input
-                                            type="tel"
-                                            value={formData.phone}
-                                            onChange={handleInputChange}
-                                            className="bg-transparent border-0 border-b border-white/20 rounded-none h-12 px-0 text-white placeholder:text-white/30 focus-visible:ring-0 focus-visible:border-red-500"
-                                            placeholder="(555) 000-0000"
-                                        />
+                                        <FloatingInput name='phone' label='Phone Number' placeholder='Enter your phone number'
+                                            handleChange={(e) => handleInputChange(e)} value={formData.phone} required />
                                     </div>
-
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-white/40 block mb-3">Message</label>
-                                        <textarea
-                                            value={formData.message}
-                                            onChange={handleInputChange}
-                                            rows={4}
-                                            className="w-full bg-transparent border-0 border-b border-white/20 px-0 text-white placeholder:text-white/30 focus:outline-none focus:border-red-500 resize-none"
-                                            placeholder="Tell us about your property needs..."
-                                        />
+                                        <FloatingInput name='subject' label='Subject' placeholder='Message subject'
+                                            handleChange={(e) => handleInputChange(e)} value={formData.subject} required />
+                                    </div>
+                                    <div>
+                                        <FloatingTextarea name='message' label='Message' placeholder='Enter your message' height='160px'
+                                            handleChange={(e) => handleInputChange(e)} value={formData.message} required />
                                     </div>
 
-                                    <Button className="w-full h-14 bg-red-500 hover:bg-red-600 text-white font-bold tracking-wider">
-                                        SUBMIT <BsArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </form>
+                                    <div className='flex justify-end w-full'>
+                                        <div className='px-7 py-4 text-white bg-buttons-primary rounded hover:shadow-2xl cursor-pointer
+                                            flex items-center justify-center space-x-2 ' onClick={handleSubmitClick}>
+                                            <span>{raw_data.button_text || "Send Message"}</span>
+                                            <BiSend size={25} className='' />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -340,7 +392,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 <BsGear size={17} />
 
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
+                                 text-xs'>
                                     Section settings
                                 </span>
                             </div>
@@ -349,7 +401,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                                 <BiRefresh size={17} />
                                 <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
+                                 text-xs'>
                                     Change Layout
                                 </span>
                             </div>
@@ -359,7 +411,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 <BiTrash size={17} />
 
                                 <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
+                                 text-xs'>
                                     Remove Section Down
                                 </span>
                             </div>
