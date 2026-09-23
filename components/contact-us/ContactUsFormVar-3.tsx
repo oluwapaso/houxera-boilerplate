@@ -242,15 +242,15 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
         return (
             <section className={`${first_comp_pt} pb-15 px-6 relative`}>
-                <div className="max-w-6xl mx-auto">
-                    <div className="grid lg:grid-cols-2 gap-24">
+                <div className="container mx-auto max-w-xl tab:max-w-[1150px]">
+                    <div className="grid tab:grid-cols-2 gap-x-10 xl:gap-x-24 gap-y-24">
                         {/* Left Column */}
                         <div className="space-y-16">
                             <div>
                                 <h1 className="text-[#1a1a1a] text-4xl md:text-5xl font-light leading-tight mb-6 tracking-tight">
                                     {raw_data.header || "Let's talk?"}
                                 </h1>
-                                <p className="text-[#666] text-lg leading-relaxed max-w-sm">
+                                <p className="text-[#666] text-lg leading-relaxed tab:max-w-sm">
                                     {raw_data.sub_header || "It's all about the humans behind a brand and those experiencing it, we're right there. In the middle."}
                                 </p>
                             </div>

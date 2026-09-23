@@ -2,15 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiEnvelope, BiLayerPlus, BiMapPin, BiPhoneCall, BiPhoneIncoming, BiRefresh, BiSend, BiTrash } from 'react-icons/bi'
+import { BiMapPin, BiPhoneIncoming, BiRefresh, BiSend, BiTrash } from 'react-icons/bi'
 import FloatingInput from '@/components/FloatingInput'
 import FloatingTextarea from '@/components/FloatingTextarea'
 import { toast } from 'react-toastify'
 import { Helpers } from '@/_lib/helper'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
-import { BsArrowDown, BsArrowUp, BsArrowUpRight, BsGear } from 'react-icons/bs'
-import { Button } from '../Button'
+import { BsGear } from 'react-icons/bs'
 import { CgMail } from 'react-icons/cg'
 
 const helpers = new Helpers();
@@ -22,6 +21,7 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const init_val = {
         firstname: "",
@@ -108,9 +108,17 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -189,6 +197,42 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -199,12 +243,12 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         return (
             <section className="min-h-screen flex flex-col lg:flex-row relative">
                 {/* Left Side - Dark with Image */}
-                <div className="lg:w-1/2 bg-[#1c3d2e] relative overflow-hidden">
+                <div className={`lg:w-1/2 bg-[#1c3d2e] relative overflow-hidden max-lg:${first_comp_pt} max-lg:pb-10`}>
                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200')] bg-cover bg-center opacity-30" />
-                    <div className="relative z-10 p-8 lg:p-16 h-full flex flex-col justify-start min-h-[50vh] lg:min-h-screen">
+                    <div className="relative z-10 px-8 lg:px-16 h-full flex flex-col justify-start min-h-[50vh] lg:min-h-screen">
 
                         {/* Content */}
-                        <div className="py-12 lg:py-0 grow flex flex-col items-start justify-center">
+                        <div className=" lg:py-0 grow flex flex-col items-start justify-center">
                             <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-2">
                                 {raw_data.header || "Let's talk?"}
                             </h1>
@@ -266,7 +310,7 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="lg:w-1/2 bg-white pt-35 pb-10 px-8 lg:px-16 flex items-center">
+                <div className={`lg:w-1/2 bg-white max-lg:pt-10 lg:${first_comp_pt} pb-10 px-4 lg:px-8 xl:px-16 flex items-center`}>
                     <div className="w-full max-w-2xl mx-auto">
                         <h2 className="text-2xl font-medium text-[#1a1a1a] mb-2">{raw_data.header_2 || "Let's talk?"}</h2>
                         <p className="text-[#666] mb-8">
@@ -274,7 +318,7 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                         </p>
 
                         <div className='w-full flex flex-col space-y-5'>
-                            <div className='grid grid-cols-2 gap-4'>
+                            <div className='grid grid-cols-1 xs:grid-cols-2 gap-4'>
                                 <div>
                                     <FloatingInput name='firstname' label='First Name' placeholder='Enter your first name'
                                         handleChange={(e) => handleInputChange(e)} value={formData.firstname} required />
