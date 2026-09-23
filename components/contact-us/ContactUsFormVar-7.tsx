@@ -284,13 +284,13 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                             </div>
                                             <div className='flex flex-col space-y-1.5'>
                                                 <p className=" text-xs uppercase tracking-wider">Phone</p>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className=" font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_cell}
                                                 </a>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_local}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_local}`} className="font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_local}
                                                 </a>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_toll_free}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_toll_free}`} className=" font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_toll_free}
                                                 </a>
                                             </div>
@@ -306,7 +306,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                             </div>
                                             <div>
                                                 <p className=" text-xs uppercase tracking-wider">Email</p>
-                                                <p className="text-[#1a1a1a] text-base xs:text-xl flex flex-col space-y-1.5">
+                                                <p className="text-[#1a1a1a]   flex flex-col space-y-1.5">
                                                     <a href={`mailto:${brker_info?.email}`} className=" font-medium hover:text-sky-700 transition-colors">
                                                         {brker_info?.email}
                                                     </a>
@@ -327,7 +327,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                             </div>
                                             <div>
                                                 <p className=" text-xs uppercase tracking-wider">Address</p>
-                                                <p className="text-[#1a1a1a] text-base xs:text-xl flex flex-col space-y-1.5">
+                                                <p className="text-[#1a1a1a]  flex flex-col space-y-1.5">
                                                     <span>{brker_info?.contact_info?.address}, {brker_info?.contact_info?.address_2}</span>
                                                     <span>{brker_info?.contact_info?.city} {brker_info?.contact_info?.state}</span>
                                                 </p>
