@@ -258,7 +258,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                     <div className={`relative max-w-2xl lg:max-w-7xl mx-auto px-3 xs:px-6 ${first_comp_pt} pb-15`}>
                         <div className="grid lg:grid-cols-2 gap-8 2xl:gap-16 items-start">
                             {/* Left - Info */}
-                            <div className="space-y-16">
+                            <div className="space-y-10 sm:space-y-16">
                                 <div>
                                     <p className={`text-${themeSett.primary_color} text-sm font-medium mb-4 tracking-wider`}>
                                         {raw_data.header_2 || "GET IN TOUCH"}
@@ -275,22 +275,22 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                     </p>
                                 </div>
 
-                                <div className="grid gap-6">
+                                <div className="grid gap-2 xs:gap4 sm:gap-6">
                                     <div className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
                                         <div className="flex items-start gap-4">
-                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            <div className={`w-12 h-12 shrink-0 rounded-full border flex items-center justify-center transition-all
                                             bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <BiPhoneCall className="h-5 w-5" />
                                             </div>
                                             <div className='flex flex-col space-y-1.5'>
                                                 <p className=" text-xs uppercase tracking-wider">Phone</p>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_cell}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_cell}
                                                 </a>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_local}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_local}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_local}
                                                 </a>
-                                                <a href={`tel:${brker_info?.contact_info?.phone_toll_free}`} className="text-xl font-medium hover:text-sky-700 transition-colors">
+                                                <a href={`tel:${brker_info?.contact_info?.phone_toll_free}`} className="text-base xs:text-xl font-medium hover:text-sky-700 transition-colors">
                                                     {brker_info?.contact_info?.phone_toll_free}
                                                 </a>
                                             </div>
@@ -300,13 +300,13 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
                                     <div className="group flex items-center justify-between py-6 border-t border-white/10 hover:border-white/30 transition-colors">
                                         <div className="flex items-start gap-4">
-                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            <div className={`w-12 h-12 shrink-0 rounded-full border flex items-center justify-center transition-all
                                             bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <CgMail className="h-5 w-5" />
                                             </div>
                                             <div>
                                                 <p className=" text-xs uppercase tracking-wider">Email</p>
-                                                <p className="text-[#1a1a1a] text-xl flex flex-col space-y-1.5">
+                                                <p className="text-[#1a1a1a] text-base xs:text-xl flex flex-col space-y-1.5">
                                                     <a href={`mailto:${brker_info?.email}`} className=" font-medium hover:text-sky-700 transition-colors">
                                                         {brker_info?.email}
                                                     </a>
@@ -321,13 +321,13 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
                                     <div className="group flex items-center justify-between py-6 border-t border-b border-white/10">
                                         <div className="flex items-start gap-4">
-                                            <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all
+                                            <div className={`w-12 h-12 shrink-0 rounded-full border flex items-center justify-center transition-all
                                             bg-${themeSett.primary_color} text-${themeSett.primary_button_text} `}>
                                                 <BiMapPin className="h-5 w-5" />
                                             </div>
                                             <div>
                                                 <p className=" text-xs uppercase tracking-wider">Address</p>
-                                                <p className="text-[#1a1a1a] text-xl flex flex-col space-y-1.5">
+                                                <p className="text-[#1a1a1a] text-base xs:text-xl flex flex-col space-y-1.5">
                                                     <span>{brker_info?.contact_info?.address}, {brker_info?.contact_info?.address_2}</span>
                                                     <span>{brker_info?.contact_info?.city} {brker_info?.contact_info?.state}</span>
                                                 </p>
