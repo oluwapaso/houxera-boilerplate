@@ -2,15 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiBuilding, BiEnvelope, BiHome, BiLayerPlus, BiMapPin, BiMessageSquare, BiPhoneCall, BiPhoneIncoming, BiRefresh, BiSend, BiStar, BiTrash } from 'react-icons/bi'
+import { BiBuilding, BiHome, BiMapPin, BiPhoneCall, BiRefresh, BiSend, BiStar, BiTrash } from 'react-icons/bi'
 import FloatingInput from '@/components/FloatingInput'
 import FloatingTextarea from '@/components/FloatingTextarea'
 import { toast } from 'react-toastify'
 import { Helpers } from '@/_lib/helper'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
-import { BsArrowDown, BsArrowUp, BsArrowUpRight, BsGear } from 'react-icons/bs'
-import { Button } from '../Button'
+import { BsGear } from 'react-icons/bs'
 import { CgLock, CgMail } from 'react-icons/cg'
 import { FaLandmark } from 'react-icons/fa6'
 
@@ -24,6 +23,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [selectedInterest, setSelectedInterest] = useState("")
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const init_val = {
         firstname: "",
@@ -110,9 +110,17 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
     const handleSubmitClick = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = formData.email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -196,17 +204,48 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         }
     }, [theme]);
 
-    const interests = [
-        { id: "buying", icon: BiHome, label: "Buying", desc: "Looking to purchase" },
-        { id: "selling", icon: BiBuilding, label: "Selling", desc: "List your property" },
-        { id: "investing", icon: FaLandmark, label: "Investing", desc: "Investment opportunities" },
-    ]
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-35");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
 
     if (themeSett) {
 
         return (
-            <section className="py-35 px-6 relative">
-                <div className="max-w-6xl mx-auto">
+            <section className={`${first_comp_pt} pb-15 px-3 xs:px-6 relative bg-gray-50`}>
+
+                <div className="container mx-auto max-w-2xl lg:max-w-6xl">
                     {/* Hero */}
                     <div className="text-center mb-16">
                         <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-6 
@@ -226,7 +265,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                     <div className="grid lg:grid-cols-3 gap-8">
                         {/* Contact Info */}
                         <div className="space-y-6">
-                            <div className="bg-white rounded-3xl p-6 shadow-sm">
+                            <div className="bg-white rounded-md xs:rounded-3xl p-6 shadow-sm">
                                 <div className="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center mb-4">
                                     <BiPhoneCall className="h-5 w-5 text-rose-600" />
                                 </div>
@@ -245,7 +284,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-3xl p-6 shadow-sm ">
+                            <div className="bg-white rounded-md xs:rounded-3xl p-6 shadow-sm ">
                                 <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center mb-4">
                                     <CgMail className="h-5 w-5 text-amber-600" />
                                 </div>
@@ -261,7 +300,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-3xl p-6 shadow-sm">
+                            <div className="bg-white rounded-md xs:rounded-3xl p-6 shadow-sm">
                                 <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center mb-4">
                                     <BiMapPin className="h-5 w-5 text-green-600" />
                                 </div>
@@ -276,7 +315,8 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
                         {/* Form */}
                         <div className="lg:col-span-2">
-                            <div className="bg-white rounded-3xl p-8 md:p-10 shadow-sm">
+                            <div className="bg-white rounded-md xs:rounded-3xl px-3 xs:px-6 sm:px-8 py-4 xs:py-6 
+                            sm:py-8 md:p-10 shadow-sm">
                                 <h2 className="text-2xl font-semibold text-[#3d3027] mb-2">
                                     {raw_data.header_2 || "Send us a message"}
                                 </h2>
@@ -285,7 +325,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                                 </p>
 
                                 <div className='w-full flex flex-col space-y-5'>
-                                    <div className='grid grid-cols-2 gap-4'>
+                                    <div className='grid grid-cols-1 xs:grid-cols-2 gap-4'>
                                         <div>
                                             <FloatingInput name='firstname' label='First Name' placeholder='Enter your first name'
                                                 handleChange={(e) => handleInputChange(e)} value={formData.firstname} required />
