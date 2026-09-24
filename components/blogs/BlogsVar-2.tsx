@@ -176,7 +176,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
 
     if (themeSett) {
         return (
-            <section className={`min-h-screen bg-background text-foreground relative ${first_comp_pt} pb-35`}>
+            <section className={`min-h-screen bg-background text-foreground relative ${first_comp_pt} pb-15`}>
 
                 <div className=' container mx-auto max-w-[1280px] flex flex-col space-y-10 px-3'>
                     {/* Featured Section */}
@@ -211,9 +211,12 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
                     <div className='w-full grid grid-cols-1 lg:grid-cols-6 gap-6 mt-0'>
                         {/* Blog Posts Section */}
                         <div className='lg:col-span-4'>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-2">
-                                Recent blog posts
+                            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                                {raw_data.header || "Latest Real Estate News"}
                             </h2>
+                            <div className='font-medium text-lg mb-2 sm:mb-2'>
+                                {raw_data.sub_header || "Stay up to date with the latest happenings in the real estate market."}
+                            </div>
 
                             {loading && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
                                 <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />

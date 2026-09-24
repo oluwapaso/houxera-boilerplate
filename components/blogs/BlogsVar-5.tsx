@@ -11,8 +11,9 @@ import ReactivePagination from '../ReactivePagination';
 import { BlogPost } from '../types';
 import CustomLinkMain from '../CustomLink';
 import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
-import { BiSearch } from 'react-icons/bi';
+import { BiRefresh, BiSearch, BiTrash } from 'react-icons/bi';
 import moment from 'moment';
+import { BsGear } from 'react-icons/bs';
 
 
 const helpers = new Helpers();
@@ -285,6 +286,43 @@ const BlogsVar5 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         <BlogCategoryPills curr_cat={category} is_theme={is_theme} />
                     </div>
                 </main>
+
+                {is_theme && (
+                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
+                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BsGear size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Section settings
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiRefresh size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Change Layout
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiTrash size={17} />
+
+                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Remove Section Down
+                            </span>
+                        </div>
+
+                    </div>
+                )}
             </section>
         )
     }
