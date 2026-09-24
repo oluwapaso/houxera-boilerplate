@@ -251,7 +251,7 @@ const RegisterAccountFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme
                         <div className={`hidden lg:flex lg:w-1/2 items-center relative`}>
 
                             <div className={` w-full h-[90dvh] rounded-2xl shadow-2xl lg:flex bg-gradient-to-br from-${themeSett.primary_color} 
-                                to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center p-8`}>
+                                to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center px-8 py-16`}>
 
                                 <div className={`text-${themeSett.primary_button_text} max-w-md grow flex flex-col justify-center`}>
                                     <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
@@ -277,6 +277,24 @@ const RegisterAccountFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme
                                             </div>
                                             <p>{raw_data.top_service_3 || "Lightning fast experience"}</p>
                                         </div>
+
+                                        {(raw_data.top_service_4 && raw_data.top_service_4 != "") &&
+                                            <div className="flex items-center gap-3">
+                                                <div className={`flex-shrink-0 w-6 h-6 bg-${themeSett.primary_button_text} text-${themeSett.primary_color} rounded-full flex items-center justify-center mt-1`}>
+                                                    <span className=" text-sm font-bold">✓</span>
+                                                </div>
+                                                <p>{raw_data.top_service_4}</p>
+                                            </div>
+                                        }
+
+                                        {(raw_data.top_service_5 && raw_data.top_service_5 != "") &&
+                                            <div className="flex items-center gap-3">
+                                                <div className={`flex-shrink-0 w-6 h-6 bg-${themeSett.primary_button_text} text-${themeSett.primary_color} rounded-full flex items-center justify-center mt-1`}>
+                                                    <span className=" text-sm font-bold">✓</span>
+                                                </div>
+                                                <p>{raw_data.top_service_5}</p>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
 
@@ -409,7 +427,7 @@ const RegisterAccountFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme
                                 </div>
 
                                 {/* Footer */}
-                                <p className="text-center text-gray-600 text-sm mt-6">
+                                <p className="text-left text-gray-600 text-sm mt-6">
                                     Already have an account? <CustomLink href={`${themeSett.channel_website}/login`} is_theme={is_theme}
                                         className='text-sky-700'>Click here to login</CustomLink>
                                 </p>

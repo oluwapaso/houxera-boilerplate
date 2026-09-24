@@ -398,9 +398,9 @@ const RegisterAccountFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme
                             <div className='grow flex items-center justify-center'>
                                 <div className='w-full max-w-xl p-8 flex flex-col rounded-xl 
                                 bg-white/10 backdrop-blur-xs text-gray-200'>
-                                    <h3 className='text-3xl font-medium'>{raw_data.right_header || "Get started"}</h3>
+                                    <h3 className='text-3xl font-medium'>{raw_data.service_header || "Get started"}</h3>
                                     <div className=''>
-                                        {raw_data.right_sub_header || "Join our community and unlock amazing services"}
+                                        {raw_data.service_sub_header || "Join our community and unlock amazing services"}
                                     </div>
                                 </div>
                             </div>
