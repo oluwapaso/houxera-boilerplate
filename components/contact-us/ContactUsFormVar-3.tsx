@@ -2,15 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiEnvelope, BiEnvelopeOpen, BiLayerPlus, BiMapPin, BiPhoneCall, BiPhoneIncoming, BiRefresh, BiSend, BiTrash } from 'react-icons/bi'
+import { BiEnvelopeOpen, BiMapPin, BiPhoneIncoming, BiRefresh, BiSend, BiTrash } from 'react-icons/bi'
 import FloatingInput from '@/components/FloatingInput'
 import FloatingTextarea from '@/components/FloatingTextarea'
 import { toast } from 'react-toastify'
 import { Helpers } from '@/_lib/helper'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
-import { BsArrowDown, BsArrowUp, BsArrowUpRight, BsGear } from 'react-icons/bs'
-import { Button } from '../Button'
+import { BsGear } from 'react-icons/bs'
 
 const helpers = new Helpers();
 const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -194,7 +193,6 @@ const ContactUsFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     useEffect(() => {
         dispatch(hidePageLoader());
     }, []);
-
 
     useEffect(() => {
 

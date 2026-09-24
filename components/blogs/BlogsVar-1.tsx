@@ -39,7 +39,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
     const [blogsError, setBlogsError] = useState("");
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-25 md:35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -148,7 +148,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                 const nav = document.getElementById("NavVar7");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-35" : "pt-54");
+                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
             };
 
             updatePadding(); // initial
@@ -176,12 +176,11 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
     if (themeSett) {
         return (
-            <section className={`w-full ${first_comp_pt} pb-35 px-3 md:px-0 flex justify-center bg-gray-100 relative`}>
-                <div className={`container flex flex-col 
-                    ${(is_theme && sectionHover) ? "p-[10px] border-2 border-sky-800 transition-all duration-300" : null}`}>
+            <section className={`w-full ${first_comp_pt} pb-15 px-3 md:px-0 flex justify-center bg-gray-100 relative`}>
+                <div className={`container flex flex-col `}>
 
                     <div className=' flex flex-col'>
-                        <div className='font-semibold text-xl md:text-3xl flex items-center justify-between'>
+                        <div className='font-semibold text-2xl md:text-3xl flex items-center justify-between'>
                             <div>{raw_data.header || "Latest Real Estate News"}</div>
                             {raw_data?.show_more == "Yes" &&
                                 <CustomLinkMain href={`${themeSett.theme_prefix}/blog-posts?page=1`} is_theme={is_theme}
@@ -199,7 +198,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         </div>
                     </div>
 
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 lg:gap-x-6 xl:gap-x-6 mt-6'>
+                    <div className='w-full'>
                         {!blogsLoaded && <div className='col-span-full h-[250px] flex items-center justify-center'>
                             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
                         </div>}
@@ -210,12 +209,14 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             </div>
                         }
 
-                        {(blogsLoaded && Array.isArray(blogs) && blogs.length > 0) &&
-                            (blogs.map((blog_post, index) => {
-                                return <BlogCardVar1 key={index} blog_post={blog_post} is_theme={is_theme} />
-                            }))
-                        }
-
+                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 
+                        lg:gap-x-6 xl:gap-x-6 mt-6 mb-10'>
+                            {(blogsLoaded && Array.isArray(blogs) && blogs.length > 0) &&
+                                (blogs.map((blog_post, index) => {
+                                    return <BlogCardVar1 key={index} blog_post={blog_post} is_theme={is_theme} />
+                                }))
+                            }
+                        </div>
 
                         {/* Pagination */}
                         {(!loading && blogsError == "" && totalPages > 0) &&
