@@ -121,7 +121,7 @@ const LoginFormVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                 data: {
                     "category": "login",
                     "type": "section",
-                    "component": "LoginFormVar4",
+                    "component": "LoginFormVar3",
                     ...raw_data,
                 }
             },
