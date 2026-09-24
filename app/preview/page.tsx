@@ -124,6 +124,7 @@ const LivePreviewPage = () => {
                 hasReceivedLiveUpdate.current = true;
 
                 const { themeSettings, pageUid } = event.data;
+                console.log("pageUid", pageUid)
                 if (!themeSettings) return;
 
                 setThemeData((prev: any) => ({
