@@ -175,11 +175,11 @@ const LoginFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         {/* Left Side - Image/Gradient */}
                         <div className={`hidden lg:flex lg:w-1/2 items-center relative`}>
                             <div className={` w-full h-[90dvh] rounded-2xl shadow-2xl lg:flex bg-gradient-to-br from-${themeSett.primary_color} 
-                                to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center p-8`}>
+                                to-${helpers.adjustColorShade(themeSett.primary_color, 2)} flex-col items-center justify-center px-8 py-16`}>
 
                                 <div className={`text-${themeSett.primary_button_text} max-w-md grow flex flex-col justify-center`}>
                                     <h2 className="text-4xl font-bold mb-4">{raw_data.service_header || "Get started"}</h2>
-                                    <p className="  mb-8">
+                                    <p className=" mb-8">
                                         {raw_data.service_sub_header || "Join our community and unlock amazing services"}
                                     </p>
                                     <div className="space-y-4">
