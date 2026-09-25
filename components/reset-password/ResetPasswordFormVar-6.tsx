@@ -201,7 +201,7 @@ const ResetPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?:
 
                         {/* Left Side - Image/Gradient */}
                         <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-3 2xs:px-6 
-                            max-lg:pt-35 pt-20 pb-20 relative">
+                            max-lg:pt-36 pt-20 pb-20 relative">
                             <div className="absolute lg:hidden top-3.5 left-3.5">
                                 <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
                                     <Image src={`${themeSett?.dark_logo || "/Houxera-logo-black.png"}`} height={50} width={150} className="" alt="Nigeria MLS and IDX provider" />

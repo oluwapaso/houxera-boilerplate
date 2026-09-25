@@ -202,7 +202,7 @@ const ContactUsFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         const navType = themeSett?.nav_component?.type;
 
         if (navType === "NavVar6") {
-            setFirstCompPt("pt-35 md:pt-52");
+            setFirstCompPt("pt-36 md:pt-52");
             return;
         }
 

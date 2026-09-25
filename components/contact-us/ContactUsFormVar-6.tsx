@@ -23,7 +23,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [selectedInterest, setSelectedInterest] = useState("")
-    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
     const init_val = {
         firstname: "",
@@ -211,7 +211,7 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
         const navType = themeSett?.nav_component?.type;
 
         if (navType === "NavVar6") {
-            setFirstCompPt("pt-35");
+            setFirstCompPt("pt-36");
             return;
         }
 

@@ -48,7 +48,7 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
     const [loading, setLoading] = useState(true)
     const [totalPages, setTotalPages] = useState(0)
-    const [first_comp_pt, setFirstCompPt] = useState("pt-25 md:pt-35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-25 md:pt-36");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -161,7 +161,7 @@ const BlogsVar3 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         const navType = themeSett?.nav_component?.type;
 
         if (navType === "NavVar6") {
-            setFirstCompPt("pt-35 md:pt-52");
+            setFirstCompPt("pt-36 md:pt-52");
             return;
         }
 

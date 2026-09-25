@@ -40,7 +40,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const brker_info = useSelector((state: RootState) => state.broker);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -176,7 +176,7 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                 const nav = document.getElementById("NavVar7");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-35" : "pt-54");
+                setFirstCompPt(isMobile ? "pt-36" : "pt-54");
             };
 
             updatePadding(); // initial

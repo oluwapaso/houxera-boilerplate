@@ -321,7 +321,7 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
             <section className="w-full min-h-[100dvh] relative bg-gray-100">
 
                 {/* hero band */}
-                <div className={`w-full pb-20 pt-35 px-4 text-center bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`}>
+                <div className={`w-full pb-20 pt-36 px-4 text-center bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`}>
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
                         style={{ background: 'rgba(255,255,255,0.15)' }}>
                         <PiHouseLine size={16} color="#FFFFFF" />
