@@ -314,7 +314,7 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                     <div className="w-full max-w-2xl mx-auto">
                         <h2 className="text-2xl font-medium text-[#1a1a1a] mb-2">{raw_data.header_2 || "Let's talk?"}</h2>
                         <p className="text-[#666] mb-8">
-                            {raw_data.sub_header_4 || "It's all about the humans behind a brand and those experiencing it, we're right there. In the middle."}
+                            {raw_data.sub_header_2 || "It's all about the humans behind a brand and those experiencing it, we're right there. In the middle."}
                         </p>
 
                         <div className='w-full flex flex-col space-y-5'>
