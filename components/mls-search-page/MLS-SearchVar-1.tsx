@@ -106,7 +106,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const LoadProperties = async () => {
 
         setTotalRecords(0);
-
+        console.log("delivery_uid", delivery_uid, "raw_data.delivery_uid", raw_data.delivery_uid)
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
             "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
