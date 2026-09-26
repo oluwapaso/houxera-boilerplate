@@ -25,7 +25,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
-    const page_size = size;
+    const page_size = parseInt(raw_data.size) || size;
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
     const location_params = searchParams?.get("location") as string || "";
     const status_params = searchParams?.get("status") as string || "Active";
