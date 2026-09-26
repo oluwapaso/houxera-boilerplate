@@ -23,6 +23,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const searchParams = useSearchParams();
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
     const page_size = size;
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
@@ -30,9 +31,12 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const status_params = searchParams?.get("status") as string || "Active";
     // let all_posts: React.JSX.Element[] = [];
 
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+    const delivery_uid = searchParams?.get("delivery_uid") as string || "";
+
     //The delivery uid has to come from the components settings
-    const delivery_uid = "xx-8992hhsjsj-sjsjs";
-    const account_id = process.env.NEXT_PUBLIC_ACCOUNT_ID;
+    // const delivery_uid = "xx-8992hhsjsj-sjsjs";
 
     const [formData, setFormData] = useState<any>({});
     const [srchFormData, setSrchFormData] = useState<any>({});
@@ -104,8 +108,9 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
         setTotalRecords(0);
 
         const payload = {
-            "account_id": account_id,
-            "delivery_uid": delivery_uid,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
+            "delivery_uid": is_theme ? delivery_uid : raw_data.delivery_uid,
             "location": formData.location,
             // "state": formData.state,
             "status": formData.status || "Active",
@@ -318,121 +323,150 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (themeSett && themeSett != null) {
         return (
-            <section className="flex flex-col min-h-screen relative py-35 bg-gray-100" >
-                {/* <NavVar1 transparent={false} /> */}
+            <section className={` flex flex-col min-h-screen relative ${first_comp_pt} pb-15 px-4 xs:px-6 bg-gray-100`}>
 
-                <main className="w-full flex flex-col min-h-[55dvh]">
-                    {/**  ======================= Contact Area Starts ====================== **/}
-                    <div className="w-full relative pt-10 pb-16">
-                        <div className="container mx-auto max-w-[1450px]">
+                <div className="container mx-auto max-w-[1450px]">
 
-                            {!prop_fetched && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
-                                <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
-                            </div>}
+                    {!prop_fetched && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
+                        <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
+                    </div>}
 
-                            {(prop_fetched) &&
-                                <div className='w-full grid grid-cols-1 lg:grid-cols-8 gap-6 mt-0'>
-                                    <div className='lg:col-span-6'>
+                    {(prop_fetched) &&
+                        <div className='w-full grid grid-cols-1 lg:grid-cols-8 gap-6 mt-0'>
+                            <div className='lg:col-span-6'>
 
-                                        <div className=' col-span-full flex items-start justify-between'>
-                                            <div className=' flex flex-col mb-4'>
-                                                <div className='font-semibold text-3xl'>Search Results</div>
-                                                <div className='font-medium text-base'>
-                                                    {total_records} {total_records > 1 ? "properties" : "property"} found.
-                                                </div>
-                                            </div>
-
-                                            <div className='relative z-50' ref={sortBoxRef}>
-                                                <div className='flex items-center'>
-                                                    <span className='mr-2 font-semibold'>Sort By:</span>
-                                                    <button onClick={() => setSortShown(!sort_shown)}
-                                                        className='flex items-center text-sky-700 cursor-pointer'>
-                                                        <span className=''>{filter_by}</span>
-                                                        <span className={`ml-1 ${sort_shown ? "rotate-180" : null}`}>
-                                                            <MdOutlineKeyboardArrowDown size={22} />
-                                                        </span>
-                                                    </button>
-                                                </div>
-
-                                                <div className={`w-[250px] right-0 sm:right-0 absolute bg-transparent 
-                                                    rounded-lg overflow-hidden shadow-2xl border border-gray-200 ${sort_shown ? "block" : "hidden"}`}>
-                                                    <div className='w-full bg-white m-0  *:cursor-pointer *:py-4 *:px-4
-                                                     *:flex *:justify-between *:items-center divide-y divide-gray-200'>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Price", "DESC")}>
-                                                            <span>Price (High to Low)</span>
-                                                            {filter_by == "Price (High to Low)" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Price", "ASC")}>
-                                                            <span>Price (Low to High)</span>
-                                                            {filter_by == "Price (Low to High)" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Date", "DESC")}>
-                                                            <span>Newest Firsts</span>
-                                                            {filter_by == "Newest Firsts" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Date", "ASC")}>
-                                                            <span>Oldest Firsts</span>
-                                                            {filter_by == "Oldest Firsts" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Beds", "DESC")}>
-                                                            <span>Bedrooms</span>
-                                                            {filter_by == "Bedrooms" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Baths", "DESC")}>
-                                                            <span>Bathrooms</span>
-                                                            {filter_by == "Bathrooms" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Sqm", "DESC")}>
-                                                            <span>Living Area</span>
-                                                            {filter_by == "Living Area" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                        <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Lots", "DESC")}>
-                                                            <span>Lot Size</span>
-                                                            {filter_by == "Lot Size" ? <FaCheck size={18} className='text-green-700' /> : null}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div className=' col-span-full flex items-start justify-between'>
+                                    <div className=' flex flex-col mb-4'>
+                                        <div className='font-semibold text-3xl'>Search Results</div>
+                                        <div className='font-medium text-base'>
+                                            {total_records} {total_records > 1 ? "properties" : "property"} found.
                                         </div>
-
-                                        {(fetchError == "" && Array.isArray(all_props)) &&
-                                            <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                                                {all_props}
-                                            </div>
-                                        }
-
-                                        {(fetchError == "" && total_page > 0) &&
-                                            <ReactivePagination totalPage={total_page} curr_page={curr_page}
-                                                changeTigger={setCurrPage} trigger_loader={setPropFetched}
-                                                url_path={`${themeSett.theme_prefix}/property-search?${BuildPaginationLink(searchParams)}`} />
-                                        }
-
-                                        {fetchError != "" &&
-                                            <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
-                                                {fetchError}
-                                            </div>
-                                        }
                                     </div>
 
-                                    <div className='hidden lg:block lg:col-span-2 space-y-10'>
-
-                                        <div className='w-full'>
-                                            <Advanced_Filter_1 setStartFetch={setStartFetch} formData={formData}
-                                                setFormData={setFormData} OpenSaveSearch={OpenSaveSearch} />
+                                    <div className='relative z-50' ref={sortBoxRef}>
+                                        <div className='flex items-center'>
+                                            <span className='mr-2 font-semibold'>Sort By:</span>
+                                            <button onClick={() => setSortShown(!sort_shown)}
+                                                className='flex items-center text-sky-700 cursor-pointer'>
+                                                <span className=''>{filter_by}</span>
+                                                <span className={`ml-1 ${sort_shown ? "rotate-180" : null}`}>
+                                                    <MdOutlineKeyboardArrowDown size={22} />
+                                                </span>
+                                            </button>
                                         </div>
 
-                                        <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
-                                            <SideAds no_ads={2} />
+                                        <div className={`w-[250px] right-0 sm:right-0 absolute bg-transparent 
+                                                rounded-lg overflow-hidden shadow-2xl border border-gray-200 ${sort_shown ? "block" : "hidden"}`}>
+                                            <div className='w-full bg-white m-0  *:cursor-pointer *:py-4 *:px-4
+                                                    *:flex *:justify-between *:items-center divide-y divide-gray-200'>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Price", "DESC")}>
+                                                    <span>Price (High to Low)</span>
+                                                    {filter_by == "Price (High to Low)" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Price", "ASC")}>
+                                                    <span>Price (Low to High)</span>
+                                                    {filter_by == "Price (Low to High)" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Date", "DESC")}>
+                                                    <span>Newest Firsts</span>
+                                                    {filter_by == "Newest Firsts" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Date", "ASC")}>
+                                                    <span>Oldest Firsts</span>
+                                                    {filter_by == "Oldest Firsts" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Beds", "DESC")}>
+                                                    <span>Bedrooms</span>
+                                                    {filter_by == "Bedrooms" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Baths", "DESC")}>
+                                                    <span>Bathrooms</span>
+                                                    {filter_by == "Bathrooms" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Sqm", "DESC")}>
+                                                    <span>Living Area</span>
+                                                    {filter_by == "Living Area" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                                <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Lots", "DESC")}>
+                                                    <span>Lot Size</span>
+                                                    {filter_by == "Lot Size" ? <FaCheck size={18} className='text-green-700' /> : null}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            }
-                        </div>
-                    </div>
-                </main>
 
+                                {(fetchError == "" && Array.isArray(all_props)) &&
+                                    <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                                        {all_props}
+                                    </div>
+                                }
+
+                                {(fetchError == "" && total_page > 0) &&
+                                    <ReactivePagination totalPage={total_page} curr_page={curr_page}
+                                        changeTigger={setCurrPage} trigger_loader={setPropFetched}
+                                        url_path={`${themeSett.theme_prefix}/property-search?${BuildPaginationLink(searchParams)}`} />
+                                }
+
+                                {fetchError != "" &&
+                                    <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
+                                        {fetchError}
+                                    </div>
+                                }
+                            </div>
+
+                            <div className='hidden lg:block lg:col-span-2 space-y-10'>
+
+                                <div className='w-full'>
+                                    <Advanced_Filter_1 setStartFetch={setStartFetch} formData={formData}
+                                        setFormData={setFormData} OpenSaveSearch={OpenSaveSearch} />
+                                </div>
+
+                                <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
+                                    <SideAds no_ads={2} />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
 
                 {is_theme && (
                     <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 

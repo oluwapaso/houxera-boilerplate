@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiBuilding, BiHome, BiMapPin, BiPhoneCall, BiRefresh, BiSend, BiStar, BiTrash } from 'react-icons/bi'
+import { BiMapPin, BiPhoneCall, BiRefresh, BiSend, BiStar, BiTrash } from 'react-icons/bi'
 import FloatingInput from '@/components/FloatingInput'
 import FloatingTextarea from '@/components/FloatingTextarea'
 import { toast } from 'react-toastify'
@@ -10,8 +10,7 @@ import { Helpers } from '@/_lib/helper'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
 import { BsGear } from 'react-icons/bs'
-import { CgLock, CgMail } from 'react-icons/cg'
-import { FaLandmark } from 'react-icons/fa6'
+import { CgMail } from 'react-icons/cg'
 
 const helpers = new Helpers();
 const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -22,7 +21,6 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [selectedInterest, setSelectedInterest] = useState("")
     const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
     const init_val = {
@@ -196,7 +194,6 @@ const ContactUsFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
     useEffect(() => {
         dispatch(hidePageLoader());
     }, []);
-
 
     useEffect(() => {
         if (theme) {
