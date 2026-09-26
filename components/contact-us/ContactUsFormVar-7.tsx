@@ -251,7 +251,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                     {/* Giant Text Background */}
                     <div className="absolute top-0 left-0 right-0 pointer-events-none select-none overflow-hidden">
                         <div className="text-[20vw] text-gray-200 font-black leading-none /[0.03] tracking-tighter whitespace-nowrap">
-                            {raw_data.header_3 || "CONTACT"}
+                            {raw_data.bg_text || "CONTACT"}
                         </div>
                     </div>
 
@@ -261,7 +261,7 @@ const ContactUsFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
                             <div className="space-y-10 sm:space-y-16">
                                 <div>
                                     <p className={`text-${themeSett.primary_color} text-sm font-medium mb-4 tracking-wider`}>
-                                        {raw_data.header_2 || "GET IN TOUCH"}
+                                        {raw_data.header_3 || "GET IN TOUCH"}
                                     </p>
                                     <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight mb-6">
                                         {raw_data.header || "LET&apos;S TALK"}<br />
