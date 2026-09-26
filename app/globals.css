@@ -524,6 +524,9 @@
 @source inline("{border-,border-t-,border-b-,border-l-,border-r-,border-x-,border-y-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc}-{400,500,600,700}/25");
 @source inline("{border-,border-t-,border-b-,border-l-,border-r-,border-x-,border-y-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc}-{400,500,600,700}/100");
 
+
+@source inline("{pt-,pb-}{15,20,25,30,35,36,40,45,50,52,55}");
+
 body {
   background: #ffffff;
   padding: 0px;
