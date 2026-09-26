@@ -93,7 +93,6 @@ const LivePreviewPage = () => {
                         if (Array.isArray(reqResp.message)) {
                             msg = msg.toString();
                         }
-                        console.log(msg);
                     }
 
                 }).catch((error: any) => {
@@ -124,7 +123,7 @@ const LivePreviewPage = () => {
                 hasReceivedLiveUpdate.current = true;
 
                 const { themeSettings, pageUid } = event.data;
-                console.log("pageUid", pageUid, "page_uid", page_uid)
+
                 if (!themeSettings) return;
 
                 setThemeData((prev: any) => ({
@@ -155,7 +154,7 @@ const LivePreviewPage = () => {
         const navBlock = themeData.theme_settings?.nav_component;
         const footerBlock = themeData.theme_settings?.footer_component;
         const sections = pageData?.sections;
-        console.log("pageData", pageData)
+
         var NavComponent = null;
         var NavFound = false;
 
