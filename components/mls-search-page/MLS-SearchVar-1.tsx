@@ -33,7 +33,6 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
     const channel_uid = searchParams?.get("channel_uid") as string || "";
-    const delivery_uid = searchParams?.get("delivery_uid") as string || "";
 
     //The delivery uid has to come from the components settings
     // const delivery_uid = "xx-8992hhsjsj-sjsjs";
@@ -106,11 +105,11 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const LoadProperties = async () => {
 
         setTotalRecords(0);
-        console.log("delivery_uid", delivery_uid, "raw_data.delivery_uid", raw_data.delivery_uid)
+        console.log("raw_data.delivery_uid", raw_data.delivery_uid)
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
             "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "delivery_uid": is_theme ? delivery_uid : raw_data.delivery_uid,
+            "delivery_uid": raw_data.delivery_uid,
             "location": formData.location,
             // "state": formData.state,
             "status": formData.status || "Active",
@@ -307,7 +306,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
             params.baths = "Any";
         }
 
-        params.delivery_uid = delivery_uid;
+        params.delivery_uid = raw_data.delivery_uid;
         params.property_sub_type = "All Residential";
         params.property_type = "Residential";
         params.sales_type = "For Sale";
@@ -316,7 +315,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
         setFormData(params);
         setStartFetch(true);
 
-    }, [searchParams, location_params, delivery_uid]);
+    }, [searchParams, location_params, raw_data.delivery_uid]);
 
     useEffect(() => {
         //Always start at page top
