@@ -264,7 +264,7 @@ const ContactUsFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
             <section className={`${first_comp_pt} pb-15 px-3 xs:px-6 relative`}>
                 <div className="container mx-auto max-w-3xl tab:max-w-[1280px] flex flex-col">
                     {/* Header Section */}
-                    <div className=" order-1 text-center max-w-2xl mx-auto mb-16">
+                    <div className=" order-1 text-center max-w-xl mx-auto mb-16">
                         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
                             {raw_data.header || "How can we help you today?"}
                         </h1>
