@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import FloatingOptions from '../FloatingOptions';
 import { BsDash } from 'react-icons/bs';
 import { Helpers } from '@/_lib/helper';
+import { BiCheck } from 'react-icons/bi';
 
 const helpers = new Helpers();
 const PriceRangeDD = ({ props, raw_data = {} }: { props: any, raw_data?: any }) => {
@@ -203,8 +204,8 @@ const PriceRangeDD = ({ props, raw_data = {} }: { props: any, raw_data?: any }) 
             </div>
 
             {is_shown &&
-                <div className={`w-[400px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20
-                border border-gray-300 grid grid-cols-[1fr_30px_1fr] p-4 items-center *:flex *:justify-center`}>
+                <div className={`w-full 2xs:w-[400px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20
+                border border-gray-300 grid grid-cols-1 max-2xs:gap-y-3.5 2xs:grid-cols-[1fr_30px_1fr] p-4 items-center *:flex *:justify-center`}>
 
                     <div>
                         <FloatingOptions name='min_price' label='Minimum Price' px='px-2' py='py-2'
@@ -212,12 +213,19 @@ const PriceRangeDD = ({ props, raw_data = {} }: { props: any, raw_data?: any }) 
                             handleSelectChange={(e) => handlePriceChange(e)} />
                     </div>
 
-                    <div><BsDash size={25} /></div>
+                    <div className=' !hidden 2xs:!flex '><BsDash size={25} /></div>
 
                     <div>
                         <FloatingOptions name='max_price' label='Maximum Price' px='px-2' py='py-2'
                             value={props.form_data.max_price} options={maxPriceOptions}
                             handleSelectChange={(e) => handlePriceChange(e)} />
+                    </div>
+
+                    <div className='col-span-full !w-full flex !justify-end 2xs:mt-2'>
+                        <div className='bg-gray-950 text-white py-1 px-3 rounded flex items-center space-x-1'
+                            onClick={() => setIsShown(false)}>
+                            <div className='text-sm font-medium'>Done</div> <BiCheck size={18} />
+                        </div>
                     </div>
 
                 </div>

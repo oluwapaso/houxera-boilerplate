@@ -117,7 +117,7 @@ const StatusDD = ({ props, via }: { props: any, via: string }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-full absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20
+                <div className={`w-full max-w-[280px] absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20
                 border border-gray-300 grid grid-cols-1 items-center *:flex *:justify-center`}>
 
                     <div className=' divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
@@ -125,7 +125,7 @@ const StatusDD = ({ props, via }: { props: any, via: string }) => {
                         {statusOptions.map((status, index) => {
                             return <div key={index} className='' onClick={() => setSalesOption(status.code)}>
                                 <div>{status.name}</div>
-                                {props.form_data.status == status.code && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                {props.form_data.status == status.code && <FaCheck className={`text-${themeSett.primary_color}`} size={16} />}
 
                             </div>
                         })}

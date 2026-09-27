@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { FaTreeCity } from 'react-icons/fa6';
 import { AmenitiesFilters, MediaFilters, ParkingFilters, SecurityFilters, ViewFilters } from '@/_lib/data';
 import { CgGym } from 'react-icons/cg';
+import { BiCheck } from 'react-icons/bi';
 
 const MustHaveDD = ({ props }: { props: any }) => {
 
@@ -107,118 +108,125 @@ const MustHaveDD = ({ props }: { props: any }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-[320px] absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20 flex flex-col cursor-pointer 
-                 border border-gray-200 divide-y divide-gray-300 scrollbar scrollbar-w-[10px] scrollbar-thumb-rounded-full 
-                 max-h-[340px] overflow-y-auto scrollbar-thumb-${themeSett.primary_color}-500`}>
+                <div className={`w-full max-w-[320px] absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20 
+                    flex flex-col cursor-pointer border border-gray-200  max-h-[340px]  `}>
 
-                    <div className='w-full flex flex-col'>
-                        <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
-                            <CgGym size={16} className='mr-1' /> <span>Amenities</span>
+                    <div className='grow flex flex-col divide-y divide-gray-300 overflow-y-auto'>
+                        <div className='w-full flex flex-col'>
+                            <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
+                                <CgGym size={16} className='mr-1' /> <span>Amenities</span>
+                            </div>
+                            <div className='divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
+                            *:space-x-2.5 *:pl-4 *:hover:bg-gray-100'>
+                                {AmenitiesFilters.map((amenities, index) => {
+                                    const id = `amenity_${index}`;
+                                    return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
+                                        <input type='checkbox' className='styled-checkbox menu_cb' id={id}
+                                            checked={selectedAmenities.includes(amenities.name)}
+                                            onChange={(e) =>
+                                                toggleAmenity(amenities.name, e.target.checked)
+                                            } />
+                                        <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
+                                            <span>{amenities.name}</span>
+                                        </label>
+                                    </div>
+                                })}
+                            </div>
                         </div>
-                        <div className='pl-8 divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
-                            *:space-x-2.5 *:pl-2 *:hover:bg-gray-100'>
-                            {AmenitiesFilters.map((amenities, index) => {
-                                const id = `amenity_${index}`;
-                                return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
-                                    <input type='checkbox' className='styled-checkbox menu_cb' id={id}
-                                        checked={selectedAmenities.includes(amenities.name)}
-                                        onChange={(e) =>
-                                            toggleAmenity(amenities.name, e.target.checked)
-                                        } />
-                                    <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
-                                        <span>{amenities.name}</span>
-                                    </label>
-                                </div>
-                            })}
+
+                        <div className='w-full flex flex-col'>
+                            <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
+                                <FaTreeCity size={16} className='mr-1' /> <span>View</span>
+                            </div>
+                            <div className='divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
+                            *:space-x-2.5 *:pl-4 *:hover:bg-gray-100'>
+                                {ViewFilters.map((view, index) => {
+                                    const id = `view_${index}`;
+                                    return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
+                                        <input type='checkbox' className='styled-checkbox menu_cb' id={id}
+                                            checked={selectedAmenities.includes(view)}
+                                            onChange={(e) =>
+                                                toggleAmenity(view, e.target.checked)
+                                            } />
+                                        <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
+                                            <span>{view}</span>
+                                        </label>
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+
+                        <div className='w-full flex flex-col'>
+                            <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
+                                <FaTreeCity size={16} className='mr-1' /> <span>Parking</span>
+                            </div>
+                            <div className='divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
+                            *:space-x-2.5 *:pl-4 *:hover:bg-gray-100'>
+                                {ParkingFilters.map((park, index) => {
+                                    const id = `park_${index}`;
+                                    return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
+                                        <input type='checkbox' className='styled-checkbox menu_cb' id={id}
+                                            checked={selectedAmenities.includes(park)}
+                                            onChange={(e) =>
+                                                toggleAmenity(park, e.target.checked)
+                                            } />
+                                        <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
+                                            <span>{park}</span>
+                                        </label>
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+
+                        <div className='w-full flex flex-col'>
+                            <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
+                                <FaTreeCity size={16} className='mr-1' /> <span>Media</span>
+                            </div>
+                            <div className='divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
+                            *:space-x-2.5 *:pl-4 *:hover:bg-gray-100'>
+                                {MediaFilters.map((media, index) => {
+                                    const id = `media_${index}`;
+                                    return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
+                                        <input type='checkbox' className='styled-checkbox menu_cb' id={id}
+                                            checked={selectedAmenities.includes(media)}
+                                            onChange={(e) =>
+                                                toggleAmenity(media, e.target.checked)
+                                            } />
+                                        <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
+                                            <span>{media}</span>
+                                        </label>
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+
+                        <div className='w-full flex flex-col'>
+                            <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
+                                <FaTreeCity size={16} className='mr-1' /> <span>Security</span>
+                            </div>
+                            <div className='divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
+                            *:space-x-2.5 *:pl-4 *:hover:bg-gray-100'>
+                                {SecurityFilters.map((security, index) => {
+                                    const id = `security_${index}`;
+                                    return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
+                                        <input type='checkbox' className='styled-checkbox menu_cb' id={id}
+                                            checked={selectedAmenities.includes(security)}
+                                            onChange={(e) =>
+                                                toggleAmenity(security, e.target.checked)
+                                            } />
+                                        <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
+                                            <span>{security}</span>
+                                        </label>
+                                    </div>
+                                })}
+                            </div>
                         </div>
                     </div>
 
-                    <div className='w-full flex flex-col'>
-                        <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
-                            <FaTreeCity size={16} className='mr-1' /> <span>View</span>
-                        </div>
-                        <div className='pl-8 divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
-                            *:space-x-2.5 *:pl-2 *:hover:bg-gray-100'>
-                            {ViewFilters.map((view, index) => {
-                                const id = `view_${index}`;
-                                return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
-                                    <input type='checkbox' className='styled-checkbox menu_cb' id={id}
-                                        checked={selectedAmenities.includes(view)}
-                                        onChange={(e) =>
-                                            toggleAmenity(view, e.target.checked)
-                                        } />
-                                    <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
-                                        <span>{view}</span>
-                                    </label>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-
-                    <div className='w-full flex flex-col'>
-                        <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
-                            <FaTreeCity size={16} className='mr-1' /> <span>Parking</span>
-                        </div>
-                        <div className='pl-8 divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
-                            *:space-x-2.5 *:pl-2 *:hover:bg-gray-100'>
-                            {ParkingFilters.map((park, index) => {
-                                const id = `park_${index}`;
-                                return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
-                                    <input type='checkbox' className='styled-checkbox menu_cb' id={id}
-                                        checked={selectedAmenities.includes(park)}
-                                        onChange={(e) =>
-                                            toggleAmenity(park, e.target.checked)
-                                        } />
-                                    <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
-                                        <span>{park}</span>
-                                    </label>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-
-
-                    <div className='w-full flex flex-col'>
-                        <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
-                            <FaTreeCity size={16} className='mr-1' /> <span>Media</span>
-                        </div>
-                        <div className='pl-8 divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
-                            *:space-x-2.5 *:pl-2 *:hover:bg-gray-100'>
-                            {MediaFilters.map((media, index) => {
-                                const id = `media_${index}`;
-                                return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
-                                    <input type='checkbox' className='styled-checkbox menu_cb' id={id}
-                                        checked={selectedAmenities.includes(media)}
-                                        onChange={(e) =>
-                                            toggleAmenity(media, e.target.checked)
-                                        } />
-                                    <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
-                                        <span>{media}</span>
-                                    </label>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-
-                    <div className='w-full flex flex-col'>
-                        <div className='flex px-4 py-4 space-x-2.5 font-semibold text-base items-center border-b border-gray-300'>
-                            <FaTreeCity size={16} className='mr-1' /> <span>Security</span>
-                        </div>
-                        <div className='pl-8 divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
-                            *:space-x-2.5 *:pl-2 *:hover:bg-gray-100'>
-                            {SecurityFilters.map((security, index) => {
-                                const id = `security_${index}`;
-                                return <div key={id} className='w-full flex items-center select-none -ml-[10px]'>
-                                    <input type='checkbox' className='styled-checkbox menu_cb' id={id}
-                                        checked={selectedAmenities.includes(security)}
-                                        onChange={(e) =>
-                                            toggleAmenity(security, e.target.checked)
-                                        } />
-                                    <label htmlFor={id} className='flex w-full !py-3 after:!top-[23px]'>
-                                        <span>{security}</span>
-                                    </label>
-                                </div>
-                            })}
+                    <div className='col-span-full shrink-0 !w-full flex !justify-end py-2 px-2 border-t border-gray-300'>
+                        <div className='bg-gray-950 text-white py-1 px-3 rounded flex items-center space-x-1'
+                            onClick={() => setIsShown(false)}>
+                            <div className='text-sm font-medium'>Done</div> <BiCheck size={18} />
                         </div>
                     </div>
                 </div>

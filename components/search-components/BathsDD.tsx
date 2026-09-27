@@ -65,7 +65,7 @@ const BathsDD = ({ props }: { props: any }) => {
                         {bathsOptions.map((baths, index) => {
                             return <div key={index} className='' onClick={() => setBathsOption(baths.code)}>
                                 <div>{baths.name}</div>
-                                {props.form_data.baths == baths.code && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                {props.form_data.baths == baths.code && <FaCheck className={`text-${themeSett.primary_color}`} size={16} />}
 
                             </div>
                         })}

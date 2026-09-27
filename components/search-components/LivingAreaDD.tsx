@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import FloatingOptions from '../FloatingOptions';
 import { BsDash } from 'react-icons/bs';
 import { Helpers } from '@/_lib/helper';
+import { BiCheck } from 'react-icons/bi';
 
 const helpers = new Helpers();
 const LivingAreaRangeDD = ({ props }: { props: any }) => {
@@ -106,9 +107,8 @@ const LivingAreaRangeDD = ({ props }: { props: any }) => {
             </div>
 
             {isShown && (
-                <div className="w-[400px] absolute top-[101%] right-0 z-20
-                    bg-white border border-gray-300 shadow-2xl rounded-md
-                    grid grid-cols-[1fr_30px_1fr] p-4 items-center">
+                <div className="w-full 2xs:w-[400px] absolute top-[101%] right-0 z-20 bg-white border border-gray-300 shadow-2xl 
+                rounded-md grid grid-cols-1 max-2xs:gap-y-3.5 2xs:grid-cols-[1fr_30px_1fr] p-4 items-center">
 
                     <FloatingOptions
                         name="min_living_area"
@@ -118,7 +118,7 @@ const LivingAreaRangeDD = ({ props }: { props: any }) => {
                         handleSelectChange={handleAreaChange}
                     />
 
-                    <div className="flex justify-center">
+                    <div className="!hidden 2xs:!flex justify-center">
                         <BsDash size={25} />
                     </div>
 
@@ -129,6 +129,13 @@ const LivingAreaRangeDD = ({ props }: { props: any }) => {
                         options={maxAreaOptions}
                         handleSelectChange={handleAreaChange}
                     />
+
+                    <div className='col-span-full !w-full flex !justify-end 2xs:mt-2'>
+                        <div className='bg-gray-950 text-white py-1 px-3 rounded flex items-center space-x-1'
+                            onClick={() => setIsShown(false)}>
+                            <div className='text-sm font-medium'>Done</div> <BiCheck size={18} />
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

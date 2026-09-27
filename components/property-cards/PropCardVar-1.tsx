@@ -106,7 +106,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     </div>
                 </div>
 
-                <div className=' w-full h-16 absolute z-20 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
+                <div className=' w-full h-16 absolute z-5 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
                     *:flex *:flex-col *:items-center *:justify-center *:bg-gray-10 *:p-2 border-t border-gray-200'>
                     <div>
                         <div className=' flex items-center space-x-1'>

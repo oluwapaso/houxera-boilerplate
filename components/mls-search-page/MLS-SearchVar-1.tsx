@@ -343,6 +343,14 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     }, []);
 
     useEffect(() => {
+        if (filter_shown) {
+            document.body.style.overflowY = 'hidden';
+        } else {
+            document.body.style.overflowY = 'auto';
+        }
+    }, [filter_shown]);
+
+    useEffect(() => {
 
         if (raw_data?.component_index !== 0) return;
 
@@ -458,7 +466,8 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                             </div>
                                         </div>
 
-                                        <div className='lgScrn:hidden relative z-10 bg-white shadow-md hover:shadow-xl rounded-md' ref={filterBoxRef}>
+                                        <div className={`lgScrn:hidden relative ${filter_shown ? "z-60" : "z-10"} bg-white shadow-md 
+                                            hover:shadow-xl rounded-md`} ref={filterBoxRef}>
                                             <div className='flex flex-col py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointe'
                                                 onClick={() => setFilterShown(!filter_shown)}>
                                                 <span className='mr-2 font-semibold text-sm md:text-base'>Filters</span>
@@ -467,9 +476,14 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                                 </button>
                                             </div>
 
-                                            <div className={`w-[250px] right-0 sm:right-0 absolute bg-transparent rounded-lg 
-                                            overflow-hidden shadow-2xl border border-gray-200 ${filter_shown ? "block" : "hidden"}`}>
-                                                XXXX filters
+                                            <div className={`w-full h-[100dvh] fixed z-60 right-0 top-0 bg-black/20 backdrop-blur-2xl 
+                                                ${filter_shown ? "flex justify-end" : "hidden"}`}>
+
+                                                <div className='w-full max-w-[450px] bg-white max-h-[100dvh] relative overflow-hidden'>
+                                                    <Advanced_Filter_1 setStartFetch={setStartFetch} formData={formData} via={"Mobile"}
+                                                        is_theme={is_theme} setFormData={setFormData} OpenSaveSearch={OpenSaveSearch}
+                                                        setFilterShown={setFilterShown} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

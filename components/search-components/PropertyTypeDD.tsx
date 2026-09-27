@@ -113,9 +113,8 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-[350px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20 flex flex-col cursor-pointer 
-                 border border-gray-200 divide-y divide-gray-300 scrollbar scrollbar-w-[10px] scrollbar-thumb-rounded-full 
-                 max-h-[340px] overflow-y-auto scrollbar-thumb-${themeSett.primary_color}-500`}>
+                <div className={`w-full max-w-[350px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20
+                flex flex-col cursor-pointer border border-gray-200 divide-y divide-gray-300 max-h-[340px] overflow-y-auto `}>
 
                     { /** .length > 1 for all property types*/}
                     {(Array.isArray(Residentials) && Residentials.length > 1)
@@ -129,7 +128,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Residential" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
@@ -149,7 +148,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Multi-Unit" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
@@ -169,7 +168,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Commercial" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
@@ -189,7 +188,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Rental" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
@@ -209,7 +208,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Land" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
@@ -229,7 +228,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
                                     return <div key={index} className='' onClick={() => setPropType(prop_type.group, prop_type.code)}>
                                         <div>{prop_type.name}</div>
                                         {(props.form_data.property_type == "Farm/Ranch" && props.form_data.property_sub_type == prop_type.code)
-                                            && <FaCheck className={`text-${themeSett.primary_color}-700`} size={16} />}
+                                            && <FaCheck className={`text-${themeSett.primary_color} mr-4`} size={16} />}
                                     </div>
                                 })}
                             </div>
