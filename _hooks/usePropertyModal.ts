@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux"; 
 import { togglePropertyModal } from "@/app/GlobalRedux/user/userSlice"; 
 
-const usePropertyModal = ({ page, property_info = {} }: any) => {
+const usePropertyModal = ({ page, property_info, is_theme = {} }: any) => {
 
     const dispatch = useDispatch();  
     useEffect(() => {
@@ -13,6 +13,7 @@ const usePropertyModal = ({ page, property_info = {} }: any) => {
                     shown: true,
                     need_fetch: false,   
                     property_info: property_info,   
+                    is_theme: is_theme,   
                 };
 
                 if (page === "Enquiry") {

@@ -14,7 +14,7 @@ import { togglePropertyModal } from '@/app/GlobalRedux/user/userSlice';
 import { TagsInput } from 'react-tag-input-component';
 
 const helpers = new Helpers();
-const EmailShareComponent = () => {
+const EmailShareComponent = ({ is_theme = false }: { is_theme: boolean }) => {
 
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.theme);
@@ -97,9 +97,17 @@ const EmailShareComponent = () => {
 
     const handleShare = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const email = shareInfo.sender_email;
 
-        toast.dismiss();
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -220,8 +228,9 @@ const EmailShareComponent = () => {
 
                 <div className='col-span-full flex justify-end mt-2'>
                     {!submitting ?
-                        <button className={`w-fit cursor-pointer bg-${themeSett.primary_color}-700 text-white flex items-center 
-                        justify-center py-4 px-8 rounded space-x-2 font-medium hover:shadow-2xl hover:bg-${themeSett.primary_color}-800`}
+                        <button className={`w-fit cursor-pointer bg-${themeSett.primary_color} 
+                        text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-8 rounded space-x-2 
+                        font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                             onClick={handleShare}> <span>Submit Request</span> <FaArrowRightLong size={16} /> </button> :
                         <div className={`w-fit border-2 border-${themeSett.primary_color}-700 text-${themeSett.primary_color}-700 
                         text-center py-4 px-8 rounded flex items-center justify-center cursor-not-allowed font-medium`}>

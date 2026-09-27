@@ -29,7 +29,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
         }
     }, [theme]);
 
-    usePropertyModal({ page: modal_page, property_info: pro_info });
+    usePropertyModal({ page: modal_page, property_info: pro_info, is_theme: is_theme });
 
     useEffect(() => {
 
@@ -68,14 +68,14 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
             <div className='relative shadow-xl hover:shadow-2xl rounded-md bg-white border border-gray-200 flex flex-col'
                 data-property-uid={`${pro_info.property_uid}`} data-company-uid={`${pro_info.company_uid}`}
                 data-company-id={`${pro_info.company_id}`}>
-                <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`} is_theme={is_theme}
-                    className={`h-[250px] relative z-10 bg-center bg-cover bg-no-repeat rounded-tl-md rounded-tr-md`}
+                <CustomLinkMain href={`/property/${slug}`} is_theme={is_theme}
+                    className={`h-[250px] relative z-2 bg-center bg-cover bg-no-repeat rounded-tl-md rounded-tr-md`}
                     style={{ backgroundImage: `url('${primary_photo}')` }}>
-                    <div className=' w-full absolute top-4 flex items-center px-2 justify-end space-x-2 z-20'>
+                    <div className=' w-full absolute top-4 flex items-center px-2 justify-end space-x-2 z-5'>
                         <SalesTypeBadge sales_type={pro_info.listing_type} />
                     </div>
 
-                    <div className=' w-full absolute bottom-3 px-2 grid grid-cols-[1fr_50px] z-20 space-x-1.5'>
+                    <div className=' w-full absolute bottom-3 px-2 grid grid-cols-[1fr_50px] z-6 space-x-1.5'>
                         <div className=' flex items-start text-white'>
                             <span> <FaMapMarkerAlt size={13} className='mr-1 mt-1' /></span>
                             <span className='text-sm font-medium line-clamp-2'>
@@ -89,8 +89,8 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                         </div>
                     </div>
 
-                    <div className="absolute hidden w-full h-full z-10 bg-gradient-to-t from-transparent to-black/50 from-80%"></div>
-                    <div className="absolute w-full h-full z-10 bg-gradient-to-b from-transparent to-black/80 from-75%"></div>
+                    <div className="absolute hidden w-full h-full z-2 bg-gradient-to-t from-transparent to-black/50 from-80%"></div>
+                    <div className="absolute w-full h-full z-2 bg-gradient-to-b from-transparent to-black/80 from-75%"></div>
                 </CustomLinkMain>
 
                 <div className='p-6 flex pb-20 flex-col'>

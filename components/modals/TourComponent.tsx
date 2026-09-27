@@ -22,7 +22,7 @@ import FloatingOptions from '../FloatingOptions';
 import { TourTimeFilters } from '@/_lib/data';
 
 const helpers = new Helpers();
-const TourComponent = () => {
+const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
 
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.theme);
@@ -81,9 +81,16 @@ const TourComponent = () => {
 
     const handleTour = async () => {
 
-        const email = tourInfo.email;
-
         toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
+        const email = tourInfo.email;
         if (!helpers.validateEmail(email)) {
             toast.error("Provide a valid email address", {
                 position: "top-center",
@@ -290,8 +297,9 @@ const TourComponent = () => {
 
                 <div className='col-span-full flex justify-end mt-2'>
                     {!submitting ?
-                        <button className={`w-fit cursor-pointer bg-${themeSett.primary_color}-700 text-white flex items-center 
-                        justify-center py-4 px-8 rounded space-x-2 font-medium hover:shadow-2xl hover:bg-${themeSett.primary_color}-800`}
+                        <button className={`w-fit cursor-pointer bg-${themeSett.primary_color} 
+                        text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-8 rounded space-x-2 
+                        font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                             onClick={handleTour}> <span>Submit Request</span> <FaArrowRightLong size={16} /> </button> :
                         <div className={`w-fit border-2 border-${themeSett.primary_color}-700 text-${themeSett.primary_color}-700 
                         text-center py-4 px-8 rounded flex items-center justify-center cursor-not-allowed font-medium`}>

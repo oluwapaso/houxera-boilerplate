@@ -57,21 +57,22 @@ const PropertyModal = () => {
     useEffect(() => {
 
         if (prop_modal?.page == "Enquiry") {
-            setComponent(<EnquiryComponent />)
+            setComponent(<EnquiryComponent is_theme={prop_modal?.is_theme} />)
         } else if (prop_modal?.page == "Tour") {
-            setComponent(<TourComponent />)
+            setComponent(<TourComponent is_theme={prop_modal?.is_theme} />)
         } else if (prop_modal?.page == "Share") {
-            setComponent(<ShareComponent />)
+            setComponent(<ShareComponent is_theme={prop_modal?.is_theme} />)
         } else if (prop_modal?.page == "Email Share") {
-            setComponent(<EmailShareComponent />)
+            setComponent(<EmailShareComponent is_theme={prop_modal?.is_theme} />)
         }
 
     }, [prop_modal?.page]);
 
     return ((prop_modal && prop_modal?.shown) ?
         <dialog className="fixed left-0 top-0 w-full h-full bg-black/50 z-[50] overflow-auto backdrop-blur flex 
-            justify-center items-center">
-            <div className={`w-[750px] rounded bg-white m-auto h-auto max-h-[95dvh] overflow-hidden max-w-[95%] flex flex-col`}>
+            justify-center items-center py-6">
+            <div className={`w-[750px] rounded bg-white m-auto h-auto overflow-x overflow-x-hidden overflow-y-auto max-w-[95%]
+                flex flex-col`}>
                 <div className="w-full px-6 py-4 flex justify-between items-center relative bg-gray-50
                  border-b border-gray-300">
                     <h2 className="font-semibold text-md flex-grow flex items-center line-clamp-1">
@@ -88,9 +89,7 @@ const PropertyModal = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center w-full mt-2-mb-2 overflow-x-hidden overflow-y-auto
-                    scrollbar scrollbar-w-[12px] scrollbar-thumb-rounded-full scrollbar-thumb-amber-500 cursor-pointer"
-                    id='lead_modal_scroll_area'>
+                <div className="flex flex-col items-center w-full mt-2-mb-2 cursor-pointer" id='lead_modal_scroll_area'>
                     {component}
                 </div>
             </div>

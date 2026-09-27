@@ -19,14 +19,13 @@ import StatusDD from './StatusDD';
 import MustHaveDD from './MustHaveDD';
 import LivingAreaRangeDD from './LivingAreaDD';
 import LotSizeRangeDD from './LotSizeRangeDD';
-import { FaSave } from 'react-icons/fa';
 import { Helpers } from '@/_lib/helper';
 
 const helpers = new Helpers();
-const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearch }:
+const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearch, is_theme = false }:
     {
         setStartFetch: React.Dispatch<React.SetStateAction<boolean>>,
-        formData: any, setFormData: React.Dispatch<any>, OpenSaveSearch: () => void
+        formData: any, setFormData: React.Dispatch<any>, OpenSaveSearch: () => void, is_theme: boolean
     }) => {
 
     const router = useRouter();
@@ -43,6 +42,15 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
     }
 
     const Run_MLS_Search = () => {
+
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
 
         if (!formData.property_sub_type || formData.property_sub_type == "") {
             toast.error("Select a valid property type", {
@@ -66,14 +74,11 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
     //http://localhost:3001/homely/property-search?location=undefined&state=undefined&sales_type=For%20Sale&property_type=Residential,Comercial,Multi-Units,Land&property_sub_type=&status=Active&min_price=&max_price=&must_have=Pool,%20Basement,Wheelchair%20Ramp&_version=1769927237
     if (themeSett && themeSett != null) {
         return (
-            <div className=' w-full flex flex-col drop-shadow-2xl relative z-30 border border-gray-100 bg-white'>
-                <div className='w-full bg-gray-100 flex items-center justify-between *:flex *:items-center *:space-x-1.5 px-3'>
-                    <div className='py-3'><FiFilter size={16} /> <div>Advanced Filter</div></div>
-                    <div className={`px-3 py-1.5 text-xs bg-${themeSett.primary_color} cursor-pointer text-white rounded 
-                    text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} `}
-                        onClick={OpenSaveSearch}>
-                        <FaSave size={13} /> <span>Save Search</span>
-                    </div>
+            <div className=' w-full flex flex-col drop-shadow-2xl relative z-30 border border-gray-100 
+            bg-white rounded-md overflow-hidden'>
+                <div className={`w-full bg-${themeSett.primary_color} flex items-center space-x-1.5 
+                px-3 py-3 text-${themeSett.primary_button_text} `}>
+                    <FiFilter size={16} className='shrink-0' /> <div>Advanced Filter</div>
                 </div>
 
                 <div className='w-full relative z-30'>
@@ -157,7 +162,7 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
                         </div>
 
                         <div className={`!flex items-center justify-center py-3 px-2 bg-${themeSett.primary_color}
-                        text-${themeSett.primary_button_text} space-x-1.5 rounded-lg text-white cursor-pointer
+                        text-${themeSett.primary_button_text} space-x-1.5 rounded-md text-white cursor-pointer
                         hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:shadow-2xl `}
                             onClick={() => Run_MLS_Search()}>
                             <BsSearch size={16} /> <span>Search</span>

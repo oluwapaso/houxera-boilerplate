@@ -20,7 +20,7 @@ import {
 import { MdOutlineMarkEmailUnread } from 'react-icons/md';
 
 const helpers = new Helpers();
-const ShareComponent = () => {
+const ShareComponent = ({ is_theme = false }: { is_theme: boolean }) => {
 
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.theme);

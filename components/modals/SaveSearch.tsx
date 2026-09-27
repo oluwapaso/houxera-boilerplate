@@ -13,8 +13,8 @@ import FloatingOptions from '../FloatingOptions';
 import { OptionsType } from '../types';
 
 const helpers = new Helpers();
-const SaveSearchComponent = ({ closeModal, formData, setFormData }:
-    { closeModal: () => void, formData: any, setFormData: React.Dispatch<any> }) => {
+const SaveSearchComponent = ({ closeModal, formData, setFormData, is_theme = false }:
+    { closeModal: () => void, formData: any, setFormData: React.Dispatch<any>, is_theme: boolean }) => {
 
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.theme);
@@ -112,6 +112,15 @@ const SaveSearchComponent = ({ closeModal, formData, setFormData }:
 
     const saveSearch = async () => {
 
+        toast.dismiss();
+        if (is_theme) {
+            toast.error(`Can not complete this request in design mode.`, {
+                position: "top-center",
+                theme: "colored"
+            });
+            return false;
+        }
+
         const query_link = buildQueryLink({ ...formData, ...searchData })
         const payload = {
             ...formData,
@@ -191,8 +200,9 @@ const SaveSearchComponent = ({ closeModal, formData, setFormData }:
 
                 <div className='col-span-full flex justify-end mt-2'>
                     {!submitting ?
-                        <button className={`w-fit cursor-pointer bg-${themeSett.primary_color}-700 text-white flex items-center 
-                        justify-center py-3 px-6 rounded space-x-2 font-medium hover:shadow-2xl hover:bg-${themeSett.primary_color}-800`}
+                        <button className={`w-fit cursor-pointer justify-center py-3 px-6 bg-${themeSett.primary_color} 
+                        text-${themeSett.primary_button_text} flex items-center rounded space-x-2 font-medium hover:shadow-2xl 
+                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                             onClick={saveSearch}> <span>Save Search</span> <BiSave size={16} /> </button> :
                         <div className={`w-fit border-2 border-${themeSett.primary_color}-700 text-${themeSett.primary_color}-700 
                         text-center py-4 px-8 rounded flex items-center justify-center cursor-not-allowed font-medium`}>
