@@ -204,7 +204,7 @@ const PriceRangeDD = ({ props, raw_data = {} }: { props: any, raw_data?: any }) 
             </div>
 
             {is_shown &&
-                <div className={`w-full 2xs:w-[400px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20
+                <div className={`w-full 2xs:w-[400px] absolute top-[101%] right-0 shadow-2xl rounded-b-md bg-white z-20
                 border border-gray-300 grid grid-cols-1 max-2xs:gap-y-3.5 2xs:grid-cols-[1fr_30px_1fr] p-4 items-center *:flex *:justify-center`}>
 
                     <div>

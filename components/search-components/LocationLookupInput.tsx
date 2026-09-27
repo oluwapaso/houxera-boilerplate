@@ -200,8 +200,8 @@ const LocationLookupInput = ({ setFormData, props, tiny = false }: { setFormData
                 onKeyUp={(e) => handleKeyUp(e)} onChange={(e) => setSearchTerm(e.target.value)} />
 
             {(loading || is_opened || req_resp != "" || (results && results.length > 0))
-                ? <div ref={ddRef} className='w-full max-w-[350px] bg-white shadow-2xl max-h-[400px] overflow-y-auto z-20 border border-gray-200 
-                    scrollbar scrollbar-w-[10px] scrollbar-thumb-rounded-full scrollbar-thumb-${themeSett.primary_color}-500 rounded-md'
+                ? <div ref={ddRef} className='w-full bg-white shadow-2xl max-h-[400px] overflow-y-auto z-20 border border-gray-200 
+                    scrollbar scrollbar-w-[10px] scrollbar-thumb-rounded-full scrollbar-thumb-${themeSett.primary_color}-500 rounded-b-md'
                     style={{
                         position: 'absolute',
                         left: '0',

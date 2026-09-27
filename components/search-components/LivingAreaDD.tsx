@@ -108,7 +108,7 @@ const LivingAreaRangeDD = ({ props }: { props: any }) => {
 
             {isShown && (
                 <div className="w-full 2xs:w-[400px] absolute top-[101%] right-0 z-20 bg-white border border-gray-300 shadow-2xl 
-                rounded-md grid grid-cols-1 max-2xs:gap-y-3.5 2xs:grid-cols-[1fr_30px_1fr] p-4 items-center">
+                rounded-b-md grid grid-cols-1 max-2xs:gap-y-3.5 2xs:grid-cols-[1fr_30px_1fr] p-4 items-center">
 
                     <FloatingOptions
                         name="min_living_area"

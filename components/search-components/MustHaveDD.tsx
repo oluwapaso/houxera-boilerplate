@@ -108,7 +108,7 @@ const MustHaveDD = ({ props }: { props: any }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-full max-w-[320px] absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20 
+                <div className={`w-full max-w-[320px] absolute top-[101%] left-0 shadow-2xl rounded-b-md bg-white z-20 
                     flex flex-col cursor-pointer border border-gray-200  max-h-[340px]  `}>
 
                     <div className='grow flex flex-col divide-y divide-gray-300 overflow-y-auto'>

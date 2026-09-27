@@ -113,7 +113,7 @@ const PropertyTypeDD = ({ props }: { props: any }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-full max-w-[350px] absolute top-[101%] right-0 shadow-2xl rounded-md bg-white z-20
+                <div className={`w-full max-w-[350px] absolute top-[101%] right-0 shadow-2xl rounded-b-md bg-white z-20
                 flex flex-col cursor-pointer border border-gray-200 divide-y divide-gray-300 max-h-[340px] overflow-y-auto `}>
 
                     { /** .length > 1 for all property types*/}

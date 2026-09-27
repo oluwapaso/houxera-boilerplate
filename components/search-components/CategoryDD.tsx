@@ -96,7 +96,7 @@ const CategoryDD = ({ props, via }: { props: any, via: string }) => {
             </div>
 
             {is_shown &&
-                <div className={`w-full max-w-[280px] absolute top-[101%] left-0 shadow-2xl rounded-md bg-white z-20
+                <div className={`w-full max-w-[280px] absolute top-[101%] left-0 shadow-2xl rounded-b-md bg-white z-20
                 border border-gray-300 grid grid-cols-1 items-center *:flex *:justify-center`}>
 
                     <div className=' divide-y divide-dashed divide-gray-300 flex flex-col *:flex *:items-center 
