@@ -5,8 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { updateUserInfo, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import FloatingInput from '@/components/FloatingInput';
-import FooterVar1 from '@/components/footers/FooterVar-1';
-import NavVar1 from '@/components/navs/NavVar-1';
 import { UserInfo } from '@/components/types';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -38,6 +36,7 @@ const PrefrenceVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState("Details");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -322,6 +321,42 @@ const PrefrenceVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -330,34 +365,34 @@ const PrefrenceVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-35 relative">
+            <section className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 ${first_comp_pt} pb-15 relative`}>
 
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className='w-full max-w-[1000px]'>
+                <div className='container mx-auto flex items-center justify-center max-w-[1000px]'>
+                    <div className='w-full px-4 xs:px-6'>
                         <div className="mb-2">
-                            <h1 className="text-4xl font-bold text-gray-900">{raw_data.header || "Account Settings"}</h1>
-                            <p className="text-gray-600 mt-1">{raw_data.sub_header || "Manage your profile and preferences"}</p>
+                            <h1 className="text-2xl font-bold text-gray-900">{raw_data.header || "Account Settings"}</h1>
+                            <p className="text-gray-600">{raw_data.sub_header || "Manage your profile and preferences"}</p>
                         </div>
 
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                             <div className="border-b border-gray-200">
-                                <div className="flex">
+                                <div className="flex *:shrink-0 overflow-x-scroll">
                                     <div className={`px-6 py-4 cursor-pointer font-semibold 
-                                    ${activeTab == "Details" ? "border-b-2 border-blue-600 text-blue-600" : ""}`}
+                                    ${activeTab == "Details" ? `border-b-2 border-${themeSett.primary_color} text-${themeSett.primary_color}` : ""}`}
                                         onClick={() => setActiveTab("Details")}>Personal Info</div>
                                     <div className={`px-6 py-4 cursor-pointer font-semibold 
-                                    ${activeTab == "Socials" ? "border-b-2 border-blue-600 text-blue-600" : ""}`}
+                                    ${activeTab == "Socials" ? `border-b-2 border-${themeSett.primary_color} text-${themeSett.primary_color}` : ""}`}
                                         onClick={() => setActiveTab("Socials")}>Socials</div>
                                     <div className={`px-6 py-4 cursor-pointer font-semibold 
-                                    ${activeTab == "Subscriptions" ? "border-b-2 border-blue-600 text-blue-600" : ""}`}
+                                    ${activeTab == "Subscriptions" ? `border-b-2 border-${themeSett.primary_color} text-${themeSett.primary_color}` : ""}`}
                                         onClick={() => setActiveTab("Subscriptions")}>Subscriptions</div>
                                     <div className={`px-6 py-4 cursor-pointer font-semibold 
-                                    ${activeTab == "Security" ? "border-b-2 border-blue-600 text-blue-600" : ""}`}
+                                    ${activeTab == "Security" ? `border-b-2 border-${themeSett.primary_color} text-${themeSett.primary_color}` : ""}`}
                                         onClick={() => setActiveTab("Security")}>Security</div>
                                 </div>
                             </div>
 
-                            <div className="p-8">
+                            <div className="p-4 2xs:p-6 xs:p-8">
 
                                 {activeTab == "Details" &&
                                     <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -502,7 +537,7 @@ const PrefrenceVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 {activeTab == "Security" &&
                                     <div className="w-full mx-auto">
                                         <div className='mb-2'>
-                                            <h1 className="text-3xl font-bold text-gray-900">Privacy & Security</h1>
+                                            <h1 className="text-2xl font-bold text-gray-900">Privacy & Security</h1>
                                         </div>
                                         <div className='w-full flex flex-col'>
 

@@ -5,8 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { updateUserInfo, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import FloatingInput from '@/components/FloatingInput';
-import FooterVar1 from '@/components/footers/FooterVar-1';
-import NavVar1 from '@/components/navs/NavVar-1';
 import { UserInfo } from '@/components/types';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -37,6 +35,7 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_updates, setSubToUpdates] = useState(false);
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -321,6 +320,42 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -329,17 +364,17 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 py-35 relative">
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className="w-full max-w-[900px] mx-auto px-4">
+            <section className={`min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 ${first_comp_pt} pb-15 relative`}>
+                <div className='container max-w-[900px] mx-auto flex items-center justify-center'>
+                    <div className="w-full mx-auto px-4 xs:px-6">
                         <div className="text-center mb-12">
-                            <h1 className="text-4xl font-bold text-gray-800">{raw_data.header || "Personal Settings"}</h1>
-                            <p className="text-gray-600 mt-2">{raw_data.sub_header || "Manage your personal information"}</p>
+                            <h1 className="text-3xl font-bold text-gray-800">{raw_data.header || "Personal Settings"}</h1>
+                            <p className="text-gray-600 ">{raw_data.sub_header || "Manage your personal information"}</p>
                         </div>
 
                         <div className="space-y-14">
                             {/* Neumorphic Card 1 */}
-                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
+                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 py-6 px-4 xs:px-6 xs:py-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-6">Personal Details</h3>
                                 <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
@@ -418,7 +453,7 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
 
                             {/* Neumorphic Card 2 */}
-                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
+                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 py-6 px-4 xs:px-6 xs:py-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-6">Socials</h3>
                                 <div className="w-full space-y-4">
                                     <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -457,7 +492,7 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
 
                             {/* Neumorphic Card 3 */}
-                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
+                            <div className="bg-gradient-to-br from-gray-100 to-gray-200 py-6 px-4 xs:px-6 xs:py-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-6">Subscription Preferences</h3>
                                 <div className="w-full">
                                     <div className='w-full mt-2 mb-2 flex items-center select-none -ml-[10px]'>
@@ -484,12 +519,12 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         <div className={` w-full flex justify-end mt-12`}>
                             <div className={`bg-${themeSett.secondary_color} text-white flex items-center justify-center py-3 
-                            px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
+                            px-4 2xs:px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
                             cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
                                 <BsArrowLeftShort className='mr-1 !text-2xl' /> <span>Back</span> </div>
 
                             {!isSubmitting ?
-                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-6 text-white float-right 
+                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-4 2xs:px-6 text-white float-right 
                                 hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:drop-shadow-md 
                                 rounded cursor-pointer flex items-center`} onClick={handleUpdateInfo}>
                                     <FaCloudArrowUp size={20} className='mr-2' /> <span>{raw_data.button_text || "Update Info"}</span>
@@ -505,7 +540,7 @@ const PrefrenceVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
 
                         <div className='spacer mt-16'></div>
-                        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
+                        <div className="bg-gradient-to-br from-gray-100 to-gray-200 py-6 px-4 xs:px-6 xs:py-8 rounded shadow-xl" style={{ boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff' }}>
                             <h3 className="text-2xl font-bold text-gray-800 mb-6">Advanced Settings</h3>
                             <div className='w-full flex flex-col'>
                                 <h1 className='w-full font-play-fair-display text-2xl'>Reset Password</h1>

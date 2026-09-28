@@ -35,6 +35,7 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_updates, setSubToUpdates] = useState(false);
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -319,6 +320,42 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -327,17 +364,18 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-white py-35 relative">
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className="w-full max-w-[900px] mx-auto px-4">
+            <section className={`min-h-screen bg-white ${first_comp_pt} pb-15 relative`}>
+                <div className='container max-w-[900px] mx-auto flex items-center justify-center'>
+                    <div className="w-full mx-auto px-4 xs:px-6">
                         <div className="mb-12">
-                            <h1 className="text-5xl font-bold text-gray-900">{raw_data.header || "Profile Settings"}</h1>
+                            <h1 className="text-3xl font-bold text-gray-900">{raw_data.header || "Profile Settings"}</h1>
+                            <p className="text-gray-600 text-sm">{raw_data.sub_header || "Manage your personal information"}</p>
                             <div className={`w-24 h-1 bg-${themeSett.primary_color} mt-4`}></div>
                         </div>
 
                         {/* Section 1 */}
                         <div className="w-full space-y-12">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-5 flex items-center">
                                 <span className={`w-2 h-8 bg-${themeSett.primary_color} mr-4 rounded`}></span>
                                 Personal Details
                             </h2>
@@ -419,7 +457,7 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         {/* Section 2 */}
                         <div className='w-full mt-16'>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-5 flex items-center">
                                 <span className={`w-2 h-8 bg-${themeSett.primary_color} mr-4 rounded`}></span>
                                 Socials
                             </h2>
@@ -461,7 +499,7 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         {/* Section 3 */}
                         <div className='w-full mt-16'>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-5 flex items-center">
                                 <span className={`w-2 h-8 bg-${themeSett.primary_color} mr-4 rounded`}></span>
                                 Subscription Preferences
                             </h2>
@@ -487,15 +525,18 @@ const PrefrenceVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
                         </div>
 
+                        <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 my-5 xs:my-10`}></div>
+
                         {/* Buttons */}
                         <div className={` w-full flex justify-end mt-5`}>
                             <div className={`bg-${themeSett.secondary_color} text-white flex items-center justify-center py-3 
-                            px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
+                            px-4 2xs:px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
                             cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
                                 <BsArrowLeftShort className='mr-1 !text-2xl' /> <span>Back</span> </div>
 
                             {!isSubmitting ?
-                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-6 text-white float-right 
+                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-4 2xs:px-6 text-white float-right 
                                 hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:drop-shadow-md 
                                 rounded cursor-pointer flex items-center`} onClick={handleUpdateInfo}>
                                     <FaCloudArrowUp size={20} className='mr-2' /> <span>{raw_data.button_text || "Update Info"}</span>

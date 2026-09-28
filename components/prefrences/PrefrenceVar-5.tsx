@@ -5,8 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { updateUserInfo, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import FloatingInput from '@/components/FloatingInput';
-import FooterVar1 from '@/components/footers/FooterVar-1';
-import NavVar1 from '@/components/navs/NavVar-1';
 import { UserInfo } from '@/components/types';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -37,6 +35,7 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_updates, setSubToUpdates] = useState(false);
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -321,6 +320,42 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -329,22 +364,28 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-gray-100 py-35 relative">
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className="w-full max-w-[900px] mx-auto px-4">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-8">{raw_data.header || "Personal Details"}</h1>
+            <section className={`min-h-screen bg-gray-100 ${first_comp_pt} pb-15 relative`}>
+                <div className='container max-w-[900px] mx-auto flex items-center justify-center'>
+                    <div className="w-full mx-auto px-4 xs:px-6">
+                        <h1 className="text-2xl font-bold text-gray-900">{raw_data.header || "Personal Details"}</h1>
                         <p className="text-gray-600 mb-2 text-sm">{raw_data.sub_header || "Manage your personal information"}</p>
 
-                        <div className="space-y-8">
+                        <div className="space-y-8 mt-8">
                             {/* Step 1 */}
                             <div className="flex gap-6">
-                                <div className="flex flex-col items-center">
+                                <div className="hidden sm:flex flex-col items-center">
                                     <div className={`w-10 h-10 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
-                                flex items-center justify-center font-bold text-sm`}>1</div>
+                                    flex items-center justify-center font-bold text-sm`}>1</div>
                                 </div>
                                 <div className="pb-8 flex-1">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Details</h3>
-                                    <div className="w-full bg-white drop-shadow-xl rounded-lg p-6 space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                        <div className="flex sm:hidden flex-col items-center">
+                                            <div className={`w-8 h-8 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                            flex items-center justify-center font-bold text-sm`}>1</div>
+                                        </div>
+                                        <div>Personal Details</div>
+                                    </h3>
+                                    <div className="w-full bg-white drop-shadow-xl rounded-lg py-6 px-4 xs:px-6  space-y-4">
                                         <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
                                             <div className='col-span-1 sm:col-span-1'>
@@ -425,13 +466,19 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                             {/* Step 2 */}
                             <div className="flex gap-6">
-                                <div className="flex flex-col items-center">
+                                <div className="hidden sm:flex flex-col items-center">
                                     <div className={`w-10 h-10 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                 flex items-center justify-center font-bold text-sm`}>2</div>
                                 </div>
                                 <div className="pb-8 flex-1">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Socials</h3>
-                                    <div className="w-full bg-white drop-shadow-xl rounded-lg p-6 space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                        <div className="flex sm:hidden flex-col items-center">
+                                            <div className={`w-8 h-8 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                            flex items-center justify-center font-bold text-sm`}>2</div>
+                                        </div>
+                                        <div>Socials</div>
+                                    </h3>
+                                    <div className="w-full bg-white drop-shadow-xl rounded-lg py-6 px-4 xs:px-6 space-y-4">
                                         <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
                                             <div className='col-span-1'>
@@ -470,13 +517,19 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                             {/* Step 3 */}
                             <div className="flex gap-6">
-                                <div className="flex flex-col items-center">
+                                <div className="hidden sm:flex flex-col items-center">
                                     <div className={`w-10 h-10 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                 flex items-center justify-center font-bold text-sm`}>3</div>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Subscription Preferences</h3>
-                                    <div className="bg-white drop-shadow-xl rounded-lg p-6 space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                        <div className="flex sm:hidden flex-col items-center">
+                                            <div className={`w-8 h-8 rounded-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                            flex items-center justify-center font-bold text-sm`}>3</div>
+                                        </div>
+                                        <div>Subscription Preferences</div>
+                                    </h3>
+                                    <div className="bg-white drop-shadow-xl rounded-lg py-6 px-4 xs:px-6  space-y-4">
                                         <div className='w-full mt-2 mb-2 flex items-center select-none -ml-[10px]'>
                                             <input type='checkbox' className='styled-checkbox menu_cb' name={`sub_to_updates`} id={`sub_to_updates`}
                                                 onChange={(e) => setSubToUpdates(e.target.checked)} checked={sub_to_updates} />
@@ -500,16 +553,17 @@ const PrefrenceVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
                         </div>
 
-                        <div className='w-full border-b border-gray-200 dark:border-gray-600 my-10'></div>
+                        <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 my-5 xs:my-10`}></div>
 
                         <div className={` w-full flex justify-end`}>
                             <div className={`bg-${themeSett.secondary_color} text-white flex items-center justify-center py-3 
-                            px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
+                            px-4 2xs:px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
                             cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
                                 <BsArrowLeftShort className='mr-1 !text-2xl' /> <span>Back</span> </div>
 
                             {!isSubmitting ?
-                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-6 text-white float-right 
+                                <div className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} py-3 px-4 2xs:px-6 text-white float-right 
                                 hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} hover:drop-shadow-md 
                                 rounded cursor-pointer flex items-center`} onClick={handleUpdateInfo}>
                                     <FaCloudArrowUp size={20} className='mr-2' /> <span>{raw_data.button_text || "Update Info"}</span>

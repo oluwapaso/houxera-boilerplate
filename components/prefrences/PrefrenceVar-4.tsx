@@ -5,8 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { updateUserInfo, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import FloatingInput from '@/components/FloatingInput';
-import FooterVar1 from '@/components/footers/FooterVar-1';
-import NavVar1 from '@/components/navs/NavVar-1';
 import { UserInfo } from '@/components/types';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -37,6 +35,7 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_updates, setSubToUpdates] = useState(false);
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -321,6 +320,42 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -329,18 +364,19 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="min-h-screen bg-white py-35 relative">
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className="w-full max-w-[900px] mx-auto px-8">
-                        <div className="mb-16">
-                            <h1 className="text-5xl font-light text-gray-900">{raw_data.header || "Settings"}</h1>
-                            <div className="h-1 w-16 bg-gray-900 mt-4"></div>
+            <section className={`min-h-screen bg-white ${first_comp_pt} pb-15 relative`}>
+                <div className='container mx-auto flex items-center justify-center max-w-[900px]'>
+                    <div className="w-full mx-auto px-4 xs:px-8">
+                        <div className=" mb-8 xs:mb-12">
+                            <h1 className="text-3xl font-light text-gray-900">{raw_data.header || "Settings"}</h1>
+                            <p className="text-gray-600">{raw_data.sub_header || "Manage your profile and preferences"}</p>
+                            <div className="h-1 w-16 bg-gray-900 mt-2"></div>
                         </div>
 
                         <div className="space-y-12">
                             {/* Section 1 */}
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-900 mb-6 uppercase tracking-widest">Personal Details</h2>
+                                <h2 className="text-xl font-semibold text-gray-900 mb-2 uppercase tracking-widest">Personal Details</h2>
                                 <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
                                     <div className='col-span-1 sm:col-span-1'>
@@ -419,7 +455,7 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                             {/* Section 2 */}
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-900 mb-6 uppercase tracking-widest">Socials</h2>
+                                <h2 className="text-xl font-semibold text-gray-900 mb-2 uppercase tracking-widest">Socials</h2>
                                 <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
 
                                     <div className='col-span-1'>
@@ -456,7 +492,7 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                             {/* Section 3 */}
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-900 mb-6 uppercase tracking-widest">Subscription Preferences</h2>
+                                <h2 className="text-xl font-semibold text-gray-900 mb-2 uppercase tracking-widest">Subscription Preferences</h2>
                                 <div className='w-full'>
 
                                     <div className='w-full mt-2 mb-2 flex items-center select-none -ml-[10px]'>
@@ -482,7 +518,7 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             </div>
                         </div>
 
-                        <div className={` w-full flex justify-between`}>
+                        <div className={` w-full flex justify-between mt-5`}>
                             <div className={`bg-${themeSett.secondary_color} text-${themeSett.secondary_button_text} flex items-center justify-center py-3 rounded 
                                 px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl 
                                 cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
@@ -503,7 +539,8 @@ const PrefrenceVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             }
                         </div>
 
-                        <div className='w-full border-b border-gray-400 dark:border-gray-600 my-10'></div>
+                        <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 my-5 xs:my-10`}></div>
 
                         <div className='spacer mt-8'></div>
                         <div className='w-full font-semibold text-xl xs:text-2xl mb-2'>Advanced Settings</div>
