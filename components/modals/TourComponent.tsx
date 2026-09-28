@@ -208,25 +208,25 @@ const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
         return (
             <div className='w-full grid py-5 px-5 grid-cols-2 sm:grid-cols-2 gap-4'>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingInput name='firstname' label='First Name' placeholder='First Name'
                         handleChange={(e) => handleInputChange(e)} value={tourInfo.firstname}
                         handleBlur={(e) => handleInputBlur(e)} required />
                 </div>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingInput name='lastname' label='Last Name' placeholder='Last Name'
                         handleChange={(e) => handleInputChange(e)} value={tourInfo.lastname}
                         handleBlur={(e) => handleInputBlur(e)} required />
                 </div>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingInput name='email' label='Email Address' placeholder='Email Address'
                         handleChange={(e) => handleInputChange(e)} value={tourInfo.email}
                         handleBlur={(e) => handleInputBlur(e)} required />
                 </div>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingInput name='phone' label='Phone Number' placeholder='Phone Number'
                         handleChange={(e) => handleInputChange(e)} value={tourInfo.phone}
                         handleBlur={(e) => handleInputBlur(e)} required data-is-phone />
@@ -280,12 +280,12 @@ const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
                     </div>
                 </div>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingOptions name='start_time' label='Start Time' options={TourTimeFilters}
                         handleSelectChange={(e) => handleInputChange(e)} value={tourInfo.start_time} required />
                 </div>
 
-                <div className='col-span-1 sm:col-span-1'>
+                <div className='col-span-full xs:col-span-1'>
                     <FloatingOptions name='end_time' label='End Time' options={TourTimeFilters}
                         handleSelectChange={(e) => handleInputChange(e)} value={tourInfo.end_time} required />
                 </div>
