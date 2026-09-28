@@ -83,7 +83,7 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
                 space-x-1.5 shrink-0 px-3 py-3 text-${themeSett.primary_button_text} `}>
                     <FiFilter size={16} className='shrink-0' /> <div>Advanced Filter</div>
                     {via == "Mobile" &&
-                        <div className=' justify-self-end ml-auto'>
+                        <div className=' justify-self-end ml-auto cursor-pointer'>
                             <GrClose size={20} onClick={() => setFilterShown!(false)} />
                         </div>
                     }

@@ -278,7 +278,7 @@ const FooterVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                 </div>
 
                 {/* ${showButtons ? "fixed" : "hidden"}  */}
-                <div className={`fixed bottom-8 flex justify-end right-2.5`}>
+                <div className={`fixed bottom-8 flex justify-end right-2.5 z-20`}>
                     <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
                         {showButtons &&
                             <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>

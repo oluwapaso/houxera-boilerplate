@@ -106,7 +106,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     </div>
                 </div>
 
-                <div className=' w-full h-16 absolute z-5 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
+                <div className=' w-full h-16 absolute z-2 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
                     *:flex *:flex-col *:items-center *:justify-center *:bg-gray-10 *:p-2 border-t border-gray-200'>
                     <div>
                         <div className=' flex items-center space-x-1'>
@@ -132,7 +132,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                         <div>Sqm</div>
                     </div>
 
-                    <div className=' border-l border-gray-100 relative z-20' ref={menuRef}>
+                    <div className=' border-l border-gray-100 relative z-4' ref={menuRef}>
                         <div className={` size-8 flex items-center justify-center cursor-pointer rounded-full 
                             bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -70)} hover:bg-${themeSett.primary_color} hover:text-white`}
                             onClick={() => setMenuOpened(true)}>

@@ -450,6 +450,7 @@
   --font-geist-mono: "Geist Mono", monospace;
 
   --breakpoint-3xl: 1920px;
+  --breakpoint-3xs: 380px;
   --breakpoint-2xs: 420px;
   --breakpoint-xs: 540px;
   --breakpoint-tab: 960px;

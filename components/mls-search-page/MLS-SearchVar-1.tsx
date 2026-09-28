@@ -19,6 +19,7 @@ import { getComponent } from '../registry';
 import Modal from '../modals/Modal';
 import { FaSave } from 'react-icons/fa';
 import { Helpers } from '@/_lib/helper';
+import { RiListSettingsLine } from 'react-icons/ri';
 
 const helpers = new Helpers();
 const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -27,7 +28,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const searchParams = useSearchParams();
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-36");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-36");
 
     const page_size = parseInt(raw_data.size) || size;
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
@@ -42,7 +43,6 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     // const delivery_uid = "xx-8992hhsjsj-sjsjs";
 
     const [formData, setFormData] = useState<any>({});
-    const [srchFormData, setSrchFormData] = useState<any>({});
     const [properties, setProperties] = useState<any[]>([]);
     const [prop_fetched, setPropFetched] = useState(false);
     const [startFetch, setStartFetch] = useState(false);
@@ -52,6 +52,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
     const [all_props, setAllPprops] = useState<React.JSX.Element[]>([]);
     const [total_records, setTotalRecords] = useState(0);
     const [total_page, setTotalPage] = useState(0);
+    const [total_filters, setTotalFilters] = useState(0);
 
     const [filter_by, setFilterBy] = useState("Price (High to Low)"); //Default
     const [sort_shown, setSortShown] = useState(false);
@@ -210,6 +211,20 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
         setFilterBy(() => filterBy);
 
     }, [formData.sort_by, formData.sort_dir]);
+
+    useEffect(() => {
+        var totalFilters = 0;
+
+        [formData.location, formData.status && formData.status, formData.sales_type, formData.property_sub_type, formData.beds,
+        formData.baths, formData.min_price, formData.max_price, formData.min_living_area, formData.max_living_area,
+        formData.min_lot_size, formData.max_lot_size, formData.must_have].forEach((form_data) => {
+            if (form_data && form_data != "" && form_data != "Any") {
+                totalFilters += 1;
+            }
+        })
+
+        setTotalFilters(totalFilters);
+    }, [formData]);
 
     useEffect(() => {
         if (prop_fetched && refresh) {
@@ -400,9 +415,10 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                         <div className='w-full grid grid-cols-1 lgScrn:grid-cols-8 gap-6 mt-0'>
                             <div className='lgScrn:col-span-6'>
 
-                                <div className=' col-span-full flex items-start justify-between'>
+                                <div className=' col-span-full flex flex-col max-sm:space-y-1.5 sm:flex-row items-start 
+                                sm:justify-between max-sm:mb-4'>
                                     <div className=' flex flex-col mb-4'>
-                                        <div className='font-semibold text-2xl md:text-3xl'>Search Results</div>
+                                        <div className='font-semibold text-2xl md:text-3xl'>{raw_data.header || "Search Results"}</div>
                                         <div className='font-medium text-sm md:text-base flex items-center space-x-4.5'>
                                             <div>{total_records} {total_records > 1 ? "properties" : "property"} found.</div>
                                             <div className=' flex items-center space-x-1.5 text-sky-600 font-medium 
@@ -413,13 +429,13 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                         </div>
                                     </div>
 
-                                    <div className=' flex items-center space-x-2.5'>
-                                        <div className='relative z-10 bg-white shadow-md hover:shadow-xl rounded-md' ref={sortBoxRef}>
+                                    <div className='max-sm:w-full max-sm:grid grid-cols-3 xs:grid-cols-2 max-sm:gap-2.5 sm:flex sm:items-center sm:space-x-2.5'>
+                                        <div className='col-span-2 xs:col-span-1 shrink relative z-10 bg-white shadow-md hover:shadow-xl rounded-md' ref={sortBoxRef}>
                                             <div className='flex flex-col py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointer'
                                                 onClick={() => setSortShown(!sort_shown)}>
-                                                <span className='mr-2 font-semibold text-sm md:text-base'>Sort By</span>
-                                                <button className='flex items-center text-gray-500 text-sm'>
-                                                    <span className=''>{filter_by}</span>
+                                                <span className='mr-2 font-semibold text-sm md:text-base cursor-pointer'>Sort By</span>
+                                                <button className='w-full flex items-center justify-between text-gray-500 text-sm cursor-pointer'>
+                                                    <span className=' cursor-pointer'>{filter_by}</span>
                                                     <span className={`ml-1 ${sort_shown ? "rotate-180" : null}`}>
                                                         <MdOutlineKeyboardArrowDown size={22} />
                                                     </span>
@@ -466,14 +482,21 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                             </div>
                                         </div>
 
-                                        <div className={`lgScrn:hidden relative ${filter_shown ? "z-60" : "z-10"} bg-white shadow-md 
+                                        <div className={`col-span-1 lgScrn:hidden relative ${filter_shown ? "z-60" : "z-10"} bg-white shadow-md 
                                             hover:shadow-xl rounded-md`} ref={filterBoxRef}>
-                                            <div className='flex flex-col py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointe'
+                                            <div className='flex items-center justify-between space-x-1.5 py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointer'
                                                 onClick={() => setFilterShown(!filter_shown)}>
-                                                <span className='mr-2 font-semibold text-sm md:text-base'>Filters</span>
-                                                <button className='flex items-center text-gray-500 text-sm'>
-                                                    <span className=''>{2} filters</span>
-                                                </button>
+
+                                                <div className='flex flex-col '>
+                                                    <span className='mr-2 font-semibold text-sm md:text-base'>Filters</span>
+                                                    <button className='flex items-center text-gray-500 text-sm cursor-pointer'>
+                                                        <span className=''>{total_filters} filter{total_filters > 1 ? "s" : null}</span>
+                                                    </button>
+                                                </div>
+
+                                                <div className='hidden 3xs:block shrink-0'>
+                                                    <RiListSettingsLine size={25} />
+                                                </div>
                                             </div>
 
                                             <div className={`w-full h-[100dvh] fixed z-60 right-0 top-0 bg-black/20 backdrop-blur-2xl 

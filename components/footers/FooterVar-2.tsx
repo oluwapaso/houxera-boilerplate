@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
-import { BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
-import { BiPhone, BiRefresh } from 'react-icons/bi';
+import { BsChevronBarUp, BsGear, BsTwitterX, BsWhatsapp } from 'react-icons/bs';
+import { BiChat, BiPhone, BiRefresh } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/GlobalRedux/store';
 import Link from 'next/link';
@@ -245,6 +245,28 @@ const FooterVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                         <p className="text-sm text-zinc-500">
                             &copy; {new Date().getFullYear()}. All rights reserved. Made by Houxera
                         </p>
+                    </div>
+                </div>
+
+
+                {/* ${showButtons ? "fixed" : "hidden"}  */}
+                <div className={`fixed bottom-8 flex justify-end right-2.5 z-20`}>
+                    <div className=' flex flex-col space-y-3.5 *:flex *:items-center *:justify-center *:size-11 *:rounded-full *:cursor-pointer'>
+                        {showButtons &&
+                            <div className='text-white bg-gray-800 hover:drop-shadow-xl' onClick={backToTop}>
+                                <BsChevronBarUp size={20} />
+                            </div>
+                        }
+
+                        {brker_info?.social_accounts?.whatsapp &&
+                            <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`} target='_blank' className='text-white bg-green-700 hover:drop-shadow-xl'>
+                                <BsWhatsapp size={20} />
+                            </Link>
+                        }
+
+                        <div className='text-white bg-amber-600 hover:drop-shadow-xl'>
+                            <BiChat size={20} />
+                        </div>
                     </div>
                 </div>
 
