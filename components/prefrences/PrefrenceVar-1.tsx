@@ -5,8 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import { updateUserInfo, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import FloatingInput from '@/components/FloatingInput';
-import FooterVar1 from '@/components/footers/FooterVar-1';
-import NavVar1 from '@/components/navs/NavVar-1';
 import { UserInfo } from '@/components/types';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -37,6 +35,7 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
     const [sub_to_updates, setSubToUpdates] = useState(false);
     const [sub_to_mailing_lists, setSubToMailingLists] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -321,6 +320,42 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
         }
     }, [theme]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!themeSett) {
         return (<div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
@@ -329,13 +364,13 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     if (themeSett) {
         return (
-            <section className="flex flex-col min-h-screen bg-gray-100 py-35 relative">
+            <section className={`flex flex-col min-h-screen bg-gray-100 ${first_comp_pt} pb-15 relative`}>
 
-                <div className='container mx-auto flex items-center justify-center'>
-                    <div className=' flex flex-col w-full max-w-[750px]'>
+                <div className='container mx-auto flex items-center justify-center max-w-[750px]'>
+                    <div className=' flex flex-col w-full px-4 xs:px-6'>
                         <div className='w-full font-semibold text-xl xs:text-2xl'>{raw_data.header || "Personal Details"}</div>
                         <p className="text-gray-600 mb-2 text-sm">{raw_data.sub_header || "Manage your personal information"}</p>
-                        <div className='w-full bg-white drop-shadow-2xl rounded py-8 px-6'>
+                        <div className='w-full bg-white drop-shadow-2xl rounded py-8 px-4 2xs:px-6'>
                             <div className='w-full flex flex-col'>
 
                                 <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -445,7 +480,7 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                                 <div className='w-full flex flex-col mt-10'>
 
-                                    <h1 className='w-full font-play-fair-display text-2xl'>Subscription Information</h1>
+                                    <h1 className='w-full font-play-fair-display text-xl xs:text-2xl'>Subscription Information</h1>
                                     <div className='w-full mt-2'>
 
                                         <div className='w-full mt-2 mb-2 flex items-center select-none -ml-[10px]'>
@@ -477,8 +512,9 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         <div className={` w-full flex justify-end`}>
                             <div className={`bg-${themeSett.secondary_color} text-white flex items-center justify-center py-3 
-                                    px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} hover:drop-shadow-xl rounded 
-                                    cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
+                                px-4 2xs:px-6 font-medium mr-2 hover:bg-${helpers.adjustColorShade(themeSett.secondary_color, 1)} 
+                                hover:drop-shadow-xl rounded cursor-pointer`}
+                                onClick={() => { dispatch(showPageLoader()); router.back(); }}>
                                 <BsArrowLeftShort className='mr-1 !text-2xl' /> <span>Back</span> </div>
 
                             {!isSubmitting ?
@@ -499,10 +535,10 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         <div className='spacer mt-16'></div>
                         <div className='w-full font-semibold text-xl xs:text-2xl mb-2'>Advanced Settings</div>
-                        <div className='w-full bg-white drop-shadow-2xl rounded py-8 px-6'>
+                        <div className='w-full bg-white drop-shadow-2xl rounded py-8 px-4 2xs:px-6'>
                             <div className='w-full flex flex-col'>
 
-                                <h1 className='w-full font-play-fair-display text-2xl'>Reset Password</h1>
+                                <h1 className='w-full font-play-fair-display text-xl xs:text-2xl'>Reset Password</h1>
                                 <div className='w-full'>
                                     <p className='mt-2 w-full'>
                                         If you would still like to send a request to have your account deleted you
@@ -523,7 +559,7 @@ const PrefrenceVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                                 </div>
 
-                                <h1 className='w-full font-play-fair-display text-2xl md:text-2xl sm:text-2xl mt-10'>Delete Account</h1>
+                                <h1 className='w-full font-play-fair-display text-xl xs:text-2xl mt-10'>Delete Account</h1>
                                 <div className='w-full mt-2 font-normal'>
                                     <p className='w-full'>If you do not want to use this website anymore and you would like your account to be deleted, we're here to help.
                                         Please note: You will not be able to reactivate your account to access any data added to your account including
