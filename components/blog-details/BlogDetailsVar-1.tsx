@@ -11,7 +11,7 @@ import RelatedBlogPosts from '@/components/blog-cards/RelatedBlogPosts';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import Modal from '@/components/modals/Modal';
 import moment from 'moment';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiCalendar, BiRefresh, BiTrashAlt } from 'react-icons/bi';
@@ -35,8 +35,12 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
-    const slug = params?.slug as string || "what-you-need-to-know-about-abuja-properties-under-1m-in-2026"; //Hard coaded part is for testing only
+    const searchParams = useSearchParams();
+    const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hardcoded part is for testing
     const router = useRouter();
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
@@ -123,7 +127,8 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsDetails = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "slug": slug,
             "user_uid": user.user_info?.user_uid,
         }
@@ -146,7 +151,8 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsComments = async (skip: number) => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "post_uid": blogPost.post_uid,
             "skip": skip || 0,
             "size": 20,
@@ -279,15 +285,15 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
             <div className="flex flex-col min-h-screen relative" >
 
                 {/**  ======================= Header Area Starts ====================== **/}
-                <header className="w-full h-[45dvh] bg-gray-100 relative">
+                <header className="w-full h-[55dvh] bg-gray-100 relative">
 
-                    <div data-has-bg="yes" className=" h-full flex flex-col justify-end pb-6"
+                    <div data-has-bg="yes" className=" h-full flex flex-col justify-end pb-6 relative"
                         style={{
                             backgroundSize: `cover`,
                             backgroundPosition: `center`,
                             backgroundRepeat: `none`,
                             backgroundImage: `url(${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                ? `../../${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
+                                ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
                         }}>
 
                         <div className={`container mx-auto max-w-[1200px] px-3 xl:px-0 text-left z-20 flex flex-col`}>
@@ -322,8 +328,9 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                 </div>
 
                                 <div>
-                                    <div className={`bg-${themeSett?.primary_color}-600 text-white w-fit px-5 py-2 flex items-center 
-                                    space-x-2 rounded cursor-pointer`} onClick={() => { dispatch(showPageLoader()); router.back(); }}>
+                                    <div className={`bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} w-fit px-5 
+                                    py-2 flex items-center space-x-2 rounded cursor-pointer`}
+                                        onClick={() => { dispatch(showPageLoader()); router.back(); }}>
                                         <FaArrowLeftLong size={18} />
                                         <span>Go Back</span>
                                     </div>
@@ -331,6 +338,8 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             </div>
 
                         </div>
+
+                        <div className="absolute w-full h-full bottom-0 z-10 bg-gradient-to-b from-transparent to-black from-20%"></div>
                     </div>
 
                     <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-b from-transparent to-black/80 from-10%"></div>
@@ -355,7 +364,7 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                                 <div className='w-full'>
                                                     <ImageWithFallback key={blogPost.post_id} width={1250} height={400}
                                                         src={`${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                                            ? `../../${blogPost?.header_image_large}` : "../no-blog-image-added.png"}`}
+                                                            ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"}`}
                                                         fallbackSrc={`../no-blog-image-added.png`} alt={blogPost.post_title} />
                                                 </div>
 
@@ -401,7 +410,7 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
                                                     <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
                                                     <CommentBox item_type="Blog Post" item_uid={blogPost?.post_uid} setRepToAppend={setRepToAppend}
-                                                        setNoComms={setNoComms} />
+                                                        setNoComms={setNoComms} is_theme={is_theme} />
 
                                                     <div className='w-full font-semibold text-2xl mt-14'>
                                                         {curr_no_comms} Comment{curr_no_comms > 1 ? "s" : ""}
@@ -434,11 +443,11 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                         <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogPostLoaded} />
 
                                         <div className='w-full'>
-                                            <BlogCategoryLists />
+                                            <BlogCategoryLists curr_cat={``} is_theme={is_theme} />
                                         </div>
 
                                         <div className='w-full mt-12'>
-                                            <RelatedBlogPosts category_name={blogPost.category_name} post_uid={blogPost.post_uid} />
+                                            <RelatedBlogPosts category_name={blogPost.category_name} post_uid={blogPost.post_uid} is_theme={is_theme} />
                                         </div>
 
                                         <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>

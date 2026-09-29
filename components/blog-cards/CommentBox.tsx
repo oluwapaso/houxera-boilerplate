@@ -10,21 +10,26 @@ import { BiCommentAdd } from 'react-icons/bi'
 import FloatingInput from '../FloatingInput'
 import FloatingTextarea from '../FloatingTextarea'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
+import { useSearchParams } from 'next/navigation'
 
 const helpers = new Helpers();
-const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms }:
+const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme = false }:
     {
         item_type: string, item_uid: string, setRepToAppend: React.Dispatch<any>,
-        setNoComms: React.Dispatch<React.SetStateAction<number>>
+        setNoComms: React.Dispatch<React.SetStateAction<number>>, is_theme?: boolean
     }) => {
 
     const dispatch = useDispatch();
+    const searchParams = useSearchParams();
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
     const [values, setValues] = useState<any>({});
     const [submitting, setSubmitting] = useState(false);
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setValues((prevVals: any) => {
@@ -64,7 +69,9 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms }:
             dispatch(showPageLoader());
 
             var payload = {
-                ...values
+                ...values,
+                "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+                "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             };
 
             let response: any

@@ -1,27 +1,32 @@
 
 "use client"
 import React, { useEffect, useState } from 'react'
-import { FaChevronRight } from 'react-icons/fa'
 import CustomLinkMain from '../CustomLink';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { RootState } from '@/app/GlobalRedux/store';
 import { useSelector } from 'react-redux';
-import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
+import { FaArrowRightLong } from 'react-icons/fa6';
 import { BiLinkExternal } from 'react-icons/bi';
+import { useSearchParams } from 'next/navigation';
 
 const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_theme = false }:
     { category_name: string, post_uid: string, variation?: string, is_theme?: boolean }) => {
 
+    const searchParams = useSearchParams();
     const [posts, setposts] = useState<any[]>([]);
     const [postsLoaded, setpostsLoaded] = useState<boolean>(false);
     const [postsError, setPostsError] = useState("");
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
-    const FetchBlogPostsCats = async () => {
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+
+    const FetchRelatedBlogPosts = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "category_name": category_name,
             "post_uid": post_uid,
             "size": 3,
@@ -42,7 +47,7 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
     }
 
     useEffect(() => {
-        FetchBlogPostsCats();
+        FetchRelatedBlogPosts();
     }, []);
 
     useEffect(() => {
@@ -76,8 +81,7 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
                         ? "*:border-b *:border-gray-300 *:cursor-pointer *:px-1 *:py-3"
                         : " grid grid-cols-3 gap-5 *:rounded"} `}>
                         {posts.map((post) => {
-                            //../../ in `../${blog_post.header_image_large}` is for testing, remove this in production
-                            const header_image_large = post.header_image_large ? `../../${post.header_image_large}` : "../../no-image-found.jpg"
+                            const header_image_large = post.header_image_large ? `${post.header_image_large}` : "../../no-image-found.jpg"
                             return (<CustomLinkMain href={`/blog-post/${post.slug}`} key={post.post_uid}
                                 is_theme={is_theme} className={`w-full flex flex-col text-base font-normal space-y-1.5`}>
                                 <div className={`w-full h-[245px] relative rounded-t-md overflow-hidden z-10 !bg-center !bg-cover 
@@ -89,8 +93,8 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
 
                                     <div className={`px-2 mt-1 mb-2`}>
                                         <div className={`w-fit px-4 py-1 mt-1 text-sm bg-white border-1 border-${themeSett.primary_color} flex 
-                                    items-center justify-center text-${themeSett.primary_color} hover:bg-${themeSett.primary_color} 
-                                    hover:text-${themeSett.primary_button_text} cursor-pointer rounded space-x-2.5 hover:shadow-2xl`}>
+                                            items-center justify-center text-${themeSett.primary_color} hover:bg-${themeSett.primary_color} 
+                                            hover:text-${themeSett.primary_button_text} cursor-pointer rounded space-x-2.5 hover:shadow-2xl`}>
                                             <span>Read Article</span>
                                             <FaArrowRightLong size={18} />
                                         </div>
