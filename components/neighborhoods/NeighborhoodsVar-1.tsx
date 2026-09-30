@@ -24,6 +24,9 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
     const pageSize = size;
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
 
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+
     const [neighborgoods, setNeighborgoods] = useState<Neighorhood[]>([]);
     const [neighListLoaded, setNeighListLoaded] = useState<boolean>(false);
     const [neighListingError, setNeighListingError] = useState("");
@@ -33,6 +36,7 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(0);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -73,7 +77,8 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
     const LoadNeighborhoods = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "skip": "0",
             "fields": "neighborhood_uid,excerpt,summary,header_image_large,header_image_small,insight_type,slug,title,views,comments"
@@ -105,6 +110,42 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
     }, [window.MLS_Util]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -112,9 +153,9 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     if (themeSett) {
         return (
-            <section className="min-h-screen text-foreground relative py-35 bg-gray-100">
+            <section className={`min-h-screen text-foreground relative ${first_comp_pt} pb-20 bg-gray-50`}>
 
-                <div className=' container mx-auto max-w-[1280px]'>
+                <div className=' container mx-auto max-w-[1280px] px-4'>
 
                     <div className='w-full flex flex-col mt-0'>
                         {/* Blog Posts Section */}
@@ -131,7 +172,7 @@ const NeighborhoodsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
                         {/* Neighborhoods Grid */}
                         {(!loading && neighListingError == "" && Array.isArray(neighborgoods)) &&
-                            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-8 mb-8 sm:mb-12">
                                 {neighborgoods.map((post) => (
                                     <NeighborhoodCardVar1 key={post.neighborhood_uid} is_theme={is_theme} neigh_info={post} />
                                 ))}

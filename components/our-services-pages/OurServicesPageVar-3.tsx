@@ -24,6 +24,9 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
     const pageSize = size;
     const current_page = parseInt(searchParams?.get("page") ?? "1") || 1;
 
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
+
     const [services, setServices] = useState<OurService[]>([]);
     const [servicestLoaded, setServicesLoaded] = useState<boolean>(false);
     const [serviceError, setServiceListingError] = useState("");
@@ -33,6 +36,7 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(0);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -73,7 +77,8 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
     const LoadOurServices = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "size": pageSize,
             "skip": "0",
             "fields": "service_uid,excerpt,header_image_large,header_image_small,insight_type,slug,title,icon,featured,date_added"
@@ -105,6 +110,42 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
     }, [window.MLS_Util]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
         }
@@ -112,20 +153,20 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
     if (themeSett) {
         return (
-            <section className="min-h-screen text-foreground relative py-35 bg-gray-100">
+            <section className={`min-h-screen text-foreground relative ${first_comp_pt} pb-20 bg-gray-100`}>
 
-                <div className=' container mx-auto max-w-[1280px]'>
+                <div className=' container mx-auto max-w-[1280px] px-4'>
 
                     <div className='w-full flex flex-col mt-0'>
                         {/* Blog Posts Section */}
-                        <div className="w-full text-center mb-16">
+                        <div className="w-full text-center mb-10 sm:mb-16">
                             <h2 className="font-sans text-4xl md:text-5xl font-bold text-neutral-900 
                             flex flex-col items-center space-y-2.5">
-                                <span>{raw_data.header || "Top Neighborhoods"}</span>
+                                <span>{raw_data.header || "Our Services"}</span>
                                 <div className={`w-16 border-2 border-${themeSett.primary_color}`}></div>
                             </h2>
                             <p className="mt-4 font-sans text-base text-neutral-600 max-w-md mx-auto">
-                                {raw_data.sub_header || "Top Real Estate In Osun Nigeria"}
+                                {raw_data.sub_header || "Whatever your needs, we have someone who can help."}
                             </p>
                         </div>
 
@@ -135,7 +176,7 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
                         {/* Services Grid */}
                         {(!loading && serviceError == "" && Array.isArray(services)) &&
-                            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-8 mb-8 sm:mb-12">
                                 {services.map((srvc, index) => (
                                     <OurServicesCardVar3 key={srvc.service_uid} index={index} is_theme={is_theme} service={srvc} />
                                 ))}
@@ -146,7 +187,7 @@ const OurServicesPageVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                         {(!loading && serviceError == "" && totalPages > 0) &&
                             <ReactivePagination totalPage={totalPages} curr_page={currPage} is_theme={is_theme}
                                 changeTigger={setCurrPage} trigger_loader={setServicesLoaded}
-                                url_path={`/neighborhoods?`} />
+                                url_path={`/our-services?`} />
                         }
 
                         {/* Error message  */}

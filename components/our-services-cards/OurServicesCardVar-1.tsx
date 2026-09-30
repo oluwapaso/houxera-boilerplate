@@ -25,14 +25,18 @@ const OurServicesCardVar1 = ({ service_info, is_theme = false }: { service_info:
     const header_image_large = service_info.header_image_large ? `../${service_info.header_image_large}` : "../no-image-found.jpg"
     if (themeSett && themeSett != null) {
         return (
-            <CustomLinkMain href={`${themeSett.theme_prefix}/service-details/${service_info.slug}`} is_theme={is_theme}
+            <CustomLinkMain href={`/service-details/${service_info.slug}`} is_theme={is_theme}
                 className=' flex items-start space-x-4 tab:space-x-8'>
                 <div className={`bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} text-${themeSett.primary_color} p-2 rounded-md`} >
                     <DynamicIcon icon={service_info.icon} size={40} className={`text-${themeSett.primary_color} fill-${themeSett.primary_color}`} />
                 </div>
                 <div className=' flex flex-col'>
-                    <div className='font-semibold text-xl'>{service_info.title}</div>
-                    <div className=' tracking-wider leading-8'>
+                    <div className='font-semibold text-lg'>{service_info.title}</div>
+
+                    <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 mt-2 mb-4`} />
+
+                    <div className=' tracking-wider leading-relaxed line-clamp-3'>
                         {service_info.excerpt}
                     </div>
                     <div className={`w-fit px-4 py-1 mt-1 text-sm bg-white border-1 border-${themeSett.primary_color} flex 

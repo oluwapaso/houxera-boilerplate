@@ -27,7 +27,7 @@ const OurServicesCardVar4 = ({ service, index, is_theme = false }: { service: Ou
             <CustomLinkMain
                 key={service.title}
                 href={`${themeSett.theme_prefix}/service-details/${service.slug}`} is_theme={is_theme}
-                className="bg-white cursor-pointer rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 
+                className="bg-white cursor-pointer rounded-2xl px-4 xs:px-6 py-6 xs:py-8 shadow-sm hover:shadow-lg transition-shadow duration-300 
                 flex flex-col items-center justify-center gap-6" >
                 <div className="flex-shrink-0">
                     <div className={`w-16 h-16 bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} text-${themeSett.primary_color} 
@@ -35,11 +35,15 @@ const OurServicesCardVar4 = ({ service, index, is_theme = false }: { service: Ou
                         <DynamicIcon icon={service.icon} size={50} className={`text-${themeSett.primary_color} fill-${themeSett.primary_color}`} />
                     </div>
                 </div>
-                <div>
-                    <h3 className="text-lg font-semibold text-slate-800 mb-2 line-clamp-1">
+                <div className='flex flex-col'>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-center justify-center">
                         {service.title}
                     </h3>
-                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+
+                    <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 mt-2 mb-4`} />
+
+                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 text-center">
                         {service.excerpt}
                     </p>
                 </div>

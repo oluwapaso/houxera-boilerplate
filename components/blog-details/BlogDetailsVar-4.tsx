@@ -60,7 +60,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const [has_more, setHasMore] = useState("No");
     const [rep_to_append, setRepToAppend] = useState<any>(null);
     const [curr_no_comms, setNoComms] = useState(0);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const [keyword, setKeyword] = useState("");
     let all_comments: React.JSX.Element[] = [];
@@ -262,7 +262,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                 const nav = document.getElementById("NavVar7");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
             };
 
             updatePadding(); // initial

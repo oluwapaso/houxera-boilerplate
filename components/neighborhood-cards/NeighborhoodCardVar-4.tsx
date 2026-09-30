@@ -74,7 +74,7 @@ const NeighborhoodCardVar4 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
                                 transition-colors text-xs hover:shadow-md flex items-center justify-center bg-${themeSett.primary_color} 
                                 text-${themeSett.primary_button_text} hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}
                                 space-x-1.5`}>
-                                    <span>Explore Neighborhood</span>
+                                    <span>Explore Guide</span>
                                     <FiExternalLink size={14} />
                                 </button>
                             </div>

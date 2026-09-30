@@ -39,7 +39,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [blogsLoaded, setBlogsLoaded] = useState<boolean>(false);
     const [blogsError, setBlogsError] = useState("");
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-25 md:35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -148,7 +148,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                 const nav = document.getElementById("NavVar7");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
             };
 
             updatePadding(); // initial

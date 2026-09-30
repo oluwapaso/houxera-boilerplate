@@ -30,12 +30,15 @@ const OurServicesCardVar2 = ({ service, index, is_theme = false }: { service: Ou
                     <span className="block text-xs font-medium text-gray-400">
                         {String(index + 1).padStart(2, '0')}.
                     </span>
-                    <div className="mt-2 mb-4 h-px w-full bg-gray-200" />
+
+                    <div className={`h-0.5 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
+                        transition-opacity duration-700 mt-2 mb-4`} />
+
                     <h3 className="mb-2 text-xl font-bold text-gray-900">{service.title}</h3>
                     <p className="text-sm leading-relaxed text-gray-600 line-clamp-4">{service.excerpt}</p>
 
                     <CustomLinkMain href={`${themeSett.theme_prefix}/service-details/${service.slug}`} is_theme={is_theme}
-                        className=' flex justify-end items-center '>
+                        className=' flex justify-end items-center mt-1.5'>
                         <div className={`w-fit px-4 py-1 mt-1 text-sm bg-white border-1 border-${themeSett.primary_color} flex 
                             items-center justify-center hover:bg-${themeSett.primary_color} text-${themeSett.primary_color} 
                             hover:text-white cursor-pointer rounded space-x-2.5 hover:shadow-2xl`}>

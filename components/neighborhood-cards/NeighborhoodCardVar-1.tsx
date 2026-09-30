@@ -41,7 +41,7 @@ const NeighborhoodCardVar1 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
                 transition-opacity duration-300 group-hover:opacity-0'>
                     <div className=' flex items-center text-white'>
                         <span className='text-base font-medium flex items-center space-x-2.5'>
-                            <span>Explore Neighborhoods</span>
+                            <span>Explore Guide</span>
                             <FaArrowRightLong size={18} />
                         </span>
                     </div>

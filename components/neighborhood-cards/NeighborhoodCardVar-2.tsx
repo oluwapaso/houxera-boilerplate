@@ -68,7 +68,7 @@ const NeighborhoodCardVar2 = ({ neigh_info, is_theme = false }: { neigh_info: Ne
                         {/* Search Button */}
                         <button className="w-full py-3 px-4 bg-white text-black font-semibold rounded-md hover:bg-gray-100 
                         transition-colors cursor-pointer">
-                            Explore Neighborhood
+                            Explore Guide
                         </button>
                     </div>
                 </div>

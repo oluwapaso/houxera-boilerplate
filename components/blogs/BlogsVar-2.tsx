@@ -40,7 +40,7 @@ const BlogsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: 
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [keyword, setKeyword] = useState(keyword_params);
     const [currPage, setCurrPage] = useState(current_page);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-25");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30");
 
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(0);

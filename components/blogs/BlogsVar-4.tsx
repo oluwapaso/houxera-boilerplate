@@ -42,7 +42,7 @@ const BlogsVar4 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [error, setError] = useState("")
     const [totalPages, setTotalPages] = useState(0)
     const [featured, setFeatured] = useState<BlogPost | null>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-25");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30");
 
     const handleSettingsClick = () => {
         // Send a message to the parent window

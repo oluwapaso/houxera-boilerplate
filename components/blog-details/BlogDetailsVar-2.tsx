@@ -68,7 +68,7 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [is_menu_shown, setIsMenuShown] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:35");
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const closeModal = () => {
         setShowModal(false);
@@ -259,7 +259,7 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                 const nav = document.getElementById("NavVar7");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
             };
 
             updatePadding(); // initial
