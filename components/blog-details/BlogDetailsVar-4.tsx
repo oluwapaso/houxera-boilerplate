@@ -7,7 +7,7 @@ import CommentBox from '@/components/blog-cards/CommentBox';
 import CommentCardVar2 from '@/components/blog-cards/CommentCardVar-2';
 import RelatedBlogPosts from '@/components/blog-cards/RelatedBlogPosts';
 import moment from 'moment';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiCalendarEvent, BiRefresh } from 'react-icons/bi';
@@ -35,8 +35,12 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
+    const searchParams = useSearchParams();
     const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hard coaded part is for testing only
     const router = useRouter();
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
@@ -56,6 +60,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const [has_more, setHasMore] = useState("No");
     const [rep_to_append, setRepToAppend] = useState<any>(null);
     const [curr_no_comms, setNoComms] = useState(0);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:35");
 
     const [keyword, setKeyword] = useState("");
     let all_comments: React.JSX.Element[] = [];
@@ -125,7 +130,8 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsDetails = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "slug": slug,
             "user_uid": user.user_info?.user_uid,
         }
@@ -148,7 +154,8 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsComments = async (skip: number) => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "post_uid": blogPost.post_uid,
             "skip": skip || 0,
             "size": 20,
@@ -237,6 +244,44 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         }
     }, [window.MLS_Util]);
 
+
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
             blogPostLoaded ? (
@@ -291,33 +336,33 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     if (themeSett && themeSett != null) {
         return (
-            <div className="min-h-screen bg-gray-100 relative py-35">
+            <div className={`min-h-screen bg-gray-100 relative ${first_comp_pt} pb-20 px-3`}>
 
-                <div className='w-full h-[45dvh] grid grid-cols-2 gap-0 relative'>
+                <div className='w-full h-[45dvh] grid grid-cols-1 tab:grid-cols-2 gap-0 relative'>
 
                     {/* Empty space */}
-                    <div></div>
+                    <div className='hidden tab:block'></div>
 
                     {/* Hero image */}
-                    <div className=" col-span-1 w-full mx-auto h-full flex flex-col justify-end object-cover"
+                    <div className=" col-span-1 w-full mx-auto h-full flex flex-col justify-end object-cover rounded-2xl overflow-hidden"
                         style={{
                             backgroundSize: `cover`,
                             backgroundPosition: `center`,
                             backgroundRepeat: `none`,
                             backgroundImage: `url(${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                ? `../../${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
+                                ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
                         }}>
                     </div>
 
                     <div className='w-full h-full absolute flex items-center justify-center'>
-                        <div className='mx-auto w-[75%] flex flex-col items-start justify-center h-full'>
-                            <h1 className=" w-full text-4xl font-semibold leading-snug text-gray-900 sm:text-3xl">
-                                <span className="bg-white leading-13 px-2 py-1 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+                        <div className='mx-auto w-[95%] tab:w-[75%] flex flex-col items-start justify-center h-full'>
+                            <h1 className=" w-full text-2xl xs:text-3xl sm:text-4xl font-semibold sm:leading-snug text-gray-900">
+                                <span className="bg-white leading-10 xs:leading-14 sm:leading-16 px-2 py-0.5 xs:py-1 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
                                     {blogPost.title}
                                 </span>
                             </h1>
 
-                            <div className=' flex w-full space-x-3 *:bg-white *:px-4 *:py-2 *:rounded *:flex *:items-center'>
+                            <div className=' flex w-full space-x-1.5 2xs:space-x-3 *:bg-white *:px-3 2xs:*:px-4 *:py-2 *:rounded *:flex *:items-center'>
                                 <div className='space-x-1.5'>
                                     <BiCalendarEvent size={15} />
                                     <span className='text-sm font-semibold'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
