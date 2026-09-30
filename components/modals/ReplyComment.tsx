@@ -7,17 +7,24 @@ import FloatingTextarea from '../FloatingTextarea'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice'
 import { FaArrowRightLong } from 'react-icons/fa6'
+import { Helpers } from '@/_lib/helper'
+import { useSearchParams } from 'next/navigation'
 
-const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAppend, setNoComms }:
+const helpers = new Helpers();
+const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAppend, setNoComms, is_theme = false }:
     {
         closeModal: () => void, item_type: string, item_uid: string, comment_uid: string, setRepToAppend: React.Dispatch<any>,
-        setNoComms: React.Dispatch<React.SetStateAction<number>>
+        setNoComms: React.Dispatch<React.SetStateAction<number>>, is_theme?: boolean
     }) => {
 
     const dispatch = useDispatch();
+    const searchParams = useSearchParams();
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [formData, setFormData] = useState<any>({
         "post_uid": item_uid, //for blog post
@@ -70,6 +77,8 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
             dispatch(showPageLoader());
 
             var payload = {
+                "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+                "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
                 "post_uid": item_uid, //for blog post
                 "neighborhood_uid": item_uid, //for neighborhood post
                 "email": user.user_info?.email,
@@ -143,8 +152,9 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
                         </div>
 
                         <div className='w-full mt-4'>
-                            <button className={`bg-${themeSett?.primary_color}-600 text-white py-3 px-5 float-right space-x-2 
-                            hover:bg-${themeSett?.primary_color}-700 hover:drop-shadow-md flex items-center rounded cursor-pointer`}
+                            <button className={`bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} py-3 px-5 
+                            float-right space-x-2 hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} 
+                            hover:drop-shadow-md flex items-center rounded cursor-pointer`}
                                 onClick={() => handleSubmit()}>
                                 <span>Add Reply</span> <FaArrowRightLong size={18} />
                             </button>

@@ -7,13 +7,13 @@ import CommentBox from '@/components/blog-cards/CommentBox';
 import CommentCardVar2 from '@/components/blog-cards/CommentCardVar-2';
 import RelatedBlogPosts from '@/components/blog-cards/RelatedBlogPosts';
 import moment from 'moment';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { BiRefresh } from 'react-icons/bi';
+import { BiRefresh, BiTrashAlt } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BsTwitterX } from 'react-icons/bs';
+import { BsGear, BsTwitterX } from 'react-icons/bs';
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -27,14 +27,19 @@ import { CiShare2 } from 'react-icons/ci';
 import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
 import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { GiFlame } from 'react-icons/gi';
+import Modal from '../modals/Modal';
 
 const helpers = new Helpers();
 const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
+    const searchParams = useSearchParams();
     const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hard coaded part is for testing only
     const router = useRouter();
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
@@ -63,6 +68,7 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [is_menu_shown, setIsMenuShown] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:35");
 
     const closeModal = () => {
         setShowModal(false);
@@ -123,7 +129,8 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsDetails = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "slug": slug,
             "user_uid": user.user_info?.user_uid,
         }
@@ -146,7 +153,8 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const LoadBlogsComments = async (skip: number) => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "post_uid": blogPost.post_uid,
             "skip": skip || 0,
             "size": 20,
@@ -235,6 +243,42 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         }
     }, [window.MLS_Util]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("NavVar7");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("NavVar7");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
             blogPostLoaded ? (
@@ -289,7 +333,7 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     if (themeSett && themeSett != null) {
         return (
-            <div className="min-h-screen bg-gray-100 relative py-35">
+            <div className={`min-h-screen bg-gray-100 relative ${first_comp_pt} pb-20 px-3`}>
 
                 <div className='py-4 flex flex-col items-center justify-center'>
                     <h1 className=" w-full max-w-[650px] text-center text-3xl font-bold leading-snug text-gray-900 sm:text-3xl">
@@ -297,42 +341,42 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                     </h1>
                     <span className=' text-gray-600 text-lg mt-1'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
                 </div>
+
                 {/* Hero image */}
-                <header className="w-full h-[45dvh] relative z-1 overflow-hidden">
+                <header className="w-full h-[45dvh] sm:h-[65dvh] relative z-1 overflow-hidden">
                     <div className=" w-full max-w-[1280px] rounded-2xl mx-auto h-full flex flex-col justify-end object-cover"
                         style={{
                             backgroundSize: `cover`,
                             backgroundPosition: `center`,
                             backgroundRepeat: `none`,
                             backgroundImage: `url(${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                ? `../../${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
+                                ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
                         }}>
                     </div>
                 </header>
 
                 {/* Content wrapper with overlapping card */}
-                <div className={`container mx-auto max-w-[1280px] mt-8`}>
+                <div className={`container mx-auto max-w-[1280px] mt-8 `}>
                     {/* Main article card */}
                     {blogPostError == "" &&
-                        <div className="rounded-2xl bg-white p-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
+                        <div className="rounded-2xl bg-white px-3 2xs:px-5 py-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
                             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-gray-500">
                                 <span>Category:</span> <span className={`text-${themeSett.primary_color}`}>{blogPost?.category_name}</span>
                             </span>
 
+                            <div className="mt-5 flex flex-col md:flex-row justify-between gap-4 border-b border-gray-200 pb-5">
 
-                            <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-5">
-
-                                <div className="text-sm flex space-x-2">
+                                <div className="flex flex-col sm:flex-row space-x-3.5 text-sm *:shrink-0">
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Posted On:</span>
                                         <span className=' text-gray-600'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
                                     </p>
-                                    <span>•</span>
+                                    <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Views:</span>
                                         <span className=' text-gray-600'>{blogPost.views}</span>
                                     </p>
-                                    <span>•</span>
+                                    <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Comments:</span>
                                         <span className=' text-gray-600'>{curr_no_comms}</span>
@@ -351,7 +395,7 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
                                             <div className='w-full p-3 border-b border-gray-200 pb-2 text-sm font-semibold'>Share This Page:</div>
                                             <div className={`w-full flex flex-col items-center *:flex *:items-center *:justify-start 
-                                             !divide-y !divide-gray-200`}>
+                                                !divide-y !divide-gray-200`}>
 
                                                 <FacebookShareButton url={page_url} title={share_title}
                                                     className='w-full *:p-4 *:rounded-md *:cursor-pointer *:flex *:items-center *:space-x-2.5'>
@@ -423,8 +467,8 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
                     }
 
-                    <div className='w-full'>
-                        <BlogCategoryPills curr_cat={blogPost.category_name} />
+                    <div className='w-full mt-12'>
+                        <BlogCategoryPills curr_cat={blogPost.category_name} is_theme={is_theme} />
                     </div>
 
                     {(blogPostLoaded && blogPost) &&
@@ -443,6 +487,45 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
                     </div>
                 </div>
+
+                <Modal show={showModal} children={modal_children} width={700} closeModal={closeModal} title=<div>Reply To Comment</div> />
+
+                {is_theme && (
+                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
+                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BsGear size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Section settings
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiRefresh size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Change Layout
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiTrashAlt size={17} />
+
+                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Remove Section Down
+                            </span>
+                        </div>
+
+                    </div>
+                )}
             </div>
         )
     }

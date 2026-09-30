@@ -148,25 +148,21 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
 
     if (themeSett && themeSett != null) {
         return (
-            <div className='w-full mt-2 bg-white border border-gray-300 px-6 py-4 shadow-xl rounded-lg'>
+            <div className='w-full mt-2 bg-white border border-gray-300 px-3 xs:px-6 py-4 space-y-4 shadow-xl rounded-lg'>
 
-                <div className='grid grid-cols-2 gap-5'>
+                <div className='grid grid-cols-1 xs:grid-cols-2 gap-5'>
                     <div className=''>
-                        <div className='mt-5 flex flex-col'>
-                            <FloatingInput label='First Name' placeholder='Full Name' value={values.firstname} name='firstname'
-                                handleChange={(e) => handleChange(e)} required />
-                        </div>
+                        <FloatingInput label='First Name' placeholder='Full Name' value={values.firstname} name='firstname'
+                            handleChange={(e) => handleChange(e)} required />
                     </div>
 
                     <div className=''>
-                        <div className='mt-5 flex flex-col'>
-                            <FloatingInput label='Last Name' placeholder='Last Name' value={values.lastname} name='lastname'
-                                handleChange={(e) => handleChange(e)} required />
-                        </div>
+                        <FloatingInput label='Last Name' placeholder='Last Name' value={values.lastname} name='lastname'
+                            handleChange={(e) => handleChange(e)} required />
                     </div>
                 </div>
 
-                <div className='mt-5 flex flex-col'>
+                <div className='flex flex-col'>
                     <FloatingInput label='Email Address' placeholder='Email' value={values.email} name='email'
                         handleChange={(e) => handleChange(e)} required />
                     <small className='w-full mt-1 text-red-600'>
@@ -174,12 +170,12 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
                     </small>
                 </div>
 
-                <div className='mt-5'>
+                <div className=''>
                     <FloatingTextarea label='Comments' placeholder='Comments' value={values.comments} name='comments' height='256px'
                         handleChange={(e) => handleChange(e)} required />
                 </div>
 
-                <div className='my-5 flex justify-end'>
+                <div className='flex justify-end'>
                     {
                         !submitting ? (
                             <button className={`bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} font-normal 
@@ -196,8 +192,6 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
                     }
 
                 </div>
-
-                {/** <ToastContainer /> **/}
             </div>
         )
     }

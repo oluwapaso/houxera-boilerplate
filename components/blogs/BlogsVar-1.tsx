@@ -183,7 +183,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                         <div className='font-semibold text-2xl md:text-3xl flex items-center justify-between'>
                             <div>{raw_data.header || "Latest Real Estate News"}</div>
                             {raw_data?.show_more == "Yes" &&
-                                <CustomLinkMain href={`${themeSett.theme_prefix}/blog-posts?page=1`} is_theme={is_theme}
+                                <CustomLinkMain href={`/blog-posts?page=1`} is_theme={is_theme}
                                     className={`hidden target:block px-3 py-2 md:px-7 md:py-4 text-sm bg-white border-2 border-${themeSett.primary_color} flex 
                                     items-center justify-center hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} 
                                     text-${themeSett.primary_color} hover:text-white cursor-pointer rounded space-x-2.5 

@@ -115,7 +115,7 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     const handleReply = (comment_uid: string) => { //, quoted_comments: string
         setModalChildren(<ReplyComment closeModal={closeModal} item_type="Blog Post" item_uid={blogPost.post_uid} comment_uid={comment_uid}
-            setRepToAppend={setRepToAppend} setNoComms={setNoComms} />);
+            setRepToAppend={setRepToAppend} setNoComms={setNoComms} is_theme={is_theme} />);
         setShowModal(true);
 
         const body = document.querySelector("body");
@@ -285,7 +285,7 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
             <div className="flex flex-col min-h-screen relative" >
 
                 {/**  ======================= Header Area Starts ====================== **/}
-                <header className="w-full h-[55dvh] bg-gray-100 relative">
+                <header className="w-full h-[85dvh] sm:h-[55dvh] bg-gray-100 relative">
 
                     <div data-has-bg="yes" className=" h-full flex flex-col justify-end pb-6 relative"
                         style={{
@@ -300,8 +300,9 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             <div className={`w-full font-medium *:text-white xl:text-shadow-primary`}>{crumb}</div>
                             <div className={`w-full text-white line-clamp-2 `}>{blogPost?.summary}</div>
 
-                            <div className=' mt-8 flex justify-between'>
-                                <div className=' flex space-x-3.5 text-white *:flex *:items-center *:space-x-1.5'>
+                            <div className=' mt-8 flex flex-col md:flex-row space-y-2 justify-between'>
+                                <div className=' flex flex-col sm:flex-row space-x-3.5 text-white *:flex *:items-center *:space-x-1.5 
+                                *:shrink-0 flex--wrap'>
                                     <div className=''>
                                         <span className='font-semibold flex items-center space-x-2'>
                                             <BiCalendar size={18} />
@@ -327,7 +328,7 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                     </div>
                                 </div>
 
-                                <div>
+                                <div className='justify-self-end ml-auto'>
                                     <div className={`bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} w-fit px-5 
                                     py-2 flex items-center space-x-2 rounded cursor-pointer`}
                                         onClick={() => { dispatch(showPageLoader()); router.back(); }}>
@@ -347,8 +348,8 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                 {/**  ======================= Header Area Ends ====================== **/}
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
-                    {/**  ======================= Contact Area Starts ====================== **/}
-                    <div className="w-full relative py-16">
+                    {/**  ======================= Content Area Starts ====================== **/}
+                    <div className="w-full relative py-8 xl:py-16 px-4">
                         <div className="container mx-auto max-w-[1200px]">
 
                             {!blogPostLoaded && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
@@ -439,14 +440,17 @@ const BlogDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                         }
                                     </div>
 
-                                    <div className='hidden lg:block lg:col-span-2'>
-                                        <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogPostLoaded} />
+                                    <div className='hidden-lg:block lg:col-span-2'>
 
-                                        <div className='w-full'>
+                                        <div className='max-lg:max-w-sm'>
+                                            <BlogSearch keyword={keyword} setKeyword={setKeyword} setBlogPostLoaded={setBlogPostLoaded} />
+                                        </div>
+
+                                        <div className='w-full max-lg:max-w-sm'>
                                             <BlogCategoryLists curr_cat={``} is_theme={is_theme} />
                                         </div>
 
-                                        <div className='w-full mt-12'>
+                                        <div className='w-full mt-12 '>
                                             <RelatedBlogPosts category_name={blogPost.category_name} post_uid={blogPost.post_uid} is_theme={is_theme} />
                                         </div>
 

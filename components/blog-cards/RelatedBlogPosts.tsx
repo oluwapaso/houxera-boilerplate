@@ -61,15 +61,13 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
             <div className='w-full mb-5'>
                 <div className='w-full flex justify-between items-center text-xl'>
                     <span>Related Blog Posts</span>
-                    {variation == "grid" &&
-                        <CustomLinkMain href={`/blog-posts`} is_theme={is_theme} className={`flex items-center gap-2 rounded 
-                            cursor-pointer border border-${themeSett.primary_color} px-4 py-1.5 text-sm font-medium 
-                            text-${themeSett.primary_color} transition-colors hover:bg-${themeSett.primary_color} 
-                            hover:text-${themeSett.primary_button_text} `}>
-                            <span>See All Post</span>
-                            <BiLinkExternal className="h-4 w-4" />
-                        </CustomLinkMain>
-                    }
+                    <CustomLinkMain href={`/blog-posts`} is_theme={is_theme} className={`hidden 2xs:flex items-center gap-2 rounded 
+                        cursor-pointer border border-${themeSett.primary_color} px-4 py-1.5 text-sm font-medium 
+                        text-${themeSett.primary_color} transition-colors hover:bg-${themeSett.primary_color} 
+                        hover:text-${themeSett.primary_button_text} `}>
+                        <span>See All Post</span>
+                        <BiLinkExternal className="h-4 w-4" />
+                    </CustomLinkMain>
                 </div>
 
                 {!postsLoaded && <div className='col-span-full h-[250px] bg-white flex items-center justify-center'>
@@ -78,8 +76,8 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
 
                 {(postsLoaded && posts) &&
                     <ul className={`w-full mt-2 ${variation == "side"
-                        ? "*:border-b *:border-gray-300 *:cursor-pointer *:px-1 *:py-3"
-                        : " grid grid-cols-3 gap-5 *:rounded"} `}>
+                        ? "*:border-b *:border-gray-300 *:cursor-pointer *:px-1 *:py-3 max-lg:grid max-sm:grid-cols-1 max-lg:grid-cols-2 max-lg:gap-4"
+                        : " grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 *:rounded"} `}>
                         {posts.map((post) => {
                             const header_image_large = post.header_image_large ? `${post.header_image_large}` : "../../no-image-found.jpg"
                             return (<CustomLinkMain href={`/blog-post/${post.slug}`} key={post.post_uid}
@@ -111,6 +109,16 @@ const RelatedBlogPosts = ({ category_name, post_uid, variation = "side", is_them
                         {postsError}
                     </div>
                 }
+
+                <div className='px-1 flex 2xs:hidden justify-center items-center mt-5'>
+                    <CustomLinkMain href={`/blog-posts`} is_theme={is_theme} className={`flex justify-center items-center gap-2 rounded 
+                    cursor-pointer border border-${themeSett.primary_color} px-4 py-2 text-sm font-medium 
+                    text-${themeSett.primary_color} transition-colors hover:bg-${themeSett.primary_color} 
+                    hover:text-${themeSett.primary_button_text} `}>
+                        <span>See All Post</span>
+                        <BiLinkExternal className="h-4 w-4" />
+                    </CustomLinkMain>
+                </div>
             </div>
         )
     }
