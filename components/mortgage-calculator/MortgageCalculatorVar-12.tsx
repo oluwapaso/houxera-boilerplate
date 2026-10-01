@@ -322,7 +322,7 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                 {/* hero band */}
                 <div className={`w-full pb-20 pt-48 px-4 text-center object-cover !bg-cover !bg-center bg-${themeSett.primary_color} 
-                text-${themeSett.primary_button_text} relative`} style={{ background: `url('../no-image-found.jpg')` }}>
+                text-${themeSett.primary_button_text} relative`} style={{ background: `url('${raw_data.header_bg || "../no-image-found.jpg"}')` }}>
                     <h1 className="text-4xl md:text-5xl font-bold relative z-2 ">{raw_data.header || "Mortgage Calculator"}</h1>
                     <p className={`mt-3 max-w-[480px] mx-auto text-sm relative z-2 `}>
                         {raw_data.sub_header || "A practical estimator for monthly home loan payments."}
