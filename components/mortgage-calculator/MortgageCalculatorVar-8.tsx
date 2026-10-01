@@ -17,6 +17,7 @@ const MortgageCalculatorVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35 md:pt-35");
 
     const empty_form_data = {
         property_price: helpers.formatCurrency("100000000", true),
@@ -311,6 +312,42 @@ const MortgageCalculatorVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?
     }, [calc_data.property_price, calc_data.downpay_percent]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         dispatch(hidePageLoader());
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -319,11 +356,11 @@ const MortgageCalculatorVar8 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="w-full min-h-[100dvh] py-35 px-4" style={{ background: '#FFFDF5' }}>
+            <section className="w-full min-h-[100dvh] ${first_comp_pt} pb-20 px-4" style={{ background: '#FFFDF5' }}>
                 <div className="container mx-auto max-w-[1000px]">
 
                     <h1 className="text-5xl md:text-7xl font-black uppercase leading-[0.95] mb-10" style={{ color: '#111111' }}>
-                        Mortgage<br />Calculator
+                        Mortgage<br />Calculator xxx
                     </h1>
 
                     <div className="border-4 p-6 md:p-10" style={{ borderColor: '#111111', background: '#FFFFFF', boxShadow: '10px 10px 0 #111111' }}>

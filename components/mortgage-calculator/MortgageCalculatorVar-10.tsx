@@ -18,6 +18,7 @@ const MortgageCalculatorVar10 = ({ is_theme = false, raw_data = {} }: { is_theme
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-35 md:pt-35");
 
     const empty_form_data = {
         property_price: helpers.formatCurrency("100000000", true),
@@ -310,6 +311,42 @@ const MortgageCalculatorVar10 = ({ is_theme = false, raw_data = {} }: { is_theme
     }, [calc_data.property_price, calc_data.downpay_percent]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         dispatch(hidePageLoader());
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -318,10 +355,10 @@ const MortgageCalculatorVar10 = ({ is_theme = false, raw_data = {} }: { is_theme
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="w-full min-h-[100dvh] py-35 px-4" style={{ background: '#EDEDED' }}>
+            <section className={`w-full min-h-[100dvh] ${first_comp_pt} pb-20 px-4`} style={{ background: '#EDEDED' }}>
                 <div className="w-full max-w-[650px] mx-auto">
 
-                    <div className="bg-white px-6 py-10"
+                    <div className="bg-white px-4 xs:px-6 py-10"
                         style={{
                             color: '#222222',
                             boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
@@ -348,7 +385,7 @@ const MortgageCalculatorVar10 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                             <div className="text-[10px]" style={{ color: '#CCCCCC' }}>- - - - - - - - - - - - - - - - - - -</div>
 
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 xs:grid-cols-2 gap-3">
                                 <div>
                                     <div className="uppercase mb-1" style={{ color: '#666666' }}>down ₦</div>
                                     <FloatingInput name='downpay_dollar' label='' placeholder='Down Payment Amount'
@@ -365,7 +402,7 @@ const MortgageCalculatorVar10 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                             <div className="text-[10px]" style={{ color: '#CCCCCC' }}>- - - - - - - - - - - - - - - - - - -</div>
 
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 xs:grid-cols-2 gap-3">
                                 <div>
                                     <div className="uppercase mb-1" style={{ color: '#666666' }}>term (yrs)</div>
                                     <FloatingInput name='length_of_mortgage' label='' placeholder='Length of Mortgage'

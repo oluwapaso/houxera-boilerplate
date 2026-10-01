@@ -19,6 +19,7 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [chartData, setChartData] = useState({ principal: 0, totalInterest: 0 });
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const empty_form_data = {
         property_price: helpers.formatCurrency("100000000", true),
@@ -40,42 +41,6 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
             }
         })
     }
-
-    // const handleDpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     if (e.target.name == "downpay_dollar") {
-
-    //         let value = (100 * (parseFloat(helpers.formatMoneyToNumber(e.target.value)) / parseFloat(helpers.formatMoneyToNumber(calc_data.property_price)))).toFixed(2).toString()
-    //         if (Number.isNaN(value)) {
-    //             value = "0"
-    //         }
-
-    //         value = value.replace(".00", "").replace("₦", "").replace("NGN", "").replace("%", "");
-    //         value = `${helpers.formatFraction(value)}%`;
-
-    //         setCalcData((prev_data: any) => {
-    //             return {
-    //                 ...prev_data,
-    //                 [e.target.name]: e.target.value,
-    //                 ["downpay_percent"]: value
-    //             }
-    //         })
-
-    //     } else if (e.target.name == "downpay_percent") {
-
-    //         let value = parseFloat(helpers.formatMoneyToNumber(calc_data.property_price)) * (parseFloat(helpers.formatMoneyToNumber(e.target.value)) / 100)
-
-    //         setCalcData((prev_data: any) => {
-    //             return {
-    //                 ...prev_data,
-    //                 [e.target.name]: e.target.value,
-    //                 ["downpay_dollar"]: helpers.formatCurrency(value.toFixed(2), true)
-    //             }
-    //         })
-
-    //     }
-
-    // }
 
     const handleDpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // just store the raw value while typing, no cross-calculation
@@ -350,6 +315,42 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
     }, [calc_data.property_price, calc_data.downpay_percent]);
 
     useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
+    useEffect(() => {
         dispatch(hidePageLoader());
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -358,55 +359,55 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="w-full flex flex-col min-h-screen bg-gray-50 relative px-6 py-35">
+            <section className={`w-full flex flex-col min-h-screen bg-gray-50 relative px-3 xs:px-6 ${first_comp_pt} pb-20`}>
 
-                <div className="container mx-auto max-w-[1000px] px-3 xl:px-0 text-left">
+                <div className="container mx-auto max-w-[1000px] text-left">
 
                     <div className="text-center mb-10">
                         <h3 className='w-full font-play-fair-display text-2xl md:text-4xl'>
                             {raw_data.header || "Mortgage Calculator"}
                         </h3>
-                        <p className="text-sm mt-3 max-w-[440px] mx-auto">
+                        <p className="text-sm mt-1 max-w-[440px] mx-auto">
                             {raw_data.sub_header || "Estimate your monthly payment from sale price, down payment, term, and rate."}
                         </p>
                     </div>
 
-                    <div className='w-full mt-4 bg-white p-8 drop-shadow-2xl rounded border border-gray-100'>
-                        <div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-5'>
+                    <div className="w-full mt-4 bg-white py-5 xs:py-8 px-4 xs:px-8 drop-shadow-2xl rounded border border-gray-100">
+                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-                            <div className=''>
+                            <div className='col-span-full tab:col--span-1'>
                                 <FloatingInput name='property_price' label='Property Price' placeholder='Property Price'
                                     handleChange={(e) => handleChange(e)} value={calc_data.property_price.toString()}
                                     handleBlur={(e) => handleInputBlur(e)} required data-is-currency />
                             </div>
 
-                            <div className='w-full grid grid-cols-4 gap-0'>
-                                <div className='col-span-2'>
+                            <div className='col-span-full tab:col--span-1 grid grid-cols-1 gap-5 sm:grid-cols-2'>
+                                <div className=''>
                                     <FloatingInput name='downpay_dollar' label='Down.Pay Amt.' placeholder='Down Payment Amount'
                                         handleChange={(e) => handleDpChange(e)} value={calc_data.downpay_dollar.toString()}
                                         handleBlur={(e) => handleDpBlur(e)} required data-is-currency />
                                 </div>
 
-                                <div className='col-span-2'>
+                                <div className=''>
                                     <FloatingInput name='downpay_percent' label='Down.Pay Percentage' placeholder='Down Payment Percentage'
                                         handleChange={(e) => handleDpChange(e)} value={calc_data.downpay_percent.toString()}
                                         handleBlur={(e) => handleDpBlur(e)} required data-is-percent />
                                 </div>
                             </div>
 
-                            <div className=''>
+                            <div className='col-span-full sm:col-span-1'>
                                 <FloatingInput name='length_of_mortgage' label='Length of Mortgage' placeholder='Length of Mortgage'
                                     handleChange={(e) => handleChange(e)} value={calc_data.length_of_mortgage.toString()} required data-is-number
                                     handleBlur={(e) => handleInputBlur(e)} data-max-len={2} data-max-val={30} data-min-val={1} />
                             </div>
 
-                            <div className=''>
+                            <div className='col-span-full sm:col-span-1'>
                                 <FloatingInput name='interest_rate' label='Annual Interest Rate' placeholder='Annual Interest Rate'
                                     handleChange={(e) => handleChange(e)} value={calc_data.interest_rate.toString()} required data-is-percent
                                     handleBlur={(e) => handleInputBlur(e)} data-max-len={3} data-max-val={100} data-min-val={0} />
                             </div>
 
-                            <div className='sm:col-span-2 relative flex items-center -left-2.5'>
+                            <div className='col-span-full relative flex items-center -left-2.5'>
                                 <input type='checkbox' className='styled-checkbox' name='show_calc' id='show_calc'
                                     checked={show_calc} onChange={(e) => handleShowCalc(e)} />
                                 <label className='' htmlFor="show_calc">
@@ -414,13 +415,13 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
                                 </label>
                             </div>
 
-                            <div className='sm:col-span-2 my-4'>
+                            <div className='col-span-full my-4'>
                                 THIS MORTGAGE CALCULATOR CAN BE USED TO FIGURE OUT MONTHLY PAYMENTS OF A HOME MORTGAGE LOAN,
                                 BASED ON THE HOME'S SALE PRICE, THE TERM OF THE LOAN DESIRED, BUYER'S DOWN PAYMENT PERCENTAGE,
                                 AND THE LOAN'S INTEREST RATE.
                             </div>
 
-                            <div className='sm:col-span-2'>
+                            <div className='col-span-full'>
                                 <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                     hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} rounded text-white 
                                     px-5 py-3 float-right font-normal flex items-center justify-center cursor-pointer `}
@@ -446,7 +447,7 @@ const MortgageCalculatorVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?
                             </div>
 
                             <div className='float-none w-full flex flex-col items-center justify-center'>
-                                <h1 className='text-5xl font-bold'>{monthly_payment}</h1>
+                                <h1 className='text-5xl break-all font-bold'>{monthly_payment}</h1>
                                 <h2 className='font-semibold mt-2 text-xl'>Your estimated monthly payment.</h2>
                             </div>
                             <div className={`float-none w-full mt-8  ${!show_calc ? "hidden" : ""}`} id='calculation_area'>
