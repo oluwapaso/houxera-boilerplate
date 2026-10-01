@@ -321,30 +321,28 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
             <section className="w-full min-h-[100dvh] relative bg-gray-100">
 
                 {/* hero band */}
-                <div className={`w-full pb-20 pt-36 px-4 text-center bg-${themeSett.primary_color} text-${themeSett.primary_button_text}`}>
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
-                        style={{ background: 'rgba(255,255,255,0.15)' }}>
-                        <PiHouseLine size={16} color="#FFFFFF" />
-                        <span className="text-xs uppercase tracking-widest">Financing Estimator</span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-bold">{raw_data.header || "Mortgage Calculator"}</h1>
-                    <p className={`mt-3 max-w-[480px] mx-auto text-sm`}>
+                <div className={`w-full pb-20 pt-48 px-4 text-center object-cover !bg-cover !bg-center bg-${themeSett.primary_color} 
+                text-${themeSett.primary_button_text} relative`} style={{ background: `url('../no-image-found.jpg')` }}>
+                    <h1 className="text-4xl md:text-5xl font-bold relative z-2 ">{raw_data.header || "Mortgage Calculator"}</h1>
+                    <p className={`mt-3 max-w-[480px] mx-auto text-sm relative z-2 `}>
                         {raw_data.sub_header || "A practical estimator for monthly home loan payments."}
                     </p>
+
+                    <div className='absolute bg-gradient-to-b from-25% from-transparent to-black/70 z-1 top-0 left-0 bottom-0 w-full h-full'></div>
                 </div>
 
-                <div className="container mx-auto max-w-[1000px] px-4 -mt-12 pb-20">
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-xl px-7 py-7">
+                <div className="container mx-auto max-w-[1000px] relative z-3 px-4 -mt-12 pb-20">
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-xl px-4 py-5 xs:px-7 xs:py-7">
 
                         <div className="text-xs uppercase tracking-widest font-semibold" style={{ color: '#16A34A' }}>Listing Details</div>
 
                         <div className="">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <FloatingInput name='property_price' label='Property Price' placeholder='Property Price'
                                     handleChange={(e) => handleChange(e)} value={calc_data.property_price.toString()}
                                     handleBlur={(e) => handleInputBlur(e)} required data-is-currency />
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-3">
                                     <FloatingInput name='downpay_dollar' label='Down.Pay Amt.' placeholder='Down Payment Amount'
                                         handleChange={(e) => handleDpChange(e)} value={calc_data.downpay_dollar.toString()}
                                         handleBlur={(e) => handleDpBlur(e)} required data-is-currency />
@@ -362,7 +360,7 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
                                     handleBlur={(e) => handleInputBlur(e)} data-max-len={3} data-max-val={100} data-min-val={0} />
                             </div>
 
-                            <div className=' flex justify-between items-start'>
+                            <div className=' flex flex-col md:flex-row md:justify-between items-start'>
                                 <div className='mt-5 sm:col-span-2 relative flex items-center -left-2.5'>
                                     <input type='checkbox' className='styled-checkbox' name='show_calc' id='show_calc'
                                         checked={show_calc} onChange={(e) => handleShowCalc(e)} />
@@ -373,8 +371,9 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                                 <button
                                     onClick={() => CalculateMortagage(show_calc)}
-                                    className={`mt-6 px-7 py-3.5 font-semibold flex items-center gap-2 justify-center rounded
-                                    bg-${themeSett.primary_color} text-${themeSett.primary_button_text} hover:shadow-2xl 
+                                    className={`max-md:justify-self-end max-md:ml-auto mt-6 px-7 py-3.5 font-semibold flex 
+                                    items-center gap-2 justify-center rounded bg-${themeSett.primary_color} 
+                                    text-${themeSett.primary_button_text} hover:shadow-2xl 
                                     hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} cursor-pointer `}>
                                     <PiMathOperations size={16} /> <span>{raw_data.button_text || "Calculate"}</span>
                                 </button>
@@ -386,7 +385,7 @@ const MortgageCalculatorVar12 = ({ is_theme = false, raw_data = {} }: { is_theme
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                 <div>
                                     <div className="text-xs uppercase tracking-widest font-semibold" style={{ color: '#16A34A' }}>Estimated Monthly Payment</div>
-                                    <div className="text-4xl font-bold mt-1" style={{ color: '#14532D' }}>{monthly_payment}</div>
+                                    <div className="text-4xl font-bold mt-1 break-all" style={{ color: '#14532D' }}>{monthly_payment}</div>
                                 </div>
                                 <div className="text-sm text-right" style={{ color: '#4B5563' }}>
                                     Based on the figures<br />provided above
