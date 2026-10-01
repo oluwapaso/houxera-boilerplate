@@ -2,8 +2,7 @@
 
 import { RootState } from "@/app/GlobalRedux/store"
 import { useState, useEffect, useRef, useCallback } from "react"
-import { BiChevronRight, BiGlobe, BiMenu, BiX } from "react-icons/bi"
-import { BsLayers } from "react-icons/bs"
+import { BiChevronRight, BiMenu, BiX } from "react-icons/bi"
 import { useSelector } from "react-redux"
 import CustomLinkMain from "../CustomLink"
 import Image from "next/image"
@@ -27,7 +26,7 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
     const rightRef = useRef<HTMLDivElement>(null)
 
     const [forceMobile, setForceMobile] = useState(false)
-    const [isReady, setIsReady] = useState(false)     // prevent first-paint flash 
+    const [isReady, setIsReady] = useState(false)     // prevent first-paint flash  
 
     const handleSettingsClick = () => {
         // Send a message to the parent window
@@ -119,7 +118,7 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${isScrolled ? "py-0" : "py-4"}`}>
+            <nav ref={navRef} id="main-nav" className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${isScrolled ? "py-0" : "py-4"}`}>
                 <div
                     className={`mx-auto transition-all duration-700 ease-out ${isScrolled
                         ? "max-w-full bg-white backdrop-blur-xl"

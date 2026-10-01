@@ -24,8 +24,11 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
-    const page_size = 20; //20 
+    const pageSize = size;
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [saved_searches, setSavedSearches] = useState<any[]>([]);
     const [tour_fetched, setTourFetched] = useState(false);
@@ -38,6 +41,7 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
     const menuRef = useRef<HTMLDivElement>(null);
     const [refresh_page, setRefreshPage] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const [showModal, setShowModal] = useState(false);
     const [modal_title, setModalTitle] = useState(<></>);
@@ -89,27 +93,36 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     const Loadsearches = async () => {
 
-        const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "user_uid": user.user_info?.user_uid || "d25e25a6-a6fb-4193-857f-2144e8d05f9b", // || "d25e25a6-a6fb-4193-857f-2144e8d05f9b" is used for testing only
-            "size": page_size,
-            "skip": curr_page - 1
+        try {
+
+            const payload = {
+                "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+                "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
+                "user_uid": user.user_info?.user_uid || "eeoi09383idouiui", // || "eeoi09383idouiui" is used for testing only
+                "size": pageSize,
+                "skip": curr_page - 1
+            }
+
+            const response = await window.MLS_Util.LoadSavedSearches(payload);
+
+            let resp_message = response.message;
+            let status_code = response.status_code;
+            if (status_code == 200) {
+
+                setTourFetched(true);
+                setSavedSearches(response?.data?.saved_searches);
+                setTotalRecords(response?.data?.total_records);
+
+            } else {
+                setTourError(resp_message);
+            }
+
+        } catch (error) {
+            console.log("error", error)
+        } finally {
+            setTourFetched(true);
+            console.log("Reached gere")
         }
-
-        const response = await window.MLS_Util.LoadSavedSearches(payload);
-
-        let resp_message = response.message;
-        let status_code = response.status_code;
-        if (status_code == 200) {
-
-            setSavedSearches(response.data.saved_searches);
-            setTotalRecords(response.data.total_records);
-
-        } else {
-            setTourError(resp_message);
-        }
-
-        setTourFetched(true);
 
     }
 
@@ -180,12 +193,12 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     useEffect(() => {
         if (Array.isArray(saved_searches)) {
-
+            console.log("tour_fetched", tour_fetched, "total_records", total_records)
             setTourError("")
             if (total_records > 0) {
 
                 const total_returned = saved_searches.length;
-                setTotalPage(Math.ceil(total_records / page_size));
+                setTotalPage(Math.ceil(total_records / pageSize));
 
                 if (total_records > 0 && total_returned > 0) {
                     setAllsearches(saved_searches.map((tour, index) => {
@@ -218,14 +231,11 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
                 </div>])
             }
         }
-    }, [saved_searches]);
+    }, [tour_fetched, saved_searches]);
 
     useEffect(() => {
-        dispatch(hidePageLoader());
-        if (window.MLS_Util) {
-            Loadsearches();
-        }
-    }, [window.MLS_Util, searchParams]);
+        Loadsearches();
+    }, [window.MLS_Util]);
 
     useEffect(() => {
         if (theme) {
@@ -291,9 +301,16 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
                         {(tour_fetched) &&
                             <div className='w-full'>
+
                                 {(searchesError == "" && Array.isArray(saved_searches)) &&
                                     <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
                                         {all_searches}
+                                    </div>
+                                }
+
+                                {total_page < 1 &&
+                                    <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
+                                        No saved search added yet.
                                     </div>
                                 }
 

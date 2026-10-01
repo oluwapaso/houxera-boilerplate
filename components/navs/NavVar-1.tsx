@@ -115,7 +115,7 @@ const NavVar1 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
     if (themeSett) {
 
         return (
-            <nav ref={navRef} className={`fixed w-full flex justify-between items-center px-8 py-2 z-50 h-20 
+            <nav ref={navRef} id="main-nav" className={`fixed w-full flex justify-between items-center px-8 py-2 z-50 h-20 
                 transition-all duration-500 ease-out ${(!isScrolled && is_transparent) ? "bg-transparent" : "bg-white shadow-md"}`}>
                 <div ref={logoRef} className="shrink-0">
                     <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">

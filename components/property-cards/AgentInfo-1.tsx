@@ -146,7 +146,7 @@ const AgentInfo1 = ({ primary_photo, prop }: { primary_photo: string, prop: any 
                         dark:text-sky-500 font-normal text-base text-right' onClick={copyToClipboard}>
                             <span id='text_to_copy'>{agent_info?.mls_number}</span>
                             <CgCopy className='ml-1' size={16} />
-                            <div className='text-xs font-medium absolute hidden bottom-full px-3 py-2 rounded-md 
+                            <div className='text-xs font-medium absolute hidden right-0 bottom-full px-3 py-2 rounded-md 
                             group-hover:block w-fit whitespace-nowrap bg-black text-white'>
                                 Click to copy
                             </div>

@@ -102,7 +102,7 @@ const NavVar3 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex items-center h-20 z-50 transition-all duration-500 ease-out ${isScrolled
+            <nav ref={navRef} id="main-nav" className={`fixed flex items-center h-20 z-50 transition-all duration-500 ease-out ${isScrolled
                 ? `top-4 left-4 right-4 bg-white ${isMenuOpen ? `rounded-t-lg` : `rounded-lg`} shadow-xl px-6`
                 : "top-0 left-0 right-0 bg-[#f8f6f3] px-8"}`} >
                 <div className="w-full max-w-7xl mx-auto">

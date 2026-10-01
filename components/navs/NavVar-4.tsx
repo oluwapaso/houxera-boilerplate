@@ -109,7 +109,7 @@ const NavVar4 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex flex-col items-center h-24 z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
+            <nav ref={navRef} id="main-nav" className={`fixed flex flex-col items-center h-24 z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
 
                 <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                 flex items-center justify-between text-sm p-1 px-6 gap-4 overflow-hidden`}>

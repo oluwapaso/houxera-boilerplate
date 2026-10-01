@@ -185,7 +185,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
         if (navType === "NavVar7") {
             const updatePadding = () => {
-                const nav = document.getElementById("NavVar7");
+                const nav = document.getElementById("main-nav");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
                 setFirstCompPt(isMobile ? "pt-25" : "pt-55");
@@ -195,7 +195,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
 
             // Watch for changes (forceMobile can change on resize)
             const observer = new MutationObserver(updatePadding);
-            const nav = document.getElementById("NavVar7");
+            const nav = document.getElementById("main-nav");
             if (nav) {
                 observer.observe(nav, {
                     attributes: true,

@@ -47,11 +47,17 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
+    const stickySentinelRef = useRef<HTMLDivElement>(null);
+    const [isStickyActive, setIsStickyActive] = useState(false);
+
     const parts = decodeURIComponent(slug)?.split("+");
     // const property_uid = parts.pop();
     // const property_uid = searchParams?.get("property_uid") as string || "";
-    const property_uid = searchParams?.get("property_uid") as string || "3b9b4948-cdc7-42d0-affc-a88fb91545c7"; //Testing purpose
+    const property_uid = searchParams?.get("property_uid") as string || "5ff12d68-41d2-43a8-9d2e-6ef03062124f"; //Testing purpose
     const campaign_uid = searchParams?.get("campaign_uid") as string || "";
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const share_title = `Look at what i found on ${process.env.NEXT_PUBLIC_COMPANY_NAME}'s website`;
 
@@ -153,7 +159,8 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
     const LoadPropertyInfo = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "property_uid": property_uid,
             "fields": `property_uid,mls_id,is_promoted,listing_price,listing_type,lot_size,mls_number,property_status,property_sub_type,
             property_type,square_meter,title,year_built,stories,street_address,city,state,local_government,postal_code,neighborhood,
@@ -297,8 +304,8 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
                     gallery = <div className='w-full grid grid-cols-2 gap-[2px] h-[70vh] relative overflow-hidden' id="gallery">
                         <div className='h-full col-span-2 md:col-span-1 bg-cover object-contain cursor-pointer' onClick={() => OpenGallery(0)} style={{ backgroundImage: `url(${prop.high_photo_lists[0]})`, backgroundPosition: "center", }}></div>
-                        <div className='h-full relative cursor-pointer'>
-                            <div className={`h-full grid grid-cols-1 gap-[2px]`}>
+                        <div className='h-full col-span-2 md:col-span-1 relative cursor-pointer'>
+                            <div className={`h-full grid grid-cols-2 md:grid-cols-1 gap-[2px]`}>
                                 <div className='bg-cover object-contain' onClick={() => OpenGallery(1)} style={{ backgroundImage: `url(${prop.high_photo_lists[1]})`, backgroundPosition: "center", }}></div>
                                 <div className='bg-cover object-contain' onClick={() => OpenGallery(2)} style={{ backgroundImage: `url(${prop.high_photo_lists[2]})`, backgroundPosition: "center", }}></div>
                             </div>
@@ -374,7 +381,6 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
         }
     }, [window.MLS_Util]); //, searchParams
 
-
     useEffect(() => {
 
         const handleClickOutside = (event: MouseEvent) => {
@@ -396,6 +402,48 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
             setModalPage(null);
         }
     }, [prop_modal.shown]);
+
+    useEffect(() => {
+
+        // Only try to observe after the content is rendered
+        if (!prop_fetched || fetchError !== "") return;
+
+        const sentinel = stickySentinelRef.current;
+        if (!sentinel) {
+            console.log("2. Sentinel is null – effect exiting early");
+            return;
+        }
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                console.log("Observer fired → setting isStickyActive to", !entry.isIntersecting);
+                // When the sentinel is no longer intersecting the top → sticky is stuck
+                setIsStickyActive(!entry.isIntersecting);
+            },
+            {
+                root: null,
+                // This rootMargin makes the observer fire exactly when the sticky hits the top
+                rootMargin: "0px 0px 0px 0px",
+                threshold: 0,
+            }
+        );
+
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [prop_fetched, fetchError]);
+
+    useEffect(() => {
+        console.log("isStickyActive", isStickyActive)
+
+        const nav = document.getElementById("main-nav");
+        if (!nav) return;
+
+        if (isStickyActive) {
+            nav.classList.add("opacity-0", "-translate-y-full", "pointer-events-none");
+            // or nav.style.transform = "translateY(-100%)";
+        } else {
+            nav.classList.remove("opacity-0", "-translate-y-full", "pointer-events-none");
+        }
+    }, [isStickyActive]);
 
     useEffect(() => {
         if (theme) {
@@ -435,7 +483,10 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                                 <>
                                     {gallery}
 
-                                    <div className='sticky top-0 z-20 shadow bg-white w-full border-b border-t border-gray-300'>
+                                    {/* Sentinel – must be right above the sticky */}
+                                    <div ref={stickySentinelRef} className="h-10 w-10" aria--hidden="true" />
+
+                                    <div className='sticky top-0 z-10 shadow bg-white w-full border-b border-t border-gray-300'>
                                         <div className='container m-auto max-w-[1200px] px-3 xl:px-0 overflow-y-hidden overflow-x-auto'>
 
                                             <div className='w-full min-w-[1050px] md:min-w-[full] grid grid-cols-2 gap-y-3 '>

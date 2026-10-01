@@ -100,7 +100,7 @@ const NavVar6 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex flex-col space-y-2 items-center h-[150px] z-50 transition-all duration-500 
+            <nav ref={navRef} id="main-nav" className={`fixed flex flex-col space-y-2 items-center h-[150px] z-50 transition-all duration-500 
             ease-out top-0 left-0 right-0 ${isScrolled ? "bg-white" : " bg-[#f8f6f3]"}`}>
 
                 <div className={`w-full bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 

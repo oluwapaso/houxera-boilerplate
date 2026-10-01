@@ -24,7 +24,9 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
     const page_size = 20; //20 
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
-    const status_param = searchParams?.get("status") as string || "Upcoming";
+    const status_param = searchParams?.get("status") as string || "Past"; //"Upcoming"
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
 
     const [scheduled_tours, setScheduledTours] = useState<any[]>([]);
     const [tour_fetched, setTourFetched] = useState(false);
@@ -38,6 +40,8 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const menuRef = useRef<HTMLDivElement>(null);
     const [refresh_page, setRefreshPage] = useState(false);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [totalPages, setTotalPages] = useState(0);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const no_tour_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
         No tour scheduled yet
@@ -82,8 +86,8 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const LoadTours = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "user_uid": user.user_info?.user_uid || "d25e25a6-a6fb-4193-857f-2144e8d05f9b", // || "d25e25a6-a6fb-4193-857f-2144e8d05f9b" is used for testing only
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "user_uid": user.user_info?.user_uid || "eeoi09383idouiui", // || "eeoi09383idouiui" is used for testing only
             "status": status,
             "size": page_size,
             "skip": curr_page - 1

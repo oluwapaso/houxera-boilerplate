@@ -123,7 +123,7 @@ const NeighborhoodsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
         if (navType === "NavVar7") {
             const updatePadding = () => {
-                const nav = document.getElementById("NavVar7");
+                const nav = document.getElementById("main-nav");
                 const isMobile = nav?.getAttribute("data-is-mobile") === "true";
                 // Adjust these values to whatever looks correct
                 setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
@@ -133,7 +133,7 @@ const NeighborhoodsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
             // Watch for changes (forceMobile can change on resize)
             const observer = new MutationObserver(updatePadding);
-            const nav = document.getElementById("NavVar7");
+            const nav = document.getElementById("main-nav");
             if (nav) {
                 observer.observe(nav, {
                     attributes: true,

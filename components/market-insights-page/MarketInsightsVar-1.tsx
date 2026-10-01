@@ -22,16 +22,19 @@ import { PiChartLineDown, PiChartLineUp, PiInvoice } from "react-icons/pi";
 import { BsPercent } from "react-icons/bs";
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useSearchParams } from "next/navigation";
 
 const helper = new Helpers();
 const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     const dispatch = useDispatch();
+    const searchParams = useSearchParams();
 
     const user = useSelector((state: RootState) => state.user);
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
 
     const [formData, setFormData] = useState<any>({
         "sales_type": "For Sale",
@@ -109,7 +112,7 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const LoadInsights = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
             "location": formData.location,
             "sales_type": formData.sales_type,
             "status": formData.status,
@@ -278,7 +281,7 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
                                     items-center justify-center cursor-pointer hover:shadow-xl `}
                                     onClick={() => LoadInsights()}>
                                     <FaChartArea size={18} className="mr-1.5" />
-                                    <span>Load Insights</span>
+                                    <span>{raw_data.button_text || "Load Insights"}</span>
                                 </div>
                             </div>
 

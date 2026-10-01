@@ -108,7 +108,7 @@ const NavVar5 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} className={`fixed flex flex-col items-center ${!isReady || forceMobile ? "h-18" : "h-[100px]"} z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
+            <nav ref={navRef} id="main-nav" className={`fixed flex flex-col items-center ${!isReady || forceMobile ? "h-18" : "h-[100px]"} z-50 transition-all duration-500 ease-out top-0 left-0 right-0 bg-[#f8f6f3]`}>
 
                 <div className={`w-full max-w-7xl mx-auto grow`}>
                     <div className="flex items-center h-full justify-between">

@@ -96,7 +96,7 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
     if (themeSett) {
         return (
-            <nav ref={navRef} id="NavVar7" data-is-mobile={forceMobile} className={`fixed flex flex-col space-y-2 items-center z-50 transition-all duration-500 
+            <nav ref={navRef} id="main-nav" data-is-mobile={forceMobile} className={`fixed flex flex-col space-y-2 items-center z-50 transition-all duration-500 
                 ease-out top-0 left-0 right-0 bg-white ${!isReady || forceMobile ? "h-[80px]" : "h-[130px]"} `}>
 
                 <div className="w-full mx-auto grow flex flex-col">
