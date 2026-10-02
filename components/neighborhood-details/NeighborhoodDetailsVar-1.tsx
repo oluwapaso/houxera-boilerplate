@@ -34,7 +34,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
     const searchParams = useSearchParams();
-    const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hardcoded part is for testing
+    const slug = params?.slug as string || "agric-ikorodu"; //Hardcoded part is for testing
     const router = useRouter();
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
@@ -61,7 +61,6 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
     const [rep_to_append, setRepToAppend] = useState<any>(null);
     const [curr_no_comms, setNoComms] = useState(0);
 
-    const [keyword, setKeyword] = useState("");
     let all_comments: React.JSX.Element[] = [];
 
     const [showModal, setShowModal] = useState(false);
@@ -306,7 +305,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
 
                         <div className={`container mx-auto max-w-[1200px] px-3 xl:px-0 text-left z-20 flex flex-col`}>
                             <div className={`w-full font-medium *:text-white xl:text-shadow-primary`}>{crumb}</div>
-                            <div className={`w-full text-white line-clamp-2 `}>{neighInfo?.summary}</div>
+                            <div className={`w-full text-white line-clamp-2 `}>{neighInfo?.excerpt}</div>
 
                             <div className=' mt-8 flex flex-col md:flex-row space-y-2 justify-between'>
                                 <div className=' flex flex-col sm:flex-row space-x-3.5 text-white *:flex *:items-center *:space-x-1.5 
@@ -324,7 +323,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
                                             <BsEyeFill size={18} />
                                             <span>Views:</span>
                                         </span>
-                                        <span>{neighInfo.views}</span>
+                                        <span>{neighInfo.views || "0"}</span>
                                     </div>
 
                                     <div className=''>
@@ -332,7 +331,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
                                             <FaComments size={18} />
                                             <span>Comments:</span>
                                         </span>
-                                        <span>{curr_no_comms}</span>
+                                        <span>{curr_no_comms || "0"}</span>
                                     </div>
                                 </div>
 
@@ -378,7 +377,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
                                                 </div>
 
                                                 <div className='w-full font-normal mt-3 overflow-x-hidden'>
-                                                    <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.post_body }} />
+                                                    <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.descriptions }} />
                                                 </div>
 
                                                 <div className='w-full my-1 py-2 border-b border-gray-200 text-gray-600 font-normal'>
@@ -418,7 +417,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
                                                 <div className='w-full mt-10 flex flex-col'>
 
                                                     <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
-                                                    <CommentBox item_type="Neighborhood Post" item_uid={neighInfo?.post_uid} setRepToAppend={setRepToAppend}
+                                                    <CommentBox item_type="Neighborhood" item_uid={neighInfo?.neighborhood_uid} setRepToAppend={setRepToAppend}
                                                         setNoComms={setNoComms} is_theme={is_theme} />
 
                                                     <div className='w-full font-semibold text-2xl mt-14'>
@@ -450,8 +449,8 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
 
                                     <div className='hidden-lg:block lg:col-span-2'>
 
-                                        <div className='w-full mt-12 '>
-                                            <RecommendedNeighborhood neighborhood_uid={neighInfo?.neighborhood_uid} />
+                                        <div className='w-full'>
+                                            <RecommendedNeighborhood neighborhood_uid={neighInfo?.neighborhood_uid} is_theme={is_theme} />
                                         </div>
 
                                         <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>

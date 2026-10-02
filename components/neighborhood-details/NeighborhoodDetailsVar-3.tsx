@@ -35,7 +35,7 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
     const searchParams = useSearchParams();
-    const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hard coaded part is for testing only
+    const slug = params?.slug as string || "agric-ikorodu"; //Hard coaded part is for testing only
     const router = useRouter();
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";

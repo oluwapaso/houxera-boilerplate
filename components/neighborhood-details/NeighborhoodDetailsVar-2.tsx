@@ -5,7 +5,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import CommentBox from '@/components/blog-cards/CommentBox';
 import CommentCardVar2 from '@/components/blog-cards/CommentCardVar-2';
-import RelatedBlogPosts from '@/components/blog-cards/RelatedBlogPosts';
 import moment from 'moment';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
@@ -28,14 +27,15 @@ import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
 import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { GiFlame } from 'react-icons/gi';
 import Modal from '../modals/Modal';
+import RecommendedNeighborhood from '../neighborhood-cards/RecommendedNeighborhood';
 
 const helpers = new Helpers();
-const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
+const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
     const searchParams = useSearchParams();
-    const slug = params?.slug as string || "rising-building-material-costs-threaten-real-estate-project-viability"; //Hard coaded part is for testing only
+    const slug = params?.slug as string || "agric-ikorodu"; //Hardcoded part is for testing
     const router = useRouter();
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
@@ -45,14 +45,19 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
     const [page_url, setPageURL] = useState("");
+    const [is_menu_shown, setIsMenuShown] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
-    const [blogPost, setBlogPost] = useState<any>({});
-    const [blogPostLoaded, setBlogPostLoaded] = useState<boolean>(false);
-    const [blogPostError, setBlogPostError] = useState("");
+    const [neighInfo, setNeighInfo] = useState<any>({});
+    const [neighInsight, setNeighInsight] = useState<any>({});
+    const [neighProperties, setNeighProperties] = useState<any[]>([]);
+    const [neighInfoLoaded, setNeighInfoLoaded] = useState<boolean>(false);
+    const [neighInfoError, setNeighInfoError] = useState("");
 
-    const [blogPostComm, setBlogPostComm] = useState<any[]>([]);
-    const [blogPostCommLoaded, setBlogPostCommLoaded] = useState<boolean>(false);
-    const [blogPostCommError, setBlogPostCommError] = useState("");
+    const [neighInfoComm, setNeighborhoodComm] = useState<any[]>([]);
+    const [neighInfoCommLoaded, setNeighborhoodCommLoaded] = useState<boolean>(false);
+    const [neighInfoCommError, setNeighborhoodCommError] = useState("");
 
     const [skip, setSkip] = useState(0);
     const [comment_resp, setCommResp] = useState("");
@@ -60,15 +65,11 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     const [rep_to_append, setRepToAppend] = useState<any>(null);
     const [curr_no_comms, setNoComms] = useState(0);
 
-    const [keyword, setKeyword] = useState("");
     let all_comments: React.JSX.Element[] = [];
 
     const [showModal, setShowModal] = useState(false);
     const [modal_children, setModalChildren] = useState({} as React.ReactNode);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [is_menu_shown, setIsMenuShown] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const closeModal = () => {
         setShowModal(false);
@@ -85,9 +86,9 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
             {
                 type: 'OPEN_EDITOR_SETTINGS',
                 data: {
-                    "category": "blog_details",
+                    "category": "neighborhood_details",
                     "type": "section",
-                    "component": "BlogDetailsVar2",
+                    "component": "NeighborhoodDetailsVar2",
                     ...raw_data,
                 }
             },
@@ -101,7 +102,7 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
             {
                 type: event_type,
                 component_index: raw_data?.component_index,
-                component_type: "Blog Posts"
+                component_type: "Neighborhood Posts"
             },
             '*' // In production, replace '*' with your parent URL for security
         );
@@ -116,8 +117,8 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     }
 
     const handleReply = (comment_uid: string) => { //, quoted_comments: string
-        setModalChildren(<ReplyComment closeModal={closeModal} item_type="Blog Post" item_uid={blogPost.post_uid} comment_uid={comment_uid}
-            setRepToAppend={setRepToAppend} setNoComms={setNoComms} is_theme={is_theme} />);
+        setModalChildren(<ReplyComment closeModal={closeModal} item_type="Neighborhood" item_uid={neighInfo.neighborhood_uid}
+            comment_uid={comment_uid} setRepToAppend={setRepToAppend} setNoComms={setNoComms} />);
         setShowModal(true);
 
         const body = document.querySelector("body");
@@ -126,7 +127,7 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         }
     }
 
-    const LoadBlogsDetails = async () => {
+    const LoadNeighsDetails = async () => {
 
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
@@ -135,70 +136,89 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
             "user_uid": user.user_info?.user_uid,
         }
 
-        const response = await window.MLS_Util.LoadBlogPostDetails(payload);
+
+        const response = await window.MLS_Util.LoadNeighborhoodDetails(payload);
 
         let resp_message = response.message;
         let status_code = response.status_code;
         if (status_code == 200) {
-            setBlogPost(response.data.blog_post);
-            setNoComms(response.data?.blog_post?.comments);
+            setNeighInfo(response.data.neighborhood);
+            setNoComms(response.data?.neighborhood?.comments);
+            setNeighInsight(response.data.insights);
+            setNeighProperties(response.data.properties);
         } else {
-            setBlogPostError(resp_message)
+            setNeighInfoError(resp_message)
         }
 
-        setBlogPostLoaded(true);
+        setNeighInfoLoaded(true);
 
     }
 
-    const LoadBlogsComments = async (skip: number) => {
+    const LoadNeighsComments = async (skip: number) => {
 
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
             "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "post_uid": blogPost.post_uid,
+            "neighborhood_uid": neighInfo.neighborhood_uid,
             "skip": skip || 0,
-            "size": 20,
+            "size": 5,//20
         }
 
-        const response = await window.MLS_Util.LoadBlogPostComments(payload);
+        const response = await window.MLS_Util.LoadNeighborhoodComments(payload);
         let resp_message = response.message;
         let status_code = response.status_code;
         if (status_code == 200) {
 
-            setBlogPostComm((prev_comm: any[]) => [...prev_comm, ...response.data?.comments]);
+            setNeighborhoodComm((prev_comm: any[]) => [...prev_comm, ...response.data?.comments]);
             dispatch(hidePageLoader());
             setHasMore(response.data?.has_more);
             setSkip(skip);
 
         } else {
-            setBlogPostCommError(resp_message);
+            setNeighborhoodCommError(resp_message);
             setHasMore("No");
         }
 
-        setBlogPostCommLoaded(true);
+        setNeighborhoodCommLoaded(true);
 
     }
 
     const fetchMoreComments = async () => {
         const new_skip = skip + 1;
-        LoadBlogsComments(new_skip);
+        LoadNeighsComments(new_skip);
+    }
+
+    const BuildSearchLink = (neighInfo: any) => {
+        var link = "";
+        var prop_delv = neighInfo.property_delivery;
+
+        if (prop_delv.city && prop_delv.city != "") {
+            link += `location=${prop_delv.city}&`;
+        }
+
+        if (Array.isArray(prop_delv.listing_type) && prop_delv.listing_type.length > 0) {
+            link += `sales_type=${prop_delv.listing_type[0]}&`;
+        }
+
+        link = helpers.rTrim(link, "&");
+        return link;
     }
 
     useEffect(() => {
-        LoadBlogsComments(0);
-    }, [blogPost]);
+        LoadNeighsComments(0);
+    }, [neighInfo]);
 
     useEffect(() => {
 
         dispatch(hidePageLoader());
         if (window.MLS_Util) {
-            LoadBlogsDetails();
+            LoadNeighsDetails();
         }
 
     }, [window.MLS_Util]);
 
     useEffect(() => {
-        setPageURL(`${window.location.href}/blog-post/${slug}`);
+        setPageURL(`${window.location.href}/neigh-info/${slug}`);
     }, []);
 
     useEffect(() => {
@@ -209,11 +229,11 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     useEffect(() => {
         if (rep_to_append) {
-            setBlogPostCommLoaded(false);
+            setNeighborhoodCommLoaded(false);
 
             const to = setTimeout(() => {
-                setBlogPostComm((prev_comm: any[]) => [rep_to_append, ...prev_comm]);
-                setBlogPostCommLoaded(true);
+                setNeighborhoodComm((prev_comm: any[]) => [rep_to_append, ...prev_comm]);
+                setNeighborhoodCommLoaded(true);
             }, 250)
 
             const to2 = setTimeout(() => {
@@ -231,17 +251,6 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
         }
     }, [rep_to_append]);
-
-    //Initialize Ads
-    useEffect(() => {
-        if (window.MLS_Util) {
-            const to = setTimeout(() => {
-                window.MLS_Util.InitializeSideAds();
-            }, 1500);
-
-            return () => clearTimeout(to);
-        }
-    }, [window.MLS_Util]);
 
     useEffect(() => {
 
@@ -281,9 +290,9 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
-            blogPostLoaded ? (
-                blogPost ? (
-                    blogPost.title
+            neighInfoLoaded ? (
+                neighInfo ? (
+                    neighInfo.title
                 ) : ""
             ) : ""
         }
@@ -293,18 +302,18 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         <div className='w-full text-center'>No comment added yet. Be the first to leave a comments.</div>
     </div>
 
-    if (Array.isArray(blogPostComm)) {
+    if (Array.isArray(neighInfoComm)) {
 
-        if (blogPostComm.length > 0) {
+        if (neighInfoComm.length > 0) {
 
-            all_comments = blogPostComm.map((comm) => {
+            all_comments = neighInfoComm.map((comm) => {
                 return (<CommentCardVar2 key={comm.comment_uid} comm={comm} handleReply={handleReply} />)
             })
 
         } else {
 
             //Making sure request has been sent
-            if (blogPostCommLoaded) {
+            if (neighInfoCommLoaded) {
                 all_comments[0] = no_comm_added
             } else {
                 all_comments[0] = <div className='w-full flex justify-center items-center min-h-60'>
@@ -316,20 +325,7 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     }
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-                setIsMenuShown(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef]);
-
-    const share_title = `Check out this article i found on ${process.env.NEXT_PUBLIC_CHANNEL_WEBSITE}`;
+    const share_title = `Check out this neighborhod guide i found on ${process.env.NEXT_PUBLIC_CHANNEL_WEBSITE}`;
 
     if (themeSett && themeSett != null) {
         return (
@@ -342,8 +338,8 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             backgroundSize: `cover`,
                             backgroundPosition: `center`,
                             backgroundRepeat: `none`,
-                            backgroundImage: `url(${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
+                            backgroundImage: `url(${(neighInfo.header_image_large && neighInfo.header_image_large != "")
+                                ? `${neighInfo?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
                         }}>
                     </div>
                 </header>
@@ -351,14 +347,14 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                 {/* Content wrapper with overlapping card */}
                 <div className={`container mx-auto max-w-[1280px] relative px-3 sm:px-6 lg:px-8 z-2 -mt-14`}>
                     {/* Main article card */}
-                    {blogPostError == "" &&
+                    {neighInfoError == "" &&
                         <div className="rounded-2xl bg-white px-3 2xs:px-5 py-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
                             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                <span>Category:</span> <span className={`text-${themeSett.primary_color}`}>{blogPost?.category_name}</span>
+                                <span>Category:</span> <span className={`text-${themeSett.primary_color}`}>{neighInfo?.category_name}</span>
                             </span>
 
                             <h1 className="mt-3 text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
-                                {blogPost.title}
+                                {neighInfo.title}
                             </h1>
 
                             <div className="mt-5 flex flex-col md:flex-row justify-between gap-4 border-b border-gray-200 pb-5">
@@ -366,12 +362,12 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                 <div className="flex flex-col sm:flex-row space-x-3.5 text-sm *:shrink-0">
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Posted On:</span>
-                                        <span className=' text-gray-600'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
+                                        <span className=' text-gray-600'>{moment(neighInfo.date_added).format("Do MMM, YYYY")}</span>
                                     </p>
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Views:</span>
-                                        <span className=' text-gray-600'>{blogPost.views}</span>
+                                        <span className=' text-gray-600'>{neighInfo.views}</span>
                                     </p>
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
@@ -429,16 +425,16 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             </div>
 
                             <div className="w-full font-normal mt-8 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base overflow-x-hidden">
-                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: blogPost.post_body }} />
+                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.post_body }} />
                             </div>
                         </div>
                     }
 
-                    {(blogPostLoaded && blogPostError == "") &&
+                    {(neighInfoLoaded && neighInfoError == "") &&
                         <div className='w-full max-w-[900px] mt-16 flex flex-col'>
 
                             <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
-                            <CommentBox item_type="Blog Post" item_uid={blogPost?.post_uid} setRepToAppend={setRepToAppend}
+                            <CommentBox item_type="Blog Post" item_uid={neighInfo?.post_uid} setRepToAppend={setRepToAppend}
                                 setNoComms={setNoComms} />
 
                             <div className='w-full font-semibold text-2xl mt-14'>
@@ -458,19 +454,16 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
                     }
 
-                    {blogPostError != "" &&
+                    {neighInfoError != "" &&
                         <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
-                            {blogPostError}
+                            {neighInfoError}
                         </div>
                     }
 
-                    <div className='w-full mt-12'>
-                        <BlogCategoryPills curr_cat={blogPost.category_name} is_theme={is_theme} />
-                    </div>
 
-                    {(blogPostLoaded && blogPost) &&
-                        <div className='w-full mt-12'>
-                            <RelatedBlogPosts variation='grid' is_theme={is_theme} category_name={blogPost.category_name} post_uid={blogPost.post_uid} />
+                    {(neighInfoLoaded && neighInfo) &&
+                        <div className='w-full'>
+                            <RecommendedNeighborhood neighborhood_uid={neighInfo?.neighborhood_uid} is_theme={is_theme} />
                         </div>
                     }
 
@@ -528,4 +521,4 @@ const BlogDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     }
 }
 
-export default BlogDetailsVar2
+export default NeighborhoodDetailsVar2
