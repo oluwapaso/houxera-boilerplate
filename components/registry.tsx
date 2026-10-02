@@ -123,6 +123,12 @@ import NeighborhoodsVar2 from "./neighborhoods/NeighborhoodsVar-2";
 import NeighborhoodsVar3 from "./neighborhoods/NeighborhoodsVar-3";
 import NeighborhoodsVar4 from "./neighborhoods/NeighborhoodsVar-4";
 
+//Neighborhood Details Page
+import NeighborhoodDetailsVar1 from "./neighborhood-details/NeighborhoodDetailsVar-1";
+import NeighborhoodDetailsVar2 from "./neighborhood-details/NeighborhoodDetailsVar-2";
+import NeighborhoodDetailsVar3 from "./neighborhood-details/NeighborhoodDetailsVar-3";
+import NeighborhoodDetailsVar4 from "./neighborhood-details/NeighborhoodDetailsVar-4";
+
 //Neighborhoods Page Components
 import NeighborhoodCompVar1 from "./neighborhood-components/NeighborhoodCompVar-1";
 
@@ -266,6 +272,12 @@ type ComponentPropsMap = {
     NeighborhoodsVar2: React.ComponentProps<typeof NeighborhoodsVar2>;
     NeighborhoodsVar3: React.ComponentProps<typeof NeighborhoodsVar3>;
     NeighborhoodsVar4: React.ComponentProps<typeof NeighborhoodsVar4>;
+
+    //Neighborhoods Details Page
+    NeighborhoodDetailsVar1: React.ComponentProps<typeof NeighborhoodDetailsVar1>;
+    NeighborhoodDetailsVar2: React.ComponentProps<typeof NeighborhoodDetailsVar2>;
+    NeighborhoodDetailsVar3: React.ComponentProps<typeof NeighborhoodDetailsVar3>;
+    NeighborhoodDetailsVar4: React.ComponentProps<typeof NeighborhoodDetailsVar4>;
 
     //Neighborhoods Page Components
     NeighborhoodCompVar1: React.ComponentProps<typeof NeighborhoodCompVar1>;
@@ -425,6 +437,12 @@ export const componentRegistry = {
     NeighborhoodsVar2,
     NeighborhoodsVar3,
     NeighborhoodsVar4,
+
+    //Neighborhoods Details Page
+    NeighborhoodDetailsVar1,
+    NeighborhoodDetailsVar2,
+    NeighborhoodDetailsVar3,
+    NeighborhoodDetailsVar4,
 
     //Neighborhoods Page Components
     NeighborhoodCompVar1,
