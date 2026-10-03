@@ -10,10 +10,10 @@ import moment from 'moment';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { BiCalendarEvent, BiRefresh } from 'react-icons/bi';
+import { BiCalendarEvent, BiRefresh, BiTrashAlt } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BsEye, BsTwitterX } from 'react-icons/bs';
+import { BsEye, BsGear, BsTwitterX } from 'react-icons/bs';
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -29,6 +29,7 @@ import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { GiChatBubble, GiEggEye, GiFlame } from 'react-icons/gi';
 import BlogSearch from '../blog-cards/BlogSearch';
 import BlogCategoryLists from '../blog-cards/BlogCategoryLists';
+import Modal from '../modals/Modal';
 
 const helpers = new Helpers();
 const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -521,26 +522,46 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
                     </div>
 
-                    {/* <div className='w-full'>
-                        <BlogCategoryPills curr_cat={blogPost.category_name} />
-                    </div>
-
-                    {(blogPostLoaded && blogPost) &&
-                        <div className='w-full mt-12'>
-                            <RelatedBlogPosts variation='grid' is_theme={is_theme} category_name={blogPost.category_name} post_uid={blogPost.post_uid} />
-                        </div>
-                    }
-
-                    <div className='w-full mt-15'>
-                        <div className='col-span-full text-xl flex items-center space-x-2.5'>
-                            <GiFlame size={20} /> <span>Hot Properties</span>
-                        </div>
-
-                        <div className='w-full mt-1 grid grid-cols-3 gap-5 *:border *:border-gray-100 *:shadow-lg'>
-                            <SideAds no_ads={4} />
-                        </div>
-                    </div> */}
                 </div>
+
+                <Modal show={showModal} children={modal_children} width={700} closeModal={closeModal} title=<div>Reply To Comment</div> />
+
+                {is_theme && (
+                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
+                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BsGear size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Section settings
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiRefresh size={17} />
+
+                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Change Layout
+                            </span>
+                        </div>
+
+                        <div id='editor_settings' className='hover:shadow-2xl relative group'
+                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                            <BiTrashAlt size={17} />
+
+                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                            text-white text-xs'>
+                                Remove Section Down
+                            </span>
+                        </div>
+
+                    </div>
+                )}
             </div>
         )
     }
