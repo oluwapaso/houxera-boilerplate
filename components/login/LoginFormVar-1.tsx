@@ -358,7 +358,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                                 <BiTrash size={20} />
 
-                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
                                 text-white text-xs'>
                                     Remove Section Down
                                 </span>
