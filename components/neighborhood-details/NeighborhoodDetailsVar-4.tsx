@@ -189,7 +189,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             {neighInfoError == "" &&
                                 <div className="rounded-2xl bg-white p-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
 
-                                    <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-5">
+                                    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-5">
 
                                         <div className="text-sm flex space-x-2">
                                             <p className="font-medium flex items-center space-x-1.5">
