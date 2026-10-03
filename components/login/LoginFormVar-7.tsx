@@ -371,7 +371,7 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                                 <BsGear size={20} />
 
-                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
                                 text-white text-xs'>
                                     Section settings
                                 </span>
@@ -381,8 +381,8 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                                 onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                                 <BiRefresh size={20} />
 
-                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
+                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
+                                text-white text-xs right-0'>
                                     Replace Section
                                 </span>
                             </div>
