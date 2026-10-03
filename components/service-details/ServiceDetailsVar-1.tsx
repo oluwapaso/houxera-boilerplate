@@ -1,18 +1,15 @@
 "use client"
 
 import { Helpers } from '@/_lib/helper';
-import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
-import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
+import { showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import Modal from '@/components/modals/Modal';
 import moment from 'moment';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiCalendar, BiRefresh, BiTrashAlt } from 'react-icons/bi';
 import { BsEyeFill, BsGear } from 'react-icons/bs';
 import { FaArrowLeftLong, FaComments, FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { BsTwitterX } from 'react-icons/bs';
 import {
@@ -22,15 +19,11 @@ import {
     TwitterShareButton,
     WhatsappShareButton,
 } from "react-share";
-import ReplyComment from '@/components/modals/ReplyComment';
 import SideAds from '@/components/ads/SideAds';
-import CommentCardVar2 from '../blog-cards/CommentCardVar-2';
-import CommentBox from '../blog-cards/CommentBox';
-import RecommendedNeighborhood from '../neighborhood-cards/RecommendedNeighborhood';
 import { useNeighborhoodDetails } from '@/_hooks/useNeighborhoodDetails';
 
 const helpers = new Helpers();
-const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
+const ServiceDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     var {
         slug,
@@ -82,17 +75,6 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
         }
     }
 
-    const handleReply = (comment_uid: string) => { //, quoted_comments: string
-        setModalChildren(<ReplyComment closeModal={closeModal} item_type="Neighborhood" item_uid={neighInfo.neighborhood_uid}
-            comment_uid={comment_uid} setRepToAppend={setRepToAppend} setNoComms={setNoComms} />);
-        setShowModal(true);
-
-        const body = document.querySelector("body");
-        if (body) {
-            body.style.overflow = "hidden";
-        }
-    }
-
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
             neighInfoLoaded ? (
@@ -102,33 +84,6 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
             ) : ""
         }
     </div>;
-
-    const no_comm_added = <div className='p-10 mt-2 text-red-600 flex flex-col justify-center items-center min-h-6'>
-        <div className='w-full text-center'>No comment added yet. Be the first to leave a comments.</div>
-    </div>
-
-    if (Array.isArray(neighInfoComm)) {
-
-        if (neighInfoComm.length > 0) {
-
-            all_comments = neighInfoComm.map((comm) => {
-                return (<CommentCardVar2 key={comm.comment_uid} comm={comm} handleReply={handleReply} />)
-            })
-
-        } else {
-
-            //Making sure request has been sent
-            if (neighInfoCommLoaded) {
-                all_comments[0] = no_comm_added
-            } else {
-                all_comments[0] = <div className='w-full flex justify-center items-center min-h-60'>
-                    <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
-                </div>
-            }
-
-        }
-
-    }
 
     if (themeSett && themeSett != null) {
         return (
@@ -257,29 +212,6 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
 
                                                 </div>
 
-                                                <div className='w-full mt-10 flex flex-col'>
-
-                                                    <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
-                                                    <CommentBox item_type="Neighborhood" item_uid={neighInfo?.neighborhood_uid} setRepToAppend={setRepToAppend}
-                                                        setNoComms={setNoComms} is_theme={is_theme} />
-
-                                                    <div className='w-full font-semibold text-2xl mt-14'>
-                                                        {curr_no_comms} Comment{curr_no_comms > 1 ? "s" : ""}
-                                                    </div>
-
-                                                    <div className='w-full' id='comment_area'>{all_comments}</div>
-                                                </div>
-
-                                                {has_more == "Yes" &&
-                                                    <div className={`w-full flex items-center justify-center mt-4`}>
-                                                        <div className={`flex items-center justify-center px-4 py-3 cursor-pointer rounded 
-                                                        bg-${themeSett?.secondary_color}-700 text-white hover:shadow-2xl hover:opacity-90`}
-                                                            onClick={fetchMoreComments}>
-                                                            <BiRefresh size={18} className='mr-2' /> <span>Load More Comments</span>
-                                                        </div>
-                                                    </div>
-                                                }
-
                                             </div>
                                         }
 
@@ -292,11 +224,7 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
 
                                     <div className='hidden-lg:block lg:col-span-2'>
 
-                                        <div className='w-full'>
-                                            <RecommendedNeighborhood neighborhood_uid={neighInfo?.neighborhood_uid} is_theme={is_theme} />
-                                        </div>
-
-                                        <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
+                                        <div className='w-full flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
                                             <SideAds no_ads={4} />
                                         </div>
                                     </div>
@@ -349,4 +277,4 @@ const NeighborhoodDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }:
     }
 }
 
-export default NeighborhoodDetailsVar1
+export default ServiceDetailsVar1

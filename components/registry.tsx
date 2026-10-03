@@ -143,6 +143,12 @@ import OurServicesVar1 from "./our-services-components/OurServicesVar-1";
 import OurServicesVar2 from "./our-services-components/OurServicesVar-2";
 import OurServicesVar3 from "./our-services-components/OurServicesVar-3";
 
+//Our Service Details Page
+import ServiceDetailsVar1 from "./service-details/ServiceDetailsVar-1";
+import ServiceDetailsVar2 from "./service-details/ServiceDetailsVar-2";
+import ServiceDetailsVar3 from "./service-details/ServiceDetailsVar-3";
+import ServiceDetailsVar4 from "./service-details/ServiceDetailsVar-4";
+
 //MLS Search Page
 import MLSSearchVar1 from "./mls-search-page/MLS-SearchVar-1";
 
@@ -292,6 +298,12 @@ type ComponentPropsMap = {
     OurServicesVar1: React.ComponentProps<typeof OurServicesVar1>;
     OurServicesVar2: React.ComponentProps<typeof OurServicesVar2>;
     OurServicesVar3: React.ComponentProps<typeof OurServicesVar3>;
+
+    //Our Service Details Page
+    ServiceDetailsVar1: React.ComponentProps<typeof ServiceDetailsVar1>;
+    ServiceDetailsVar2: React.ComponentProps<typeof ServiceDetailsVar2>;
+    ServiceDetailsVar3: React.ComponentProps<typeof ServiceDetailsVar3>;
+    ServiceDetailsVar4: React.ComponentProps<typeof ServiceDetailsVar4>;
 
     //MLS Search Page
     MLSSearchVar1: React.ComponentProps<typeof MLSSearchVar1>;
@@ -457,6 +469,12 @@ export const componentRegistry = {
     OurServicesVar1,
     OurServicesVar2,
     OurServicesVar3,
+
+    //Our Service Details Page
+    ServiceDetailsVar1,
+    ServiceDetailsVar2,
+    ServiceDetailsVar3,
+    ServiceDetailsVar4,
 
     //MLS Search Page
     MLSSearchVar1,
