@@ -26,7 +26,7 @@ import RecommendedNeighborhood from '../neighborhood-cards/RecommendedNeighborho
 import { useNeighborhoodDetails } from '@/_hooks/useNeighborhoodDetails';
 
 const helpers = new Helpers();
-const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
+const NeighborhoodDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     var {
         slug,
@@ -318,4 +318,4 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
     }
 }
 
-export default BlogDetailsVar3
+export default NeighborhoodDetailsVar3

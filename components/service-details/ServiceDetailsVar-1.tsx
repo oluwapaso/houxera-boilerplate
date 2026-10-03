@@ -1,14 +1,10 @@
 "use client"
 
-import { Helpers } from '@/_lib/helper';
-import { showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import ImageWithFallback from '@/components/ImageWithFallback';
-import moment from 'moment';
 import React, { useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { BiCalendar, BiRefresh, BiTrashAlt } from 'react-icons/bi';
-import { BsEyeFill, BsGear } from 'react-icons/bs';
-import { FaArrowLeftLong } from 'react-icons/fa6';
+import { BiRefresh, BiTrashAlt } from 'react-icons/bi';
+import { BsGear } from 'react-icons/bs';
 
 import SideAds from '@/components/ads/SideAds';
 import { useServiceDetails } from '@/_hooks/useServiceDetails';
@@ -16,15 +12,10 @@ import { useServiceDetails } from '@/_hooks/useServiceDetails';
 const ServiceDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
     var {
-        slug,
-        company_unique_id,
-        channel_uid,
         serviceInfo,
         serviceInfoLoaded,
         serviceInfoError,
-        first_comp_pt,
         themeSett,
-        router,
 
         // handlers 
         dispatch,
