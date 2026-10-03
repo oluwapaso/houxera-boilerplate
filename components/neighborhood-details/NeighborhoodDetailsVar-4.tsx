@@ -197,12 +197,12 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                                 <span className="font-medium text-gray-900">Posted On:</span>
                                                 <span className=' text-gray-600'>{moment(neighInfo.date_added).format("Do MMM, YYYY")}</span>
                                             </p>
-                                            <span>•</span>
+                                            <span className='hidden md:flex items-center'>•</span>
                                             <p className="font-medium flex items-center space-x-1.5">
                                                 <span className="font-medium text-gray-900">Views:</span>
                                                 <span className=' text-gray-600'>{neighInfo.views}</span>
                                             </p>
-                                            <span>•</span>
+                                            <span className='hidden md:flex items-center'>•</span>
                                             <p className="font-medium flex items-center space-x-1.5">
                                                 <span className="font-medium text-gray-900">Comments:</span>
                                                 <span className=' text-gray-600'>{curr_no_comms}</span>
@@ -307,48 +307,50 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
 
 
                 <Modal show={showModal} children={modal_children} width={700} closeModal={closeModal} title=<div>Reply To Comment</div> />
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
+                {
+                    is_theme && (
+                        <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
                     *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
 
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
+                            <div id='editor_settings' className='hover:shadow-2xl relative group'
+                                onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                                <BsGear size={17} />
 
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
                             text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
+                                    Section settings
+                                </span>
+                            </div>
 
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
+                            <div id='editor_settings' className='hover:shadow-2xl relative group'
+                                onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                                <BiRefresh size={17} />
 
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
                             text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
+                                    Change Layout
+                                </span>
+                            </div>
 
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrashAlt size={17} />
+                            <div id='editor_settings' className='hover:shadow-2xl relative group'
+                                onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                                <BiTrashAlt size={17} />
 
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
+                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
                             text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
+                                    Remove Section Down
+                                </span>
+                            </div>
 
-                    </div>
-                )}
-            </div>
+                        </div>
+                    )
+                }
+            </div >
         )
     }
 }

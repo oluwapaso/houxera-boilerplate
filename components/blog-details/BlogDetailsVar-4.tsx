@@ -404,12 +404,12 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                                 <span className="font-medium text-gray-900">Posted On:</span>
                                                 <span className=' text-gray-600'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
                                             </p>
-                                            <span>•</span>
+                                            <span className='hidden md:flex items-center'>•</span>
                                             <p className="font-medium flex items-center space-x-1.5">
                                                 <span className="font-medium text-gray-900">Views:</span>
                                                 <span className=' text-gray-600'>{blogPost.views}</span>
                                             </p>
-                                            <span>•</span>
+                                            <span className='hidden md:flex items-center'>•</span>
                                             <p className="font-medium flex items-center space-x-1.5">
                                                 <span className="font-medium text-gray-900">Comments:</span>
                                                 <span className=' text-gray-600'>{curr_no_comms}</span>
