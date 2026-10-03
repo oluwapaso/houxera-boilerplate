@@ -77,23 +77,6 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                     {serviceInfo.title}
                                 </span>
                             </h1>
-
-                            <div className=' flex w-full space-x-1.5 2xs:space-x-3 *:bg-white *:px-3 2xs:*:px-4 *:py-2 *:rounded *:flex *:items-center'>
-                                <div className='space-x-1.5'>
-                                    <BiCalendarEvent size={15} />
-                                    <span className='text-sm font-semibold'>{moment(serviceInfo.date_added).format("Do MMM, YYYY")}</span>
-                                </div>
-
-                                <div className='space-x-1.5'>
-                                    <BsEye size={15} />
-                                    <span className='text-sm font-semibold'>{serviceInfo.views || "0"}</span>
-                                </div>
-
-                                <div className='space-x-1.5'>
-                                    <GiChatBubble size={15} />
-                                    <span className='text-sm font-semibold'>{serviceInfo.comments || "0"}</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -121,13 +104,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
 
                         <div className='hidden lg:block lg:col-span-2'>
-                            {(serviceInfoLoaded && serviceInfo) &&
-                                <div className='w-full'>
-                                    <RecommendedNeighborhood neighborhood_uid={serviceInfo?.neighborhood_uid} is_theme={is_theme} />
-                                </div>
-                            }
-
-                            <div className='w-full mt-12 flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
+                            <div className='w-full flex flex-col space-y-8 *:border *:border-gray-100 *:shadow-lg'>
                                 <SideAds no_ads={4} />
                             </div>
                         </div>

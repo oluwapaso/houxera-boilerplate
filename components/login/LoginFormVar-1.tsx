@@ -330,8 +330,9 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                     </div>
 
                     {is_theme && (
-                        <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                        *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                        <div className=' bg-white p-3 rounded-md absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center 
+                        divide-x divide-gray-300 justify-end 
+                        *:text-gray-800 *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
 
                             <div id='editor_settings' className='hover:shadow-2xl relative group'
                                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
