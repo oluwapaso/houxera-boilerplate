@@ -29,7 +29,6 @@ import { useServiceDetails } from '@/_hooks/useServiceDetails';
 const helpers = new Helpers();
 const ServiceDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
-
     var {
         serviceInfo,
         serviceInfoLoaded,
@@ -43,7 +42,7 @@ const ServiceDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is
         handleCompPickerClick,
         handleHover,
         handleMouseExist,
-    } = useServiceDetails({ is_theme, raw_data, component: "ServiceDetailsVar2" });
+    } = useServiceDetails({ is_theme, raw_data, component: "ServiceDetailsVar3" });
 
 
     if (themeSett && themeSett != null) {
