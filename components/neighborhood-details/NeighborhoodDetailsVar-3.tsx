@@ -1,17 +1,12 @@
 "use client"
 
 import { Helpers } from '@/_lib/helper';
-import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
-import { AppDispatch, RootState } from '@/app/GlobalRedux/store';
 import CommentBox from '@/components/blog-cards/CommentBox';
 import CommentCardVar2 from '@/components/blog-cards/CommentCardVar-2';
-import RelatedBlogPosts from '@/components/blog-cards/RelatedBlogPosts';
 import moment from 'moment';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiRefresh, BiTrashAlt } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { BsGear, BsTwitterX } from 'react-icons/bs';
 import {
@@ -24,51 +19,55 @@ import {
 import ReplyComment from '@/components/modals/ReplyComment';
 import SideAds from '@/components/ads/SideAds';
 import { CiShare2 } from 'react-icons/ci';
-import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
 import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { GiFlame } from 'react-icons/gi';
 import Modal from '../modals/Modal';
+import RecommendedNeighborhood from '../neighborhood-cards/RecommendedNeighborhood';
+import { useNeighborhoodDetails } from '@/_hooks/useNeighborhoodDetails';
 
 const helpers = new Helpers();
 const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
-    const dispatch = useDispatch<AppDispatch>();
-    const params = useParams();
-    const searchParams = useSearchParams();
-    const slug = params?.slug as string || "agric-ikorodu"; //Hard coaded part is for testing only
-    const router = useRouter();
+    var {
+        slug,
+        company_unique_id,
+        channel_uid,
+        neighInfo,
+        neighInsight,
+        neighProperties,
+        neighInfoLoaded,
+        neighInfoError,
+        neighInfoComm,
+        neighInfoCommLoaded,
+        neighInfoCommError,
+        skip,
+        has_more,
+        curr_no_comms,
+        page_url,
+        first_comp_pt,
+        sectionHover,
+        themeSett,
+        menuRef,
+        is_menu_shown,
+        all_comments,
+        share_title,
+        router,
 
-    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
-    const channel_uid = searchParams?.get("channel_uid") as string || "";
-
-    const user = useSelector((state: RootState) => state.user);
-    const theme = useSelector((state: RootState) => state.theme);
-    const [themeSett, setThemeSett] = useState<any | null>(null);
-    const [page_url, setPageURL] = useState("");
-
-    const [blogPost, setBlogPost] = useState<any>({});
-    const [blogPostLoaded, setBlogPostLoaded] = useState<boolean>(false);
-    const [blogPostError, setBlogPostError] = useState("");
-
-    const [blogPostComm, setBlogPostComm] = useState<any[]>([]);
-    const [blogPostCommLoaded, setBlogPostCommLoaded] = useState<boolean>(false);
-    const [blogPostCommError, setBlogPostCommError] = useState("");
-
-    const [skip, setSkip] = useState(0);
-    const [comment_resp, setCommResp] = useState("");
-    const [has_more, setHasMore] = useState("No");
-    const [rep_to_append, setRepToAppend] = useState<any>(null);
-    const [curr_no_comms, setNoComms] = useState(0);
-
-    const [keyword, setKeyword] = useState("");
-    let all_comments: React.JSX.Element[] = [];
+        // handlers
+        dispatch,
+        handleSettingsClick,
+        handleCompPickerClick,
+        handleHover,
+        handleMouseExist,
+        fetchMoreComments,
+        BuildSearchLink,
+        setIsMenuShown,
+        setRepToAppend,
+        setNoComms
+    } = useNeighborhoodDetails({ is_theme, raw_data, component: "NeighborhoodDetailsVar3" });
 
     const [showModal, setShowModal] = useState(false);
     const [modal_children, setModalChildren] = useState({} as React.ReactNode);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [is_menu_shown, setIsMenuShown] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const closeModal = () => {
         setShowModal(false);
@@ -79,45 +78,9 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         }
     }
 
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "blog_details",
-                    "type": "section",
-                    "component": "BlogDetailsVar3",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Blog Posts"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
-
     const handleReply = (comment_uid: string) => { //, quoted_comments: string
-        setModalChildren(<ReplyComment closeModal={closeModal} item_type="Blog Post" item_uid={blogPost.post_uid} comment_uid={comment_uid}
-            setRepToAppend={setRepToAppend} setNoComms={setNoComms} />);
+        setModalChildren(<ReplyComment closeModal={closeModal} item_type="Neighborhood" item_uid={neighInfo.neighborhood_uid}
+            comment_uid={comment_uid} setRepToAppend={setRepToAppend} setNoComms={setNoComms} />);
         setShowModal(true);
 
         const body = document.querySelector("body");
@@ -126,164 +89,11 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         }
     }
 
-    const LoadBlogsDetails = async () => {
-
-        const payload = {
-            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "slug": slug,
-            "user_uid": user.user_info?.user_uid,
-        }
-
-        const response = await window.MLS_Util.LoadBlogPostDetails(payload);
-
-        let resp_message = response.message;
-        let status_code = response.status_code;
-        if (status_code == 200) {
-            setBlogPost(response.data.blog_post);
-            setNoComms(response.data?.blog_post?.comments);
-        } else {
-            setBlogPostError(resp_message)
-        }
-
-        setBlogPostLoaded(true);
-
-    }
-
-    const LoadBlogsComments = async (skip: number) => {
-
-        const payload = {
-            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "post_uid": blogPost.post_uid,
-            "skip": skip || 0,
-            "size": 20,
-        }
-
-        const response = await window.MLS_Util.LoadBlogPostComments(payload);
-        let resp_message = response.message;
-        let status_code = response.status_code;
-        if (status_code == 200) {
-
-            setBlogPostComm((prev_comm: any[]) => [...prev_comm, ...response.data?.comments]);
-            dispatch(hidePageLoader());
-            setHasMore(response.data?.has_more);
-            setSkip(skip);
-
-        } else {
-            setBlogPostCommError(resp_message);
-            setHasMore("No");
-        }
-
-        setBlogPostCommLoaded(true);
-
-    }
-
-    const fetchMoreComments = async () => {
-        const new_skip = skip + 1;
-        LoadBlogsComments(new_skip);
-    }
-
-    useEffect(() => {
-        LoadBlogsComments(0);
-    }, [blogPost]);
-
-    useEffect(() => {
-
-        dispatch(hidePageLoader());
-        if (window.MLS_Util) {
-            LoadBlogsDetails();
-        }
-
-    }, [window.MLS_Util]);
-
-    useEffect(() => {
-        setPageURL(`${window.location.href}/blog-post/${slug}`);
-    }, []);
-
-    useEffect(() => {
-        if (theme) {
-            setThemeSett(theme.theme_settings);
-        }
-    }, [theme]);
-
-    useEffect(() => {
-        if (rep_to_append) {
-            setBlogPostCommLoaded(false);
-
-            const to = setTimeout(() => {
-                setBlogPostComm((prev_comm: any[]) => [rep_to_append, ...prev_comm]);
-                setBlogPostCommLoaded(true);
-            }, 250)
-
-            const to2 = setTimeout(() => {
-                const parentElement = document.getElementById('comment_area') as HTMLDivElement;
-                if (parentElement) {
-                    var top = parentElement.offsetTop - 10;
-                    window.scrollTo({ top, behavior: 'smooth' });
-                }
-            }, 550)
-
-            return () => {
-                clearTimeout(to);
-                clearTimeout(to2);
-            }
-
-        }
-    }, [rep_to_append]);
-
-    //Initialize Ads
-    useEffect(() => {
-        if (window.MLS_Util) {
-            const to = setTimeout(() => {
-                window.MLS_Util.InitializeSideAds();
-            }, 1500);
-
-            return () => clearTimeout(to);
-        }
-    }, [window.MLS_Util]);
-
-    useEffect(() => {
-
-        if (raw_data?.component_index !== 0) return;
-
-        const navType = themeSett?.nav_component?.type;
-
-        if (navType === "NavVar6") {
-            setFirstCompPt("pt-52");
-            return;
-        }
-
-        if (navType === "NavVar7") {
-            const updatePadding = () => {
-                const nav = document.getElementById("main-nav");
-                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
-                // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
-            };
-
-            updatePadding(); // initial
-
-            // Watch for changes (forceMobile can change on resize)
-            const observer = new MutationObserver(updatePadding);
-            const nav = document.getElementById("main-nav");
-            if (nav) {
-                observer.observe(nav, {
-                    attributes: true,
-                    attributeFilter: ["data-is-mobile"],
-                });
-            }
-
-            return () => observer.disconnect();
-        }
-
-    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
-
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
-            blogPostLoaded ? (
-                blogPost ? (
-                    blogPost.title
+            neighInfoLoaded ? (
+                neighInfo ? (
+                    neighInfo.title
                 ) : ""
             ) : ""
         }
@@ -293,18 +103,18 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
         <div className='w-full text-center'>No comment added yet. Be the first to leave a comments.</div>
     </div>
 
-    if (Array.isArray(blogPostComm)) {
+    if (Array.isArray(neighInfoComm)) {
 
-        if (blogPostComm.length > 0) {
+        if (neighInfoComm.length > 0) {
 
-            all_comments = blogPostComm.map((comm) => {
+            all_comments = neighInfoComm.map((comm) => {
                 return (<CommentCardVar2 key={comm.comment_uid} comm={comm} handleReply={handleReply} />)
             })
 
         } else {
 
             //Making sure request has been sent
-            if (blogPostCommLoaded) {
+            if (neighInfoCommLoaded) {
                 all_comments[0] = no_comm_added
             } else {
                 all_comments[0] = <div className='w-full flex justify-center items-center min-h-60'>
@@ -316,30 +126,15 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
     }
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-                setIsMenuShown(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef]);
-
-    const share_title = `Check out this article i found on ${process.env.NEXT_PUBLIC_CHANNEL_WEBSITE}`;
-
     if (themeSett && themeSett != null) {
         return (
             <div className={`min-h-screen bg-gray-100 relative ${first_comp_pt} pb-20 px-3`}>
 
                 <div className='py-4 flex flex-col items-center justify-center'>
                     <h1 className=" w-full max-w-[650px] text-center text-3xl font-bold leading-snug text-gray-900 sm:text-3xl">
-                        {blogPost.title}
+                        {neighInfo.title}
                     </h1>
-                    <span className=' text-gray-600 text-lg mt-1'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
+                    <span className=' text-gray-600 text-lg mt-1'>{moment(neighInfo.date_added).format("Do MMM, YYYY")}</span>
                 </div>
 
                 {/* Hero image */}
@@ -349,8 +144,8 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             backgroundSize: `cover`,
                             backgroundPosition: `center`,
                             backgroundRepeat: `none`,
-                            backgroundImage: `url(${(blogPost.header_image_large && blogPost.header_image_large != "")
-                                ? `${blogPost?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
+                            backgroundImage: `url(${(neighInfo.header_image_large && neighInfo.header_image_large != "")
+                                ? `${neighInfo?.header_image_large}` : "../no-blog-image-added.png"})`, //Remove ../../, the  ../../ is added for testing
                         }}>
                     </div>
                 </header>
@@ -358,28 +153,24 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                 {/* Content wrapper with overlapping card */}
                 <div className={`container mx-auto max-w-[1280px] mt-8 `}>
                     {/* Main article card */}
-                    {blogPostError == "" &&
+                    {neighInfoError == "" &&
                         <div className="rounded-2xl bg-white px-3 2xs:px-5 py-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
-                            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                <span>Category:</span> <span className={`text-${themeSett.primary_color}`}>{blogPost?.category_name}</span>
-                            </span>
-
-                            <div className="mt-5 flex flex-col md:flex-row justify-between gap-4 border-b border-gray-200 pb-5">
+                            <div className="flex flex-col md:flex-row justify-between gap-4 border-b border-gray-200 pb-5">
 
                                 <div className="flex flex-col sm:flex-row space-x-3.5 text-sm *:shrink-0">
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Posted On:</span>
-                                        <span className=' text-gray-600'>{moment(blogPost.date_added).format("Do MMM, YYYY")}</span>
+                                        <span className=' text-gray-600'>{moment(neighInfo.date_added).format("Do MMM, YYYY")}</span>
                                     </p>
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Views:</span>
-                                        <span className=' text-gray-600'>{blogPost.views}</span>
+                                        <span className=' text-gray-600'>{neighInfo.views || "0"}</span>
                                     </p>
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Comments:</span>
-                                        <span className=' text-gray-600'>{curr_no_comms}</span>
+                                        <span className=' text-gray-600'>{curr_no_comms || "0"}</span>
                                     </p>
                                 </div>
 
@@ -388,7 +179,7 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                                         px-4 py-1.5 text-sm font-medium text-${themeSett.primary_color} transition-colors
                                         hover:bg-${themeSett.primary_color} hover:text-${themeSett.primary_button_text} `}>
                                         <CiShare2 className="h-4 w-4" />
-                                        Share Post
+                                        Share Guide
                                     </button>
                                     {is_menu_shown &&
                                         <div className=' absolute right-0 bg-white rounded shadow-2xl flex flex-col w-[220px] '>
@@ -432,17 +223,17 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             </div>
 
                             <div className="w-full font-normal mt-8 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base overflow-x-hidden">
-                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: blogPost.post_body }} />
+                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.descriptions }} />
                             </div>
                         </div>
                     }
 
-                    {(blogPostLoaded && blogPostError == "") &&
+                    {(neighInfoLoaded && neighInfoError == "") &&
                         <div className='w-full max-w-[900px] mt-16 flex flex-col'>
 
                             <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
-                            <CommentBox item_type="Blog Post" item_uid={blogPost?.post_uid} setRepToAppend={setRepToAppend}
-                                setNoComms={setNoComms} />
+                            <CommentBox item_type="Neighborhood" item_uid={neighInfo?.neighborhood_uid} setRepToAppend={setRepToAppend}
+                                setNoComms={setNoComms} is_theme={is_theme} />
 
                             <div className='w-full font-semibold text-2xl mt-14'>
                                 {curr_no_comms} Comment{curr_no_comms > 1 ? "s" : ""}
@@ -461,19 +252,15 @@ const BlogDetailsVar3 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                         </div>
                     }
 
-                    {blogPostError != "" &&
+                    {neighInfoError != "" &&
                         <div className='col-span-full h-[150px] bg-white text-red-600 flex items-center justify-center'>
-                            {blogPostError}
+                            {neighInfoError}
                         </div>
                     }
 
-                    <div className='w-full mt-12'>
-                        <BlogCategoryPills curr_cat={blogPost.category_name} is_theme={is_theme} />
-                    </div>
-
-                    {(blogPostLoaded && blogPost) &&
-                        <div className='w-full mt-12'>
-                            <RelatedBlogPosts variation='grid' is_theme={is_theme} category_name={blogPost.category_name} post_uid={blogPost.post_uid} />
+                    {(neighInfoLoaded && neighInfo) &&
+                        <div className='w-full'>
+                            <RecommendedNeighborhood neighborhood_uid={neighInfo?.neighborhood_uid} is_theme={is_theme} />
                         </div>
                     }
 

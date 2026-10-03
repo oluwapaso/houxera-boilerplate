@@ -23,53 +23,55 @@ import {
 import ReplyComment from '@/components/modals/ReplyComment';
 import SideAds from '@/components/ads/SideAds';
 import { CiShare2 } from 'react-icons/ci';
-import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
 import { FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { GiFlame } from 'react-icons/gi';
 import Modal from '../modals/Modal';
 import RecommendedNeighborhood from '../neighborhood-cards/RecommendedNeighborhood';
+import { useNeighborhoodDetails } from '@/_hooks/useNeighborhoodDetails';
 
 const helpers = new Helpers();
 const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
-    const dispatch = useDispatch<AppDispatch>();
-    const params = useParams();
-    const searchParams = useSearchParams();
-    const slug = params?.slug as string || "agric-ikorodu"; //Hardcoded part is for testing
-    const router = useRouter();
+    var {
+        slug,
+        company_unique_id,
+        channel_uid,
+        neighInfo,
+        neighInsight,
+        neighProperties,
+        neighInfoLoaded,
+        neighInfoError,
+        neighInfoComm,
+        neighInfoCommLoaded,
+        neighInfoCommError,
+        skip,
+        has_more,
+        curr_no_comms,
+        page_url,
+        first_comp_pt,
+        sectionHover,
+        themeSett,
+        menuRef,
+        is_menu_shown,
+        all_comments,
+        share_title,
+        router,
 
-    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
-    const channel_uid = searchParams?.get("channel_uid") as string || "";
-
-    const user = useSelector((state: RootState) => state.user);
-    const theme = useSelector((state: RootState) => state.theme);
-    const [themeSett, setThemeSett] = useState<any | null>(null);
-    const [page_url, setPageURL] = useState("");
-    const [is_menu_shown, setIsMenuShown] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
-
-    const [neighInfo, setNeighInfo] = useState<any>({});
-    const [neighInsight, setNeighInsight] = useState<any>({});
-    const [neighProperties, setNeighProperties] = useState<any[]>([]);
-    const [neighInfoLoaded, setNeighInfoLoaded] = useState<boolean>(false);
-    const [neighInfoError, setNeighInfoError] = useState("");
-
-    const [neighInfoComm, setNeighborhoodComm] = useState<any[]>([]);
-    const [neighInfoCommLoaded, setNeighborhoodCommLoaded] = useState<boolean>(false);
-    const [neighInfoCommError, setNeighborhoodCommError] = useState("");
-
-    const [skip, setSkip] = useState(0);
-    const [comment_resp, setCommResp] = useState("");
-    const [has_more, setHasMore] = useState("No");
-    const [rep_to_append, setRepToAppend] = useState<any>(null);
-    const [curr_no_comms, setNoComms] = useState(0);
-
-    let all_comments: React.JSX.Element[] = [];
+        // handlers
+        dispatch,
+        handleSettingsClick,
+        handleCompPickerClick,
+        handleHover,
+        handleMouseExist,
+        fetchMoreComments,
+        BuildSearchLink,
+        setIsMenuShown,
+        setRepToAppend,
+        setNoComms
+    } = useNeighborhoodDetails({ is_theme, raw_data, component: "NeighborhoodDetailsVar2" });
 
     const [showModal, setShowModal] = useState(false);
     const [modal_children, setModalChildren] = useState({} as React.ReactNode);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
 
     const closeModal = () => {
         setShowModal(false);
@@ -78,42 +80,6 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
         if (body) {
             body.style.overflow = "auto";
         }
-    }
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "neighborhood_details",
-                    "type": "section",
-                    "component": "NeighborhoodDetailsVar2",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Neighborhood Posts"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
     }
 
     const handleReply = (comment_uid: string) => { //, quoted_comments: string
@@ -126,167 +92,6 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
             body.style.overflow = "hidden";
         }
     }
-
-    const LoadNeighsDetails = async () => {
-
-        const payload = {
-            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "slug": slug,
-            "user_uid": user.user_info?.user_uid,
-        }
-
-
-        const response = await window.MLS_Util.LoadNeighborhoodDetails(payload);
-
-        let resp_message = response.message;
-        let status_code = response.status_code;
-        if (status_code == 200) {
-            setNeighInfo(response.data.neighborhood);
-            setNoComms(response.data?.neighborhood?.comments);
-            setNeighInsight(response.data.insights);
-            setNeighProperties(response.data.properties);
-        } else {
-            setNeighInfoError(resp_message)
-        }
-
-        setNeighInfoLoaded(true);
-
-    }
-
-    const LoadNeighsComments = async (skip: number) => {
-
-        const payload = {
-            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
-            "neighborhood_uid": neighInfo.neighborhood_uid,
-            "skip": skip || 0,
-            "size": 5,//20
-        }
-
-        const response = await window.MLS_Util.LoadNeighborhoodComments(payload);
-        let resp_message = response.message;
-        let status_code = response.status_code;
-        if (status_code == 200) {
-
-            setNeighborhoodComm((prev_comm: any[]) => [...prev_comm, ...response.data?.comments]);
-            dispatch(hidePageLoader());
-            setHasMore(response.data?.has_more);
-            setSkip(skip);
-
-        } else {
-            setNeighborhoodCommError(resp_message);
-            setHasMore("No");
-        }
-
-        setNeighborhoodCommLoaded(true);
-
-    }
-
-    const fetchMoreComments = async () => {
-        const new_skip = skip + 1;
-        LoadNeighsComments(new_skip);
-    }
-
-    const BuildSearchLink = (neighInfo: any) => {
-        var link = "";
-        var prop_delv = neighInfo.property_delivery;
-
-        if (prop_delv.city && prop_delv.city != "") {
-            link += `location=${prop_delv.city}&`;
-        }
-
-        if (Array.isArray(prop_delv.listing_type) && prop_delv.listing_type.length > 0) {
-            link += `sales_type=${prop_delv.listing_type[0]}&`;
-        }
-
-        link = helpers.rTrim(link, "&");
-        return link;
-    }
-
-    useEffect(() => {
-        LoadNeighsComments(0);
-    }, [neighInfo]);
-
-    useEffect(() => {
-
-        dispatch(hidePageLoader());
-        if (window.MLS_Util) {
-            LoadNeighsDetails();
-        }
-
-    }, [window.MLS_Util]);
-
-    useEffect(() => {
-        setPageURL(`${window.location.href}/neigh-info/${slug}`);
-    }, []);
-
-    useEffect(() => {
-        if (theme) {
-            setThemeSett(theme.theme_settings);
-        }
-    }, [theme]);
-
-    useEffect(() => {
-        if (rep_to_append) {
-            setNeighborhoodCommLoaded(false);
-
-            const to = setTimeout(() => {
-                setNeighborhoodComm((prev_comm: any[]) => [rep_to_append, ...prev_comm]);
-                setNeighborhoodCommLoaded(true);
-            }, 250)
-
-            const to2 = setTimeout(() => {
-                const parentElement = document.getElementById('comment_area') as HTMLDivElement;
-                if (parentElement) {
-                    var top = parentElement.offsetTop - 10;
-                    window.scrollTo({ top, behavior: 'smooth' });
-                }
-            }, 550)
-
-            return () => {
-                clearTimeout(to);
-                clearTimeout(to2);
-            }
-
-        }
-    }, [rep_to_append]);
-
-    useEffect(() => {
-
-        if (raw_data?.component_index !== 0) return;
-
-        const navType = themeSett?.nav_component?.type;
-
-        if (navType === "NavVar6") {
-            setFirstCompPt("pt-52");
-            return;
-        }
-
-        if (navType === "NavVar7") {
-            const updatePadding = () => {
-                const nav = document.getElementById("main-nav");
-                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
-                // Adjust these values to whatever looks correct
-                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
-            };
-
-            updatePadding(); // initial
-
-            // Watch for changes (forceMobile can change on resize)
-            const observer = new MutationObserver(updatePadding);
-            const nav = document.getElementById("main-nav");
-            if (nav) {
-                observer.observe(nav, {
-                    attributes: true,
-                    attributeFilter: ["data-is-mobile"],
-                });
-            }
-
-            return () => observer.disconnect();
-        }
-
-    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
 
     const crumb = <div className='font-play-fair-display text-4xl !text-white'>
         {
@@ -325,8 +130,6 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
 
     }
 
-    const share_title = `Check out this neighborhod guide i found on ${process.env.NEXT_PUBLIC_CHANNEL_WEBSITE}`;
-
     if (themeSett && themeSett != null) {
         return (
             <div className={`min-h-screen bg-gray-100 relative ${first_comp_pt} pb-20`}>
@@ -349,11 +152,7 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
                     {/* Main article card */}
                     {neighInfoError == "" &&
                         <div className="rounded-2xl bg-white px-3 2xs:px-5 py-5 shadow-xl ring-1 ring-gray-100 sm:p-8">
-                            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                <span>Category:</span> <span className={`text-${themeSett.primary_color}`}>{neighInfo?.category_name}</span>
-                            </span>
-
-                            <h1 className="mt-3 text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
+                            <h1 className=" text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
                                 {neighInfo.title}
                             </h1>
 
@@ -367,12 +166,12 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Views:</span>
-                                        <span className=' text-gray-600'>{neighInfo.views}</span>
+                                        <span className=' text-gray-600'>{neighInfo.views || "0"}</span>
                                     </p>
                                     <span className='hidden md:flex items-center'>•</span>
                                     <p className="font-medium flex items-center space-x-1.5">
                                         <span className="font-medium text-gray-900">Comments:</span>
-                                        <span className=' text-gray-600'>{curr_no_comms}</span>
+                                        <span className=' text-gray-600'>{curr_no_comms || "0"}</span>
                                     </p>
                                 </div>
 
@@ -381,7 +180,7 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
                                         px-4 py-1.5 text-sm font-medium text-${themeSett.primary_color} transition-colors
                                         hover:bg-${themeSett.primary_color} hover:text-${themeSett.primary_button_text} `}>
                                         <CiShare2 className="h-4 w-4" />
-                                        Share Post
+                                        Share Insight
                                     </button>
                                     {is_menu_shown &&
                                         <div className=' absolute right-0 bg-white rounded shadow-2xl flex flex-col w-[220px] '>
@@ -425,7 +224,7 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
                             </div>
 
                             <div className="w-full font-normal mt-8 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base overflow-x-hidden">
-                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.post_body }} />
+                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: neighInfo.descriptions }} />
                             </div>
                         </div>
                     }
@@ -434,8 +233,8 @@ const NeighborhoodDetailsVar2 = ({ is_theme = false, size = 20, raw_data = {} }:
                         <div className='w-full max-w-[900px] mt-16 flex flex-col'>
 
                             <div className='w-full font-semibold text-2xl'>Leave a Comment </div>
-                            <CommentBox item_type="Blog Post" item_uid={neighInfo?.post_uid} setRepToAppend={setRepToAppend}
-                                setNoComms={setNoComms} />
+                            <CommentBox item_type="Neighborhood" item_uid={neighInfo?.neighborhood_uid} setRepToAppend={setRepToAppend}
+                                setNoComms={setNoComms} is_theme={is_theme} />
 
                             <div className='w-full font-semibold text-2xl mt-14'>
                                 {curr_no_comms} Comment{curr_no_comms > 1 ? "s" : ""}

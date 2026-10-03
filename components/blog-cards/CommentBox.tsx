@@ -148,7 +148,7 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
 
     if (themeSett && themeSett != null) {
         return (
-            <div className='w-full mt-2 bg-white border border-gray-300 px-3 xs:px-6 py-4 space-y-4 shadow-xl rounded-lg'>
+            <div className='w-full mt-2 bg-white border border-gray-300 px-3 xs:px-6 py-6 space-y-4 shadow-xl rounded-lg'>
 
                 <div className='grid grid-cols-1 xs:grid-cols-2 gap-5'>
                     <div className=''>

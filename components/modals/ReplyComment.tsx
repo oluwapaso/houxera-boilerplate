@@ -166,6 +166,8 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
         )
 
     }
+
+    return null
 }
 
 export default ReplyComment
