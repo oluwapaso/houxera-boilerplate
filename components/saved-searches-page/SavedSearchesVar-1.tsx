@@ -262,6 +262,42 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
         };
     }, [menuRef]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!is_theme && !user.isLogged) {
         return (
             <div className="flex flex-col min-h-screen" >
@@ -277,11 +313,11 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="flex flex-col min-h-screen py-35 relative bg-gray-100">
+            <section className={`flex flex-col min-h-screen ${first_comp_pt} pb-20 relative bg-gray-100 px-4`}>
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
                     {/**  ======================= Contact Area Starts ====================== **/}
-                    <div className="container mx-auto max-w-[1150px]">
+                    <div className="container mx-auto max-xs:max-w-full tab:max-w-[900px] xl:max-w-[1150px]">
 
                         <div className=' flex justify-between mb-4'>
                             <div className=' flex flex-col'>
@@ -303,7 +339,7 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
                             <div className='w-full'>
 
                                 {(searchesError == "" && Array.isArray(saved_searches)) &&
-                                    <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
+                                    <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-6'>
                                         {all_searches}
                                     </div>
                                 }

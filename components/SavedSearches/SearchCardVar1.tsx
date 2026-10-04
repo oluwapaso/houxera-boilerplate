@@ -58,36 +58,46 @@ const SearchCardVar1 = ({ search_info, handleDelete, handleEdit }:
 
     if (themeSett && themeSett != null) {
         return (
-            <div className='flex flex-col relative shadow-xl rounded-md bg-white border border-gray-200'
+            <div className='flex flex-col relative shadow-xl rounded-lg bg-white border border-gray-200'
                 id={`saved_search_${search_info.search_uid}`}>
 
-                <div className='p-4 flex pb-20 flex-col'>
-                    <div className='font-semibold text-lg mt-0 text-gray-800 line-clamp-2' id={`search_title_${search_info.search_uid}`}>
+                <div className='p-4 pb-22 xs:p-6 xs:pb-22 flex flex-col'>
+                    <div className='font- text-xl xs:text-xl mt-0 text-gray-800 line-clamp-2' id={`search_title_${search_info.search_uid}`}>
                         {search_info.search_title}
                     </div>
-                    <div className=' flex items-start space-x-1.5 mt-2'>
-                        <span className='font-semibold text-gray-600 flex items-center space-x-1'>
-                            <BiBell size={18} />  <span>Alert Frequency:</span>
+
+                    <div className=' flex flex-col xs:flex-row xs:items-center space-x-2 mt-3 text-base xs:text-base'>
+                        <span className='font-medium text-gray-800 flex items-center space-x-3'>
+                            <span className='p-2 rounded-full bg-gray-100 text-gray-600 shrink-0'>
+                                <BiBell size={23} />
+                            </span>
+                            <span className=' shrink-0'>Alert Frequency:</span>
                         </span>
-                        <span className='text-smx font-medium line-clamp-2 italic text-gray-500' id={`email_frequency_${search_info.search_uid}`}>
+                        <span className='max-xs:pl-[52px] text-smx font- line-clamp-2 text-gray-500' id={`email_frequency_${search_info.search_uid}`}>
                             {search_info.email_frequency}
                         </span>
                     </div>
 
-                    <div className=' flex items-center space-x-1.5 mt-2'>
-                        <span className='font-semibold text-gray-600 flex items-center space-x-1'>
-                            <HiHomeModern size={16} />  <span>Prop Type:</span>
+                    <div className=' flex flex-col xs:flex-row xs:items-center space-x-2 mt-3 text-base xs:text-base'>
+                        <span className='font-medium text-gray-800 flex items-center space-x-3'>
+                            <span className='p-2 rounded-full bg-gray-100 text-gray-600 shrink-0'>
+                                <HiHomeModern size={23} />
+                            </span>
+                            <span className=' shrink-0'>Prop Type:</span>
                         </span>
-                        <span className='text-smx font-medium line-clamp-2 text-gray-500'>
+                        <span className='max-xs:pl-[52px] text-smx font- line-clamp-2 text-gray-500'>
                             {search_info.property_type} - {search_info.property_sub_type}
                         </span>
                     </div>
 
-                    <div className=' flex items-center space-x-1.5 mt-2'>
-                        <span className='font-semibold text-gray-600 flex items-center space-x-1'>
-                            <GiMoneyStack size={16} />  <span>Price:</span>
+                    <div className=' flex flex-col xs:flex-row xs:items-center space-x-2 mt-3 text-base xs:text-base'>
+                        <span className='font-medium text-gray-800 flex items-center space-x-3'>
+                            <span className='p-2 rounded-full bg-gray-100 text-gray-600 shrink-0'>
+                                <GiMoneyStack size={23} />
+                            </span>
+                            <span className=' shrink-0'>Price:</span>
                         </span>
-                        <span className='text-smx font-medium line-clamp-2 text-gray-500 flex space-x-2.5'>
+                        <span className='max-xs:pl-[52px] text-smx font- line-clamp-2 text-gray-500 flex space-x-2.5'>
                             <span>
                                 {(search_info.min_price == "Any" || search_info.min_price == "0") ? `Min. Any` : `Min.${helpers.formatCurrency(search_info.min_price, true)}`}
                             </span>
@@ -97,19 +107,32 @@ const SearchCardVar1 = ({ search_info, handleDelete, handleEdit }:
                         </span>
                     </div>
 
-                    <div className=' flex items-center mt-2'>
-                        <div className='flex items-center space-x-2.5'>
-                            <div className=' flex items-center space-x-1'>
-                                <LuBedDouble size={16} />
-                                <span className='font-semibold text-gray-600'>Beds:</span>
-                                <span className=' text-gray-500'>{search_info.beds}</span>
-                            </div>
+                    <div className=' flex flex-col xs:flex-row xs:items-center xs:space-x-4 mt-3 text-base xs:text-base'>
 
-                            <div className=' flex items-center space-x-1'>
-                                <BiShower size={16} />
-                                <span className='font-semibold text-gray-600'>Baths:</span>
-                                <span className=' text-gray-500'>{search_info.baths}</span>
-                            </div>
+                        <div className=' flex justify-between xs:justify-start items-center space-x-2 text-base xs:text-base'>
+                            <span className='font-medium text-gray-800 flex items-center space-x-3'>
+                                <span className='p-2 rounded-full bg-gray-100 text-gray-600 relative shrink-0'>
+                                    <LuBedDouble size={23} />
+                                </span>
+                                <span className=' shrink-0'>Beds:</span>
+                            </span>
+                            <span className='max-xs:pl-[52px] text-smx font- line-clamp-2 text-gray-500'>
+                                {search_info.beds}
+                            </span>
+                        </div>
+
+                        <div className=' hidden xs:block border-r-2 border-gray-300 h-[25px]'></div>
+
+                        <div className=' flex justify-between xs:justify-start items-center space-x-2 max-xs:mt-3 text-base xs:text-base'>
+                            <span className='font-medium text-gray-800 flex items-center space-x-3'>
+                                <span className='p-2 rounded-full bg-gray-100 text-gray-600 relative shrink-0'>
+                                    <BiShower size={23} />
+                                </span>
+                                <span className=' shrink-0'>Baths:</span>
+                            </span>
+                            <span className='max-xs:pl-[52px] text-smx font- line-clamp-2 text-gray-500'>
+                                {search_info.baths}
+                            </span>
                         </div>
                     </div>
 
