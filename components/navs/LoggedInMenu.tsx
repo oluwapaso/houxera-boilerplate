@@ -49,7 +49,7 @@ const LoggedInMenu = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean,
     if (themeSett) {
         return (
             <div className=' flex items-center space-x-6'>
-                <CustomLinkMain href={`${themeSett.theme_prefix}/favorites?page=1`} is_theme={is_theme}
+                <CustomLinkMain href={`/favorites?page=1`} is_theme={is_theme}
                     className={`relative flex items-center justify-center cursor-pointer `}>
                     <ImHeart size={25} />
                     <span className=' absolute -top-3.5 -right-3.5 flex items-center justify-center 
@@ -59,9 +59,9 @@ const LoggedInMenu = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean,
                 </CustomLinkMain>
 
                 <div className=' relative' ref={menuRef}>
-                    <div className={`bg-${themeSett.primary_color}-600 size-9 rounded-full flex items-center justify-center `}
+                    <div className={` size-9 rounded-full flex items-center justify-center `}
                         onClick={() => setMenuOpened(true)}>
-                        <BiMenu size={22} className='text-white' />
+                        <BiMenu size={25} />
                     </div>
 
                     {is_menu_opened &&
@@ -69,28 +69,28 @@ const LoggedInMenu = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean,
                             overflow-hidden top-12 right-0 *:flex *:items-center *:space-x-2 *:px-4 *:py-4 *:cursor-pointer 
                             *:text-gray-800`}>
 
-                            <CustomLinkMain href={`${themeSett.theme_prefix}/prefrences`}
+                            <CustomLinkMain href={`/prefrences`}
                                 className={`hover:border-b-${themeSett.primary_color}-400 transition-all ease-in hover:delay-150`}>
                                 <FaGears size={18} /> <span>Prefrences</span>
                             </CustomLinkMain>
 
-                            <CustomLinkMain href={`${themeSett.theme_prefix}/favorites?page=1`}
+                            <CustomLinkMain href={`/favorites?page=1`}
                                 className={`hover:border-b-${themeSett.primary_color}-400 transition-all ease-in hover:delay-150`}>
                                 <BsHeart size={18} /> <span>Favorites ({user.data_counts.favorites || 0})</span>
                             </CustomLinkMain>
 
-                            <CustomLinkMain href={`${themeSett.theme_prefix}/scheduled-tours?satus=Pending&page=1`}
+                            <CustomLinkMain href={`/scheduled-tours?satus=Pending&page=1`}
                                 className={`hover:border-b-${themeSett.primary_color}-400 transition-all ease-in hover:delay-150`}>
                                 <BiWalk size={18} /> <span>Scheduled Tours ({user.data_counts.upcoming_tours || 0})</span>
                             </CustomLinkMain>
 
-                            <CustomLinkMain href={`${themeSett.theme_prefix}/saved-searches?page=1`}
+                            <CustomLinkMain href={`/saved-searches?page=1`}
                                 className={`hover:border-b-${themeSett.primary_color}-400 transition-all ease-in hover:delay-150`}>
                                 <BiSave size={18} /> <span>Saved Searches</span>
                             </CustomLinkMain>
 
                             <div onClick={Logout} className={`hover:border-b-${themeSett.primary_color}-400 transition-all ease-in 
-                            hover:delay-150`}>
+                                hover:delay-150`}>
                                 <BiLogOut size={18} /> <span>Logout</span>
                             </div>
 

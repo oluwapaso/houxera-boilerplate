@@ -9,6 +9,7 @@ import Image from "next/image"
 import SubMenuContainer from "./SubMenuContainer"
 import LoggedInMenu from "./LoggedInMenu"
 import MobileSubMenuContaier from "./MobileSubMenuContaier"
+import MobileLoggedInMenu from "./MobileLoggedInMenu"
 
 const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { transparent: boolean, is_theme?: boolean, raw_data?: any }) => {
 
@@ -184,15 +185,14 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                         <div ref={rightRef} className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} 
                         shrink-0 items-center space-x-3`}>
-                            {/* {(user.isLogged)
+                            {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
                                 : <CustomLinkMain href={`/login`} className={`group cursor-pointer flex items-center space-x-2 bg-white text-gray-700 font-semibold 
                                     rounded-md  px-5 py-2.5`} is_theme={is_theme}>
                                     <span>Log in</span>
                                     <BiChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                                 </CustomLinkMain>
-                            } */}
-                            <LoggedInMenu is_theme={is_theme} />
+                            }
                         </div>
 
                         <button className={!isReady || forceMobile ? "block cursor-pointer" : "hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >
@@ -212,7 +212,7 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 {isMenuOpen &&
                     <div className={` absolute w-full ${isScrolled ? "top-[60px]" : "top-20 right-[2.5%] max-w-[95%]"} bg-white shadow-xl flex flex-col *:flex *:px-5 *:py-4 
                         divide-y divide-gray-200 rounded-b-md overflow-y-auto transition-all duration-500 ease-out
-                        ${isScrolled ? "max-h-[calc(100dvh-96px)]" : "max-h-[calc(100dvh-80px)]"}  `}>
+                        ${isScrolled ? "max-h-[calc(100dvh-61px)]" : "max-h-[calc(100dvh-85px)]"}  `}>
                         {(Array.isArray(themeSett.top_menu) && themeSett.top_menu.length > 0) ? (
                             themeSett.top_menu.map((menu: any, index: any) => {
 
@@ -230,6 +230,15 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                                 }
                             })
                         ) : null}
+
+                        {(user.isLogged)
+                            ? <MobileLoggedInMenu is_theme={is_theme} />
+                            : <CustomLinkMain href={`/login`} className={`group cursor-pointer flex items-center space-x-2 bg-white text-gray-700 font-semibold 
+                                    rounded-md  px-5 py-2.5`} is_theme={is_theme}>
+                                <span>Log in</span>
+                                <BiChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                            </CustomLinkMain>
+                        }
                     </div>
                 }
             </nav>
