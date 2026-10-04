@@ -10,8 +10,6 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { BsGear } from 'react-icons/bs';
-import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import ComponentSettings from '../editor-items/ComponentSettings';
 
@@ -23,11 +21,12 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
-    const page_size = 20; //20 
+    const page_size = size; //20 
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
-    const status_param = searchParams?.get("status") as string || "Past"; //"Upcoming"
+    const status_param = searchParams?.get("status") as string || "Upcoming"; //"Upcoming" //"Past"
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
 
     const [scheduled_tours, setScheduledTours] = useState<any[]>([]);
     const [tour_fetched, setTourFetched] = useState(false);
@@ -40,8 +39,6 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const [is_menu_shown, setIsMenuShown] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const [refresh_page, setRefreshPage] = useState(false);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
-    const [totalPages, setTotalPages] = useState(0);
     const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const no_tour_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
@@ -52,6 +49,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
             "user_uid": user.user_info?.user_uid || "23963303-c6b8-4835-9b61-7211f530df22", // || "23963303-c6b8-4835-9b61-7211f530df22" is used for testing only
             "status": status,
             "size": page_size,
@@ -79,11 +77,10 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     }
 
     const TriggerStatus = (new_status: string) => {
-        console.log("new_status != status_param", new_status != status_param, new_status, status_param)
         if (new_status != status_param) {
             setStatus(new_status); // Update the type state to trigger useEffect
 
-            let link = `${themeSett.theme_prefix}/scheduled-tours?status=${new_status}&page=1`;
+            let link = `/scheduled-tours?status=${new_status}&page=1`;
 
             setTourFetched(false);
             setRefreshPage(true);
@@ -215,7 +212,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
     if (themeSett && themeSett != null) {
         return (
-            <section className={`flex flex-col min-h-screen ${first_comp_pt} pb-20 relative bg-gray-100`}>
+            <section className={`flex flex-col min-h-screen ${first_comp_pt} px-4 pb-20 relative bg-gray-100`}>
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
                     {/**  ======================= Contact Area Starts ====================== **/}
@@ -266,7 +263,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
                                 {(toursError == "" && total_page > 0) &&
                                     <ReactivePagination totalPage={total_page} curr_page={curr_page} changeTigger={setCurrPage}
-                                        trigger_loader={setTourFetched} url_path={`${themeSett.theme_prefix}/scheduled-tours?status=${status}&`} />
+                                        trigger_loader={setTourFetched} url_path={`/scheduled-tours?status=${status}&`} />
                                 }
 
                                 {toursError != "" &&

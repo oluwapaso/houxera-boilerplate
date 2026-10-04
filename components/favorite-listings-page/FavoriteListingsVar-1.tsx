@@ -20,7 +20,7 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
-    const page_size = 30; //20 
+    const page_size = size; //20 
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";

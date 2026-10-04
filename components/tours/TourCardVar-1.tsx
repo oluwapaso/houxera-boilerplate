@@ -6,12 +6,11 @@ import { RootState } from '@/app/GlobalRedux/store';
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { BiCalendarEvent, BiCamera, BiEnvelopeOpen, BiMenu, BiShare, BiShower, BiWalk } from 'react-icons/bi';
+import { BiCalendarEvent, BiCamera, BiEnvelopeOpen, BiMenu, BiShare, BiShower } from 'react-icons/bi';
 import { LuBedDouble } from 'react-icons/lu';
 import { TbRulerMeasure2 } from 'react-icons/tb';
 import usePropertyModal from '@/_hooks/usePropertyModal';
 import SalesTypeBadge from '../property-cards/SalesTypeBadge';
-import FavoriteButton from '../property-cards/FavoriteButton';
 import moment from 'moment';
 import { BsClock } from 'react-icons/bs';
 import CustomLinkMain from '../CustomLink';
