@@ -405,7 +405,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                                 </button>
                                             </div>
 
-                                            <div className={`w-[250px] right-0 sm:right-0 absolute bg-transparent 
+                                            <div className={`w-[250px] max-sm:left-0 sm:right-0 absolute bg-transparent 
                                                 rounded-lg overflow-hidden shadow-2xl border border-gray-200 ${sort_shown ? "block" : "hidden"}`}>
                                                 <div className='w-full bg-white m-0 *:cursor-pointer *:py-4 *:px-4
                                                     *:flex *:justify-between *:items-center divide-y divide-gray-200'>

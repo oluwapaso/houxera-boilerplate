@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux"; 
 import { togglePropertyModal } from "@/app/GlobalRedux/user/userSlice"; 
 
-const usePropertyModal = ({ page, property_info, is_theme = {} }: any) => {
+const usePropertyModal = ({ page, property_info, is_theme = false }: any) => {
 
     const dispatch = useDispatch();  
     useEffect(() => {
