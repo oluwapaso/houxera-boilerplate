@@ -13,8 +13,6 @@ import { hidePageLoader, showPageLoader } from '@/app/GlobalRedux/app/appSlice';
 import Modal from '@/components/modals/Modal';
 import { BiEdit } from 'react-icons/bi';
 import EditSavedSearch from '@/components/modals/EditSavedSearch';
-import { BsGear } from 'react-icons/bs';
-import { BiRefresh, BiTrash } from 'react-icons/bi';
 import ComponentSettings from '../editor-items/ComponentSettings';
 
 const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {

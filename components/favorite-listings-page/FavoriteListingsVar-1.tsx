@@ -34,7 +34,6 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
     const [total_records, setTotalRecords] = useState(0);
     const [total_page, setTotalPage] = useState(0);
     const [all_favs, setAllFavs] = useState<React.JSX.Element[]>([]);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const no_fav_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
@@ -44,8 +43,9 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
     const LoadFavorites = async () => {
 
         const payload = {
-            "account_id": process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "user_uid": user.user_info?.user_uid || "d25e25a6-a6fb-4193-857f-2144e8d05f9b", // || "d25e25a6-a6fb-4193-857f-2144e8d05f9b" is used for testing ony
+            "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
+            "channel_uid": is_theme ? channel_uid : process.env.NEXT_PUBLIC_CHANNEL_UID,
+            "user_uid": user.user_info?.user_uid || "23963303-c6b8-4835-9b61-7211f530df22", // || "23963303-c6b8-4835-9b61-7211f530df22" is used for testing ony
             "size": page_size,
             "skip": curr_page - 1
         }
