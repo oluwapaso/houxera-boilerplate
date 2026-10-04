@@ -85,16 +85,20 @@ const PropCardVar2 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                         </div>
                         <FavoriteButton themeSett={themeSett} property_uid={pro_info.property_uid} />
                     </div>
-                    <div className='font-semibold text-lg mt-1 text-white line-clamp-2'>{pro_info.title}</div>
+                    <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`} is_theme={is_theme}
+                        className='font-semibold text-lg mt-1 text-white line-clamp-2'>
+                        {pro_info.title}
+                    </CustomLinkMain>
 
-                    <div className='mt-2 text-white line-clamp-4 text-sm'>
+                    <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`} is_theme={is_theme}
+                        className='mt-2 text-white line-clamp-4 text-sm'>
                         <div className='w-full flex items-start text-white'>
                             <span> <FaMapMarkerAlt size={13} className='mr-1 mt-1' /></span>
                             <span className='text-sm font-medium line-clamp-2'>
                                 {pro_info.street_address}, {pro_info.city}, {pro_info.state} State
                             </span>
                         </div>
-                    </div>
+                    </CustomLinkMain>
                 </div>
 
                 <div className=' w-full h-16 absolute z-20 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm

@@ -12,8 +12,6 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiSave } from 'react-icons/bi';
 import { FaCheck } from 'react-icons/fa6';
-import { BsGear } from 'react-icons/bs';
-import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { getComponent } from '../registry';
 import Modal from '../modals/Modal';
@@ -395,7 +393,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                     </div>
 
                                     <div className='max-sm:w-full max-sm:grid grid-cols-3 xs:grid-cols-2 max-sm:gap-2.5 sm:flex sm:items-center sm:space-x-2.5'>
-                                        <div className='col-span-2 xs:col-span-1 shrink relative z-10 bg-white shadow-md hover:shadow-xl rounded-md' ref={sortBoxRef}>
+                                        <div className='col-span-2 xs:col-span-1 shrink relative z-40 bg-white shadow-md hover:shadow-xl rounded-md' ref={sortBoxRef}>
                                             <div className='flex flex-col py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointer'
                                                 onClick={() => setSortShown(!sort_shown)}>
                                                 <span className='mr-2 font-semibold text-sm md:text-base cursor-pointer'>Sort By</span>
@@ -409,7 +407,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
 
                                             <div className={`w-[250px] right-0 sm:right-0 absolute bg-transparent 
                                                 rounded-lg overflow-hidden shadow-2xl border border-gray-200 ${sort_shown ? "block" : "hidden"}`}>
-                                                <div className='w-full bg-white m-0  *:cursor-pointer *:py-4 *:px-4
+                                                <div className='w-full bg-white m-0 *:cursor-pointer *:py-4 *:px-4
                                                     *:flex *:justify-between *:items-center divide-y divide-gray-200'>
                                                     <div className="w-full hover:bg-gray-100" onClick={() => handleSort("Price", "DESC")}>
                                                         <span>Price (High to Low)</span>

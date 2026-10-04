@@ -68,6 +68,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
             <div className='relative shadow-xl hover:shadow-2xl rounded-md bg-white border border-gray-200 flex flex-col'
                 data-property-uid={`${pro_info.property_uid}`} data-company-uid={`${pro_info.company_uid}`}
                 data-company-id={`${pro_info.company_id}`}>
+
                 <CustomLinkMain href={`/property/${slug}`} is_theme={is_theme}
                     className={`h-[250px] relative z-2 bg-center bg-cover bg-no-repeat rounded-tl-md rounded-tr-md`}
                     style={{ backgroundImage: `url('${primary_photo}')` }}>
