@@ -184,14 +184,15 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
 
                         <div ref={rightRef} className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} 
                         shrink-0 items-center space-x-3`}>
-                            {(user.isLogged)
+                            {/* {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
-                                : <button className={`group cursor-pointer flex items-center space-x-2 bg-white text-gray-700 font-semibold 
-                                    rounded-md  px-5 py-2.5`} >
+                                : <CustomLinkMain href={`/login`} className={`group cursor-pointer flex items-center space-x-2 bg-white text-gray-700 font-semibold 
+                                    rounded-md  px-5 py-2.5`} is_theme={is_theme}>
                                     <span>Log in</span>
                                     <BiChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-                                </button>
-                            }
+                                </CustomLinkMain>
+                            } */}
+                            <LoggedInMenu is_theme={is_theme} />
                         </div>
 
                         <button className={!isReady || forceMobile ? "block cursor-pointer" : "hidden"} onClick={() => setIsMenuOpen(!isMenuOpen)} >

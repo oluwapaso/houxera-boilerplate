@@ -187,11 +187,12 @@ const NavVar7 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                         <div ref={rightRef} className={`${!isReady || forceMobile ? "invisible absolute pointer-events-none" : "flex"} shrink-0 items-center space-x-3`}>
                             {(user.isLogged)
                                 ? <LoggedInMenu is_theme={is_theme} />
-                                : <button className={`flex items-center space-x-2 px-5 py-2 rounded-md font-medium transition-all duration-300 group 
-                                    border border-${themeSett.primary_color} cursor-pointer bg-white text-${themeSett.primary_color}`} >
-                                    <span>Log in</span>
+                                : <CustomLinkMain href={`/login`} className={`flex items-center space-x-2 px-5 py-2 rounded-md 
+                                    font-medium transition-all duration-300 group border border-${themeSett.primary_color} 
+                                    cursor-pointer bg-white text-${themeSett.primary_color}`} is_theme={is_theme}>
+                                    <span>Log in xx</span>
                                     <BsArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                </CustomLinkMain>
                             }
                         </div>
 

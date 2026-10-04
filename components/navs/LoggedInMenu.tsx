@@ -8,6 +8,7 @@ import { BiHeartCircle, BiLogOut, BiMenu, BiSave, BiWalk } from 'react-icons/bi'
 import { logOutState, updateUserWholeState } from '@/app/GlobalRedux/user/userSlice';
 import { FaGears } from 'react-icons/fa6';
 import { BsHeart } from 'react-icons/bs';
+import { ImHeart } from 'react-icons/im';
 
 const LoggedInMenu = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
 
@@ -48,9 +49,13 @@ const LoggedInMenu = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean,
     if (themeSett) {
         return (
             <div className=' flex items-center space-x-6'>
-                <CustomLinkMain href={`${themeSett.theme_prefix}/favorites?page=1`}
-                    className={`hover:border-b-${themeSett.primary_color}-400 flex items-center space-x-2 justify-center transition-all ease-in hover:delay-150`}>
-                    <BsHeart size={18} /> <span>Favorites ({user.data_counts.favorites || 0})</span>
+                <CustomLinkMain href={`${themeSett.theme_prefix}/favorites?page=1`} is_theme={is_theme}
+                    className={`relative flex items-center justify-center cursor-pointer `}>
+                    <ImHeart size={25} />
+                    <span className=' absolute -top-3.5 -right-3.5 flex items-center justify-center 
+                    rounded-full text-xs size-6'>
+                        {user.data_counts.favorites || 99}
+                    </span>
                 </CustomLinkMain>
 
                 <div className=' relative' ref={menuRef}>

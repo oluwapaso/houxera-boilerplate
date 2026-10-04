@@ -94,7 +94,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     <div className="absolute w-full h-full z-2 bg-gradient-to-b from-transparent to-black/80 from-75%"></div>
                 </CustomLinkMain>
 
-                <div className='px-4 xs:px-6 py-4 xs:py-6 flex pb-20 flex-col'>
+                <div className='px-4 xs:px-5 pt-4 xs:pt-6 flex pb-20 flex-col'>
                     <div className={`font-semibold text-base flex items-center justify-between`}>
                         <div className={`text-${themeSett.primary_color}`}>
                             {helpers.formatCurrency(pro_info.listing_price, true)}
