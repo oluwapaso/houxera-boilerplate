@@ -20,6 +20,7 @@ import CustomLinkMain from '@/components/CustomLink';
 import Link from 'next/link';
 import { FaFacebook, FaYoutube } from 'react-icons/fa6';
 import { LiaLinkedin } from 'react-icons/lia';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const helpers = new Helpers();
 const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -340,43 +341,8 @@ const LoginFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
                     </div>
 
-                    {is_theme && (
-                        <div className=' bg-white p-3 rounded-md absolute z-[1000] right-4 top-4 space-x-3 flex items-center 
-                        divide-x divide-gray-200 justify-end *:text-gray-800 *:flex *:items-center *:justify-center 
-                        *:px-2 *:py-1 *:rounded *:cursor-pointer'>
+                    {is_theme && <ComponentSettings raw_data={raw_data} category='login' component='LoginFormVar2' component_type='Login Form' />}
 
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BsGear size={20} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Section settings
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiRefresh size={20} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs right-0'>
-                                    Replace Section
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiTrash size={20} />
-
-                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Remove Section Down
-                                </span>
-                            </div>
-
-                        </div>
-                    )}
                 </section>
             );
         }

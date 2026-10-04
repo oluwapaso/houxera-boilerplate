@@ -23,6 +23,7 @@ import { FaFacebook, FaYoutube } from 'react-icons/fa6';
 import { LiaLinkedin } from 'react-icons/lia';
 import CustomLinkMain from '@/components/CustomLink';
 import Image from 'next/image';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const helpers = new Helpers();
 const RegisterAccountFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -188,42 +189,6 @@ const RegisterAccountFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme
             }
 
         }
-    }
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window 
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "register",
-                    "type": "section",
-                    "component": "RegisterAccountFormVar7",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Register"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
     }
 
     useEffect(() => {
@@ -457,42 +422,8 @@ const RegisterAccountFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme
 
                     </div>
 
-                    {is_theme && (
-                        <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                        *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                    {is_theme && <ComponentSettings raw_data={raw_data} category='register' component='RegisterAccountFormVar7' component_type='Register' />}
 
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BsGear size={17} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Section settings
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiRefresh size={17} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Replace Section
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiTrash size={17} />
-
-                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Remove Section Down
-                                </span>
-                            </div>
-
-                        </div>
-                    )}
                 </section>
             );
         }

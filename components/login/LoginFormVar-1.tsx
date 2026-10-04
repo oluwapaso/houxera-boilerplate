@@ -23,6 +23,7 @@ import { FaYoutube } from 'react-icons/fa6';
 import { LiaLinkedin } from 'react-icons/lia';
 import { FaFacebook } from 'react-icons/fa';
 import CustomLinkMain from '@/components/CustomLink';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const helpers = new Helpers();
 const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -41,7 +42,6 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     const [AuthParams, setAuthParams] = useState(auth_params);
     const [themeSett, setThemeSett] = useState<any | null>(null);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
     const brker_info = useSelector((state: RootState) => state.broker);
     const [first_comp_pt, setFirstCompPt] = useState("pt-36");
 
@@ -114,42 +114,6 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             }
 
         }
-    }
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window 
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "login",
-                    "type": "section",
-                    "component": "LoginFormVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Login Form"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
     }
 
     useEffect(() => {
@@ -329,43 +293,8 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         </div>
                     </div>
 
-                    {is_theme && (
-                        <div className=' bg-white p-3 rounded-md absolute z-[1000] right-4 top-4 space-x-3 flex items-center 
-                        divide-x divide-gray-200 justify-end *:text-gray-800 *:flex *:items-center *:justify-center 
-                        *:px-2 *:py-1 *:rounded *:cursor-pointer'>
+                    {is_theme && <ComponentSettings raw_data={raw_data} category='login' component='LoginFormVar1' component_type='Login Form' />}
 
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BsGear size={20} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Section settings
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiRefresh size={20} />
-
-                                <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs right-0'>
-                                    Replace Section
-                                </span>
-                            </div>
-
-                            <div id='editor_settings' className='hover:shadow-2xl relative group'
-                                onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                                <BiTrash size={20} />
-
-                                <span className='absolute hidden right-0 whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                    Remove Section Down
-                                </span>
-                            </div>
-
-                        </div>
-                    )}
                 </section>
             );
         }
