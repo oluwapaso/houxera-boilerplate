@@ -162,11 +162,11 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
     }, [themeSett?.nav_component?.type, raw_data?.component_index]);
 
-    if (user.isLogged) {
-        router.push(`${themeSett.channel_website}/home`);
-    } else {
+    if (themeSett) {
+        if (user.isLogged) {
+            router.push(`${themeSett.channel_website}/home`);
+        } else {
 
-        if (themeSett) {
             return (
                 <section className={`min-h-screen flex flex-col items-center justify-center bg-white px-6 pt-40 pb-20 relative`}>
 
@@ -180,7 +180,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         {/* Header */}
                         <div className="text-center mb-8">
                             <div className={`inline-flex items-center justify-center w-12 h-12 
-                            bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} rounded-lg mb-4`}>
+                        bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} rounded-lg mb-4`}>
                                 <BiLock className={`w-6 h-6 text-${themeSett.primary_color}`} />
                             </div>
                             <h1 className="text-3xl font-bold text-gray-900">{raw_data.header || "Welcome Back"}</h1>
@@ -219,12 +219,12 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             <div className='w-full mt-2'>
                                 {!user.isLogginIn ?
                                     <button className={`w-full cursor-pointer bg-${themeSett.primary_color} 
-                                        text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
-                                        font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
+                                    text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-4 rounded space-x-1.5 
+                                    font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                                         onClick={handleLogin}> <span>{raw_data.button_text || "Sign In"}</span> <BiLogIn size={16} /> </button> :
                                     <div className={`w-full border-2 border-${themeSett.primary_color} 
-                                        text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
-                                        justify-center cursor-not-allowed font-medium`}>
+                                    text-${themeSett.primary_color} text-center py-4 px-4 rounded flex items-center 
+                                    justify-center cursor-not-allowed font-medium`}>
                                         <span>Signing In... Please Wait</span> <AiOutlineLoading3Quarters size={16}
                                             className='animate-spin ml-2' />
                                     </div>
@@ -242,15 +242,15 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                     </div>
 
                     <div className={`h-0.5 w-full mt-10 bg-gradient-to-r rounded-full from-transparent via-${themeSett.primary_color} to-transparent 
-                        transition-opacity duration-700 `} />
+                    transition-opacity duration-700 `} />
 
                     <div className="w-full flex flex-col items-center md:items-end mt-10">
                         <div className="w-full flex items-center justify-center gap-4">
                             {brker_info?.social_accounts?.facebook &&
                                 <Link href={`${brker_info?.social_accounts?.facebook}`}
                                     className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
-                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
                                     <FaFacebook size={20} />
                                 </Link>
                             }
@@ -258,8 +258,8 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             {brker_info?.social_accounts?.twitter &&
                                 <Link href={`${brker_info?.social_accounts?.twitter}`}
                                     className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
-                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
                                     <BsTwitterX size={20} />
                                 </Link>
                             }
@@ -267,8 +267,8 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             {brker_info?.social_accounts?.linkedin &&
                                 <Link href={`${brker_info?.social_accounts?.linkedin}`}
                                     className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
-                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
                                     <LiaLinkedin size={20} />
                                 </Link>
                             }
@@ -276,8 +276,8 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             {brker_info?.social_accounts?.youtube &&
                                 <Link href={`${brker_info?.social_accounts?.youtube}`}
                                     className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
-                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
+                                    transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank'>
                                     <FaYoutube size={20} />
                                 </Link>
                             }
@@ -285,8 +285,8 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                             {brker_info?.social_accounts?.whatsapp &&
                                 <Link href={`https://api.whatsapp.com/send/?phone=${brker_info?.social_accounts?.whatsapp}`}
                                     className={`w-9 h-9 bg-white/5 rounded-full flex items-center justify-center 
-                                        transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
-                                        hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
+                                    transition-colors text-stone-500 hover:text-${themeSett.primary_button_text}
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`} target='_blank' >
                                     <BsWhatsapp size={20} />
                                 </Link>
                             }
@@ -297,6 +297,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                 </section>
             );
+
         }
     }
 }

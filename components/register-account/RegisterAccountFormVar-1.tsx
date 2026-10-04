@@ -201,11 +201,10 @@ const RegisterAccountFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme
         }
     }, [theme]);
 
-    if (user.isLogged) {
-        router.push(`${themeSett.channel_website}/home`);
-    } else {
-
-        if (themeSett) {
+    if (themeSett) {
+        if (user.isLogged) {
+            router.push(`${themeSett.channel_website}/home`);
+        } else {
             return (
                 <section className="min-h-screen flex flex-col items-center justify-center bg-white px-3 2xs:px-6 pt-40 pb-20 relative">
 

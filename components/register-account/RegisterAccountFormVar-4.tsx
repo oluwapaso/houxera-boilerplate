@@ -202,11 +202,10 @@ const RegisterAccountFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme
         }
     }, [theme]);
 
-    if (user.isLogged) {
-        router.push(`${themeSett.channel_website}/home`);
-    } else {
-
-        if (themeSett) {
+    if (themeSett) {
+        if (user.isLogged) {
+            router.push(`${themeSett.channel_website}/home`);
+        } else {
             return (
                 <section className="min-h-screen bg-white relative py-15">
 

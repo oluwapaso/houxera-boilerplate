@@ -202,11 +202,10 @@ const RegisterAccountFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme
         }
     }, [theme]);
 
-    if (user.isLogged) {
-        router.push(`${themeSett.channel_website}/home`);
-    } else {
-
-        if (themeSett) {
+    if (themeSett) {
+        if (user.isLogged) {
+            router.push(`${themeSett.channel_website}/home`);
+        } else {
             return (
                 <section className="min-h-screen flex items-center justify-center bg-gradient-to-br 
                     from-${themeSett.primary_color} to-${themeSett.primary_color} pt-36 pb-54 relative bg-cover bg-center "

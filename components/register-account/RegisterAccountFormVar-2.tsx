@@ -201,11 +201,10 @@ const RegisterAccountFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme
         }
     }, [theme]);
 
-    if (user.isLogged) {
-        router.push(`${themeSett.channel_website}/home`);
-    } else {
-
-        if (themeSett) {
+    if (themeSett) {
+        if (user.isLogged) {
+            router.push(`${themeSett.channel_website}/home`);
+        } else {
             return (
                 <section className={`min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-3 xs:px-6 
                     pt-40 pb-20 relative`} style={{ backgroundImage: `url(${raw_data.bg_image || '../houxera-stock-image-3.jpg'})` }}>
