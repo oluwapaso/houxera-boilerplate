@@ -67,9 +67,10 @@ const TourCardVar1 = ({ tour_info }: { tour_info: any }) => {
     const primary_photo = tour_info.primary_photo ? `${tour_info.primary_photo}` : "../house-not-found-placeholder.png"
     if (themeSett && themeSett != null) {
         return (
-            <div className=' relative shadow-xl rounded-md bg-white border border-gray-200 grid grid-cols-10'>
+            <div className=' relative shadow-xl rounded-md bg-white border border-gray-200 grid grid-cols-1 xs:grid-cols-10'>
                 <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`}
-                    className={` col-span-4 h-auto max-h-[300px] relative z-10 bg-center bg-cover bg-no-repeat overflow-hidden rounded-tl-md rounded-bl-md`}
+                    className={` col-span-full xs:col-span-4 max-xs:h-[250px] h-auto max-h-[300px] relative z-10 bg-center bg-cover 
+                        bg-no-repeat overflow-hidden max-xs:rounded-tr-md rounded-tl-md xs:rounded-bl-md`}
                     style={{ backgroundImage: `url('${primary_photo}')` }}>
                     <div className=' w-full absolute top-4 flex items-center px-2 justify-end space-x-2 z-20'>
                         <SalesTypeBadge sales_type={tour_info.listing_type} />
@@ -87,7 +88,7 @@ const TourCardVar1 = ({ tour_info }: { tour_info: any }) => {
                     <div className="absolute w-full h-full z-10 bg-gradient-to-b from-transparent to-black/80 from-75%"></div>
                 </CustomLinkMain>
 
-                <div className=' col-span-6 flex flex-col relative'>
+                <div className='col-span-full xs:col-span-6 flex flex-col relative'>
                     <div className='p-4 flex pb-20 flex-col'>
                         <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`} className='font-semibold text-lg mt-0 text-gray-800 line-clamp-2'>
                             {tour_info.title}

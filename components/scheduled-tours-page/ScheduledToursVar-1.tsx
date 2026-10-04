@@ -216,18 +216,18 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
                     {/**  ======================= Contact Area Starts ====================== **/}
-                    <div className="container mx-auto max-w-[1150px] relative">
+                    <div className="container mx-auto max-w-full tab:max-w-[800px] xl:max-w-[1150px] relative">
 
-                        <div className=' flex justify-between mb-4'>
+                        <div className=' flex flex-col sm:flex-row sm:justify-between mb-4 sm:space-x-2'>
                             <div className=' flex flex-col'>
-                                <div className='font-semibold text-3xl'>{raw_data.header || "Scheduled Tours"}</div>
+                                <div className='font-semibold text-2xl xs:text-3xl'>{raw_data.header || "Scheduled Tours"}</div>
                                 <div className='font-medium text-lg'>
                                     {raw_data.sub_header || "Manage your upcoming/past scheduled property tour."}
                                 </div>
                             </div>
 
-                            <div className='ml-2 flex items-center'>
-                                <div className='flex items-center group px-3 bg-white border border-zinc-900 cursor-pointer 
+                            <div className='max-2xs:w-full flex max-sm:justify-self-end max-sm:ml-auto max-sm:mt-2 items-center'>
+                                <div className='max-2xs:w-full flex items-center group px-3 bg-white border border-zinc-900 cursor-pointer 
                                     h-[40px] rounded min-w-[100px] hover:shadow-xl *:font-medium relative mr-2'
                                     ref={menuRef} onClick={() => setIsMenuShown(true)}>
                                     <div className='flex justify-between w-full items-center text-base'>
@@ -256,7 +256,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
                         {(tour_fetched) &&
                             <div className='w-full'>
                                 {(toursError == "" && Array.isArray(scheduled_tours)) &&
-                                    <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
+                                    <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-6'>
                                         {all_tours}
                                     </div>
                                 }
