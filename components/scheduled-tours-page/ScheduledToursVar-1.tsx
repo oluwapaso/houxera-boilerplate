@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
@@ -46,42 +47,6 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const no_tour_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
         No tour scheduled yet
     </div>
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "scheduled_tours",
-                    "type": "section",
-                    "component": "ScheduledToursVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "ScheduledTours"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
 
     const LoadTours = async () => {
 
@@ -200,6 +165,42 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
         };
     }, [menuRef]);
 
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (!is_theme && !user.isLogged) {
         return (
             <div className="flex flex-col min-h-screen" >
@@ -214,7 +215,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="flex flex-col min-h-screen py-35 relative bg-gray-100" >
+            <section className={`flex flex-col min-h-screen ${first_comp_pt} pb-20 relative bg-gray-100`}>
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
                     {/**  ======================= Contact Area Starts ====================== **/}
@@ -278,42 +279,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
                     </div>
                 </main>
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
+                {is_theme && <ComponentSettings raw_data={raw_data} category='scheduled_tours' component='ScheduledToursVar1' component_type='ScheduledTours' />}
             </section>
         )
     }

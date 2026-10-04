@@ -15,6 +15,7 @@ import { BiEdit } from 'react-icons/bi';
 import EditSavedSearch from '@/components/modals/EditSavedSearch';
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
@@ -49,42 +50,6 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
     const closeModal = () => {
         setShowModal(false);
-    }
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "saved_searches",
-                    "type": "section",
-                    "component": "SavedSearchesVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "SavedSearches"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
     }
 
     const no_tour_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
@@ -365,42 +330,8 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
                     </div>
                 </main>
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                {is_theme && <ComponentSettings raw_data={raw_data} category='saved_searches' component='SavedSearchesVar1' component_type='SavedSearches' />}
 
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
                 <Modal show={showModal} children={modal_children} width={550} closeModal={closeModal} title={modal_title} />
             </section>
         )

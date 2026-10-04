@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
 
@@ -21,6 +22,9 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
 
     const page_size = 30; //20 
     const curr_page = parseInt(searchParams?.get("page") as string) || 1;
+
+    const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const channel_uid = searchParams?.get("channel_uid") as string || "";
     // let all_favs: React.JSX.Element[] = [];
 
     const [favorite_listings, setFavoriteFavs] = useState<any[]>([]);
@@ -31,46 +35,11 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
     const [total_page, setTotalPage] = useState(0);
     const [all_favs, setAllFavs] = useState<React.JSX.Element[]>([]);
     const [sectionHover, setSectionHover] = useState<boolean>(false);
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
 
     const no_fav_added = <div className='w-full text-red-600 flex justify-center items-center min-h-30'>
         No favorites added yet
     </div>
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "favorite_listings",
-                    "type": "section",
-                    "component": "FavoriteListingsVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "FavoriteListings"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
 
     const LoadFavorites = async () => {
 
@@ -95,48 +64,6 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
         setFavFetched(true);
 
     }
-
-    // if (Array.isArray(favorite_listings)) {
-
-    //     // setFavoritesError("");
-    //     if (total_records > 0) {
-
-    //         const total_returned = favorite_listings.length;
-    //         total_page = Math.ceil(total_records / page_size);
-
-    //         if (total_records > 0 && total_returned > 0) {
-
-    //             all_favs = favorite_listings.map((fav, index) => {
-    //                 return <PropCardVar1 key={index} pro_info={fav} />
-    //             });
-
-    //         } else {
-    //             all_favs[0] = no_fav_added;
-    //         }
-
-    //     } else {
-
-    //         //Making sure request has been sent
-    //         if (fav_fetched) {
-    //             all_favs[0] = no_fav_added
-    //         } else {
-    //             all_favs[0] = <div className='w-full flex justify-center items-center min-h-60'>
-    //                 <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
-    //             </div>
-    //         }
-
-    //     }
-
-    // } else {
-    //     //Making sure request has been sent
-    //     if (fav_fetched) {
-    //         all_favs[0] = no_fav_added
-    //     } else {
-    //         all_favs[0] = <div className='w-full flex justify-center items-center min-h-60'>
-    //             <AiOutlineLoading3Quarters size={30} className='animate animate-spin' />
-    //         </div>
-    //     }
-    // }
 
     useEffect(() => {
         if (Array.isArray(favorite_listings)) {
@@ -187,6 +114,44 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
         }
     }, [window.MLS_Util, searchParams]);
 
+
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-52");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-25 md:pt-35" : "pt-54");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     useEffect(() => {
         if (theme) {
             setThemeSett(theme.theme_settings);
@@ -207,7 +172,7 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="flex flex-col min-h-screen py-35 relative bg-gray-100">
+            <section className={`flex flex-col min-h-screen ${first_comp_pt} pb-20 px-4 relative bg-gray-100`}>
 
                 <main className="w-full flex flex-col min-h-[55dvh]">
                     {/**  ======================= Contact Area Starts ====================== **/}
@@ -249,42 +214,7 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
                     </div>
                 </main>
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
+                {is_theme && <ComponentSettings raw_data={raw_data} category='favorite_listings' component='FavoriteListingsVar1' component_type='FavoriteListings' />}
             </section>
         )
     }
