@@ -210,7 +210,7 @@ const RegisterAccountFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme
             return (
                 <section className="min-h-screen flex items-center justify-center bg-gradient-to-br 
                     from-${themeSett.primary_color} to-${themeSett.primary_color} pt-36 pb-54 relative bg-cover bg-center "
-                    style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+                    style={{ backgroundImage: `url(${raw_data.bg_image || '../houxera-stock-image-3.jpg'})` }}>
 
                     <div className=' w-full flex items-center max-md:justify-center px-3 2xs:px-4 xs:px-6 md:px-20 '>
                         <div className="w-full max-w-lg">

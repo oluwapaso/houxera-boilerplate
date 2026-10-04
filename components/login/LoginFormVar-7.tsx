@@ -299,7 +299,7 @@ const LoginFormVar7 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                         {/* Right Side - Form */}
                         <div className={`hidden relative lg:flex lg:w-1/2 flex-col p-8 bg-cover bg-center `}
-                            style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+                            style={{ backgroundImage: `url(${raw_data.bg_image || '../houxera-stock-image-3.jpg'})` }}>
 
                             <div className='grow flex items-center justify-center'>
                                 <div className='w-full max-w-xl p-8 flex flex-col rounded-xl 

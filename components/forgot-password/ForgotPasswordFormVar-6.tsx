@@ -285,7 +285,7 @@ const ForgotPasswordFormVar6 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
                         {/* Right Side - Form */}
                         <div className={`hidden fixed right-0 h-full lg:flex lg:w-1/2 items-end justify-start p-8 bg-cover bg-center `}
-                            style={{ backgroundImage: `url('../houxera-stock-image-3.jpg')` }}>
+                            style={{ backgroundImage: `url(${raw_data.bg_image || '../houxera-stock-image-3.jpg'})` }}>
 
                             <div className="absolute top-3.5 left-3.5">
                                 <CustomLinkMain href={`/home`} is_theme={is_theme} className="font-medium text-2xl cursor-pointer">
