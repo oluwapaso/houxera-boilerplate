@@ -173,7 +173,7 @@ const EnquiryComponent = ({ is_theme = false }: { is_theme: boolean }) => {
 
     if (themeSett) {
         return (
-            <div className='w-full grid py-5 px-5 grid-cols-2 sm:grid-cols-2 gap-4'>
+            <div className='w-full grid py-5 px-3 xs:px-5 grid-cols-2 sm:grid-cols-2 gap-4'>
 
                 <div className='col-span-full xs:col-span-1'>
                     <FloatingInput name='firstname' label='First Name' placeholder='First Name'
@@ -207,11 +207,11 @@ const EnquiryComponent = ({ is_theme = false }: { is_theme: boolean }) => {
                 <div className='col-span-full flex justify-end mt-2'>
                     {!submitting ?
                         <button className={`w-fit cursor-pointer bg-${themeSett.primary_color} 
-                        text-${themeSett.primary_button_text} flex items-center justify-center py-4 px-8 rounded space-x-2 
+                        text-${themeSett.primary_button_text} flex items-center justify-center py-3 xs:py-4 px-6 xs:px-8 rounded space-x-2 
                         font-medium hover:shadow-2xl hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)}`}
                             onClick={handleEnquiry}> <span>Submit Enquiry</span> <FaArrowRightLong size={16} /> </button> :
                         <div className={`w-fit border-2 border-${themeSett.primary_color}-700 text-${themeSett.primary_color}-700 
-                        text-center py-4 px-8 rounded flex items-center justify-center cursor-not-allowed font-medium`}>
+                        text-center py-3 xs:py-4 px-6 xs:px-8 rounded flex items-center justify-center cursor-not-allowed font-medium`}>
                             <span>Submitting... Please Wait</span> <AiOutlineLoading3Quarters size={16}
                                 className='animate-spin ml-2' />
                         </div>

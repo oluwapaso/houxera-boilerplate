@@ -94,7 +94,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     <div className="absolute w-full h-full z-2 bg-gradient-to-b from-transparent to-black/80 from-75%"></div>
                 </CustomLinkMain>
 
-                <div className='p-6 flex pb-20 flex-col'>
+                <div className='px-4 xs:px-6 py-4 xs:py-6 flex pb-20 flex-col'>
                     <div className={`font-semibold text-base flex items-center justify-between`}>
                         <div className={`text-${themeSett.primary_color}`}>
                             {helpers.formatCurrency(pro_info.listing_price, true)}
@@ -107,7 +107,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     </div>
                 </div>
 
-                <div className=' w-full h-16 absolute z-2 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
+                <div className=' w-full h-16 absolute z-4 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)_50px] gap-0.5 *:text-sm
                     *:flex *:flex-col *:items-center *:justify-center *:bg-gray-10 *:p-2 border-t border-gray-200'>
                     <div>
                         <div className=' flex items-center space-x-1'>
