@@ -70,7 +70,7 @@ const PropCardVar1 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                 data-company-id={`${pro_info.company_id}`}>
 
                 <CustomLinkMain href={`/property/${slug}`} is_theme={is_theme}
-                    className={`h-[250px] relative z-2 bg-center bg-cover bg-no-repeat rounded-tl-md rounded-tr-md`}
+                    className={`h-[250px] relative z-3 bg-center bg-cover bg-no-repeat rounded-tl-md rounded-tr-md`}
                     style={{ backgroundImage: `url('${primary_photo}')` }}>
                     <div className=' w-full absolute top-4 flex items-center px-2 justify-end space-x-2 z-5'>
                         <SalesTypeBadge sales_type={pro_info.listing_type} />

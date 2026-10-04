@@ -159,8 +159,8 @@ const PropCardVar3 = ({ pro_info, is_theme = false, raw_data = {} }: { pro_info?
                     </div>
                 </div>
 
-                <div className="absolute hidden w-full h-full z-10 bg-gradient-to-t from-transparent to-black/50 from-80%"></div>
-                <div className="absolute w-full h-full z-10 bg-gradient-to-b from-transparent to-black from-20%"></div>
+                <div className="absolute hidden w-full h-full z-2 bg-gradient-to-t from-transparent to-black/50 from-80%"></div>
+                <div className="absolute w-full h-full z-2 bg-gradient-to-b from-transparent to-black from-20%"></div>
             </div>
         )
     }
