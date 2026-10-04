@@ -87,7 +87,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
         const payload = {
             "account_id": is_theme ? company_unique_id : process.env.NEXT_PUBLIC_ACCOUNT_ID,
-            "user_uid": user.user_info?.user_uid || "23963303-c6b8-4835-9b61-7211f530df2209383idouiui", // || "23963303-c6b8-4835-9b61-7211f530df2209383idouiui" is used for testing only
+            "user_uid": user.user_info?.user_uid || "23963303-c6b8-4835-9b61-7211f530df22", // || "23963303-c6b8-4835-9b61-7211f530df22" is used for testing only
             "status": status,
             "size": page_size,
             "skip": curr_page - 1
