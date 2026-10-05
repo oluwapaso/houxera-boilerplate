@@ -99,7 +99,7 @@ const ScheduledToursVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
 
                 if (total_records > 0 && total_returned > 0) {
                     setAllTours(scheduled_tours.map((tour, index) => {
-                        return <TourCardVar1 key={index} tour_info={tour} />
+                        return <TourCardVar1 key={index} tour_info={tour} is_theme={is_theme} />
                     }));
                 } else {
                     setAllTours(() => [no_tour_added])

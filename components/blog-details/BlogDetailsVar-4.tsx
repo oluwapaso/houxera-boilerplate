@@ -418,8 +418,8 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
                                         <div className=' relative' ref={menuRef} onClick={() => setIsMenuShown(true)}>
                                             <button className={`flex items-center gap-2 rounded-full cursor-pointer border border-${themeSett.primary_color} 
-                                        px-4 py-1.5 text-sm font-medium text-${themeSett.primary_color} transition-colors
-                                        hover:bg-${themeSett.primary_color} hover:text-${themeSett.primary_button_text} `}>
+                                                px-4 py-1.5 text-sm font-medium text-${themeSett.primary_color} transition-colors
+                                                hover:bg-${themeSett.primary_color} hover:text-${themeSett.primary_button_text} `}>
                                                 <CiShare2 className="h-4 w-4" />
                                                 Share Post
                                             </button>
@@ -428,7 +428,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
                                                     <div className='w-full p-3 border-b border-gray-200 pb-2 text-sm font-semibold'>Share This Page:</div>
                                                     <div className={`w-full flex flex-col items-center *:flex *:items-center *:justify-start 
-                                             !divide-y !divide-gray-200`}>
+                                                    !divide-y !divide-gray-200`}>
 
                                                         <FacebookShareButton url={page_url} title={share_title}
                                                             className='w-full *:p-4 *:rounded-md *:cursor-pointer *:flex *:items-center *:space-x-2.5'>
@@ -487,7 +487,7 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
                             {has_more == "Yes" &&
                                 <div className={`w-full flex items-center justify-center mt-4`}>
                                     <div className={`flex items-center justify-center px-4 py-3 cursor-pointer rounded 
-                            bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} hover:shadow-2xl hover:opacity-90`}
+                                    bg-${themeSett?.primary_color} text-${themeSett.primary_button_text} hover:shadow-2xl hover:opacity-90`}
                                         onClick={fetchMoreComments}>
                                         <BiRefresh size={18} className='mr-2' /> <span>Load More Comments</span>
                                     </div>
@@ -506,13 +506,13 @@ const BlogDetailsVar4 = ({ is_theme = false, size = 20, raw_data = {} }: { is_th
 
                             {(blogPostLoaded && blogPost) &&
                                 <div className='w-full'>
-                                    <BlogCategoryLists curr_cat={blogPost.category_name} />
+                                    <BlogCategoryLists curr_cat={blogPost.category_name} is_theme={is_theme} />
                                 </div>
                             }
 
                             {(blogPostLoaded && blogPost) &&
                                 <div className='w-full mt-12'>
-                                    <RelatedBlogPosts category_name={blogPost.category_name} post_uid={blogPost.post_uid} />
+                                    <RelatedBlogPosts category_name={blogPost.category_name} post_uid={blogPost.post_uid} is_theme={is_theme} />
                                 </div>
                             }
 

@@ -16,7 +16,7 @@ import { BsClock } from 'react-icons/bs';
 import CustomLinkMain from '../CustomLink';
 
 const helpers = new Helpers();
-const TourCardVar1 = ({ tour_info }: { tour_info: any }) => {
+const TourCardVar1 = ({ tour_info, is_theme = false, }: { tour_info: any, is_theme?: boolean, }) => {
 
     const theme = useSelector((state: RootState) => state.theme);
     const [themeSett, setThemeSett] = useState<any | null>(null);
@@ -68,7 +68,7 @@ const TourCardVar1 = ({ tour_info }: { tour_info: any }) => {
     if (themeSett && themeSett != null) {
         return (
             <div className=' relative shadow-xl rounded-md bg-white border border-gray-200 grid grid-cols-1 xs:grid-cols-10'>
-                <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`}
+                <CustomLinkMain href={`${themeSett.theme_prefix}/property/${slug}`} is_theme={is_theme}
                     className={` col-span-full xs:col-span-4 max-xs:h-[250px] h-auto max-h-[300px] relative z-10 bg-center bg-cover 
                         bg-no-repeat overflow-hidden max-xs:rounded-tr-md rounded-tl-md xs:rounded-bl-md`}
                     style={{ backgroundImage: `url('${primary_photo}')` }}>
