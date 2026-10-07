@@ -76,7 +76,7 @@ const FavoriteListingsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { 
 
                 if (total_records > 0 && total_returned > 0) {
                     setAllFavs(favorite_listings.map((fav, index) => {
-                        return <PropCardVar1 key={index} pro_info={fav} />
+                        return <PropCardVar1 key={index} pro_info={fav} is_theme={is_theme} />
                     }));
                 } else {
                     setAllFavs(() => [no_fav_added])

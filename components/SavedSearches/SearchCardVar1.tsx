@@ -13,8 +13,8 @@ import { GiMoneyStack } from 'react-icons/gi';
 import CustomLinkMain from '../CustomLink';
 
 const helpers = new Helpers();
-const SearchCardVar1 = ({ search_info, handleDelete, handleEdit }:
-    { search_info: any, handleDelete: (search_uid: any) => Promise<void>, handleEdit: (search_info: any) => void }) => {
+const SearchCardVar1 = ({ search_info, handleDelete, handleEdit, is_theme = false, }:
+    { search_info: any, handleDelete: (search_uid: any) => Promise<void>, handleEdit: (search_info: any) => void, is_theme?: boolean }) => {
 
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.theme);
@@ -140,7 +140,7 @@ const SearchCardVar1 = ({ search_info, handleDelete, handleEdit }:
 
                 <div className=' w-full h-16 absolute z-20 bottom-0 mt-6 grid grid-cols-[repeat(3,1fr)] gap-0.5 *:text-sm
                     *:flex *:flex-col *:items-center *:justify-center cursor-pointer *:bg-gray-10 *:p-2 border-t border-gray-200'>
-                    <CustomLinkMain href={`/property-search?${search_info.query_link}`} className='hover:bg-gray-100'>
+                    <CustomLinkMain href={`/property-search?${search_info.query_link}`} className='hover:bg-gray-100' is_theme={is_theme}>
                         <div className=' flex items-center space-x-1'>
                             <BiSearch size={20} />
                         </div>

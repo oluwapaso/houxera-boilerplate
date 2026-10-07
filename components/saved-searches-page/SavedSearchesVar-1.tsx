@@ -165,7 +165,7 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
 
                 if (total_records > 0 && total_returned > 0) {
                     setAllsearches(saved_searches.map((tour, index) => {
-                        return <SearchCardVar1 key={index} search_info={tour} handleDelete={handleDelete} handleEdit={handleEdit} />
+                        return <SearchCardVar1 key={index} search_info={tour} is_theme={is_theme} handleDelete={handleDelete} handleEdit={handleEdit} />
                     }));
                 } else {
                     setAllsearches(() => [no_tour_added])
