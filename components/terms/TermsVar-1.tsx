@@ -22,6 +22,23 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
         }
     }, [theme]);
 
+    const AddPageContent = () => {
+
+        // Send a message to the parent window 
+        window.parent.postMessage(
+            {
+                type: 'UPDATE_PAGE_CONTENT',
+                data: {
+                    "category": "terms",
+                    "field": "page_body",
+                    "component": "TermsVar1"
+                }
+            },
+            '*' // In production, replace '*' with your parent URL for security
+        );
+
+    }
+
     if (themeSett && themeSett != null) {
         return (
             <section className="w-full min-h-[100dvh] relative bg-gray-100">
@@ -41,7 +58,7 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
                     <div className=' mx-auto w-full max-w-2xl bg-white p-6 rounded mt-12 flex flex-col items-center justify-center shadow-lg'>
                         <div>No terms added yet</div>
                         <div className=' flex w-fit mt-2 items-center justify-center bg-gray-900 text-white 
-                        px-3 xs:px-6 py-2 xs:py-3 rounded cursor-pointer space-x-1.5'>
+                            px-3 xs:px-6 py-2 xs:py-3 rounded cursor-pointer space-x-1.5' onClick={() => AddPageContent()}>
                             <BiLayerPlus size={16} /> <span className='text-sm'>Add Contents</span>
                         </div>
                     </div>
