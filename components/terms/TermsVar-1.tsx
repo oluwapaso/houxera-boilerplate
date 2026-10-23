@@ -66,7 +66,7 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
 
                 {raw_data.page_body && (
                     <div className='container mx-auto bg-white rounded shadow-lg '>
-                        Terms body goes here
+                        {raw_data.page_body}
                     </div>
                 )}
 
