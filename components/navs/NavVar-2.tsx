@@ -123,7 +123,7 @@ const NavVar2 = ({ transparent = true, is_theme = false, raw_data = {} }: { tran
                 <div
                     className={`mx-auto transition-all duration-700 ease-out ${isScrolled
                         ? "max-w-full bg-white backdrop-blur-xl"
-                        : ` max-w-[95%] xl:max-w-6xl bg-${themeSett.primary_color} text-${themeSett.primary_button_text} backdrop-blur-3xl 
+                        : ` max-w-[95%] xl:max-w-[1200px] bg-${themeSett.primary_color} text-${themeSett.primary_button_text} backdrop-blur-3xl 
                         rounded-xl mx-4 shadow-xl`
                         }`} >
                     <div className={`flex items-center justify-between transition-all duration-700 ${isScrolled ? "px-8 py-3" : "px-6 py-4"}`}>
