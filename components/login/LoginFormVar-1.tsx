@@ -180,7 +180,7 @@ const LoginFormVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                         {/* Header */}
                         <div className="text-center mb-8">
                             <div className={`inline-flex items-center justify-center w-12 h-12 
-                        bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} rounded-lg mb-4`}>
+                            bg-${helpers.adjustColorShadeByPercent(themeSett.primary_color, -40)} rounded-lg mb-4`}>
                                 <BiLock className={`w-6 h-6 text-${themeSett.primary_color}`} />
                             </div>
                             <h1 className="text-3xl font-bold text-gray-900">{raw_data.header || "Welcome Back"}</h1>

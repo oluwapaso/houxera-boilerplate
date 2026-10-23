@@ -54,8 +54,8 @@ const ComponentSettings = ({ is_theme = false, category, component, component_ty
 
     return (
         <div ref={barRef} className={` ${bg_class} w-fit shadow-lg hover:shadow-2xl absolute p-3 rounded-md xabsolute z-[1000] right-4 top-4 space-x-3 flex items-center 
-        divide-x divide-gray-200 justify-end *:text-gray-800 *:flex *:items-center *:justify-center 
-        *:px-2 *:py-1 *:rounded *:cursor-pointer`}>
+            divide-x divide-gray-200 justify-end *:text-gray-800 *:flex *:items-center *:justify-center 
+            *:px-2 *:py-1 *:rounded *:cursor-pointer`}>
 
             <div id='editor_settings' className='hover:shadow-2xl relative group'
                 onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>

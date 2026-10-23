@@ -6,6 +6,7 @@ import { Helpers } from '@/_lib/helper'
 import { RootState } from '@/app/GlobalRedux/store'
 import { hidePageLoader } from '@/app/GlobalRedux/app/appSlice'
 import ComponentSettings from '../editor-items/ComponentSettings'
+import { BiLayerPlus } from 'react-icons/bi'
 
 const helpers = new Helpers();
 const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -36,7 +37,21 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
                     <div className='absolute bg-gradient-to-b from-25% from-transparent to-black/70 z-1 top-0 left-0 bottom-0 w-full h-full'></div>
                 </div>
 
-                <div className=''>Terms body goes here</div>
+                {!raw_data.page_body && (
+                    <div className=' mx-auto w-full max-w-2xl bg-white p-6 rounded mt-12 flex flex-col items-center justify-center shadow-lg'>
+                        <div>No terms added yet</div>
+                        <div className=' flex w-fit mt-2 items-center justify-center bg-gray-900 text-white 
+                        px-3 xs:px-6 py-2 xs:py-3 rounded cursor-pointer space-x-1.5'>
+                            <BiLayerPlus size={16} /> <span className='text-sm'>Add Contents</span>
+                        </div>
+                    </div>
+                )}
+
+                {raw_data.page_body && (
+                    <div className='container mx-auto bg-white rounded shadow-lg '>
+                        Terms body goes here
+                    </div>
+                )}
 
                 {is_theme && <ComponentSettings raw_data={raw_data} category='terms' component='TermsVar1' component_type='Terms' />}
 
