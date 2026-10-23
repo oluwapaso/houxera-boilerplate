@@ -72,8 +72,8 @@ const PrivacyVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, 
                             <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: raw_data.page_body }} />
                         </div>
                         {is_theme &&
-                            <div className='absolute top-1 right-1 flex w-fit mt-2 items-center justify-center bg-white text-gray-800 
-                              shadow-lg hover:shadow-2xl px-3 xs:px-6 py-2 xs:py-3 rounded cursor-pointer space-x-1.5'
+                            <div className='absolute top-1 right-2 flex w-fit mt-2 items-center justify-center bg-gray-900 text-white 
+                              shadow-lg hover:shadow-2xl px-3 xs:px-6 py-2 xs:py-2 rounded cursor-pointer space-x-1.5'
                                 onClick={() => AddPageContent(raw_data.page_body)}>
                                 <BiEdit size={16} /> <span className='text-sm'>Edit</span>
                             </div>
