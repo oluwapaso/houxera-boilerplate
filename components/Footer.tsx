@@ -102,7 +102,7 @@ const Footer = () => {
             <div className='w-full bg-red border-t border-footer-secondary-bg py-8 text-gray-200'>
                 <div className=" container mx-auto max-w-[1200px] font-normal">
                     &copy; Copyright 2025. All Rights Reserved
-                    by <CustomLinkMain href={`/`} className="text-green-500 font-semibold">Naija MLS Hub</CustomLinkMain>
+                    by <CustomLinkMain href={`/`} className="text-green-500 font-semibold">Houxera</CustomLinkMain>
                 </div>
             </div>
         </footer>

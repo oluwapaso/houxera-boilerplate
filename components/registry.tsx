@@ -167,6 +167,9 @@ import PropertyDetailsVar1 from "./property-details-page/PropertyDetailsVar-1";
 //Market Insights Page
 import MarketInsightsVar1 from "./market-insights-page/MarketInsightsVar-1";
 
+//Terms Page
+import TermsVar1 from "./terms/TermsVar-1";
+
 // Define props for each component explicitly
 type ComponentPropsMap = {
     //Navbars
@@ -322,6 +325,9 @@ type ComponentPropsMap = {
 
     //Property Details
     PropertyDetailsVar1: React.ComponentProps<typeof PropertyDetailsVar1>;
+
+    //Terms Page
+    TermsVar1: React.ComponentProps<typeof TermsVar1>;
 
     LoggedInMenu: React.ComponentProps<typeof LoggedInMenu>;
     NoComponents: React.ComponentProps<typeof NoComponents>;
@@ -493,6 +499,9 @@ export const componentRegistry = {
 
     //Market Insights Page
     MarketInsightsVar1,
+
+    //Terms Page
+    TermsVar1,
 
     LoggedInMenu,
     NoComponents,
