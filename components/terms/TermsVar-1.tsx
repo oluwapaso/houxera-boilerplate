@@ -65,7 +65,7 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
                 )}
 
                 {raw_data.page_body && (
-                    <div className='container mx-auto bg-white rounded shadow-lg'>
+                    <div className='container mx-auto bg-white rounded shadow-lg my-16 px-4 xs:px-6 py-5 xs:py-8'>
                         <div className='w-full font-normal overflow-x-hidden'>
                             <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: raw_data.page_body }} />
                         </div>
