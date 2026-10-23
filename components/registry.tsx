@@ -170,6 +170,9 @@ import MarketInsightsVar1 from "./market-insights-page/MarketInsightsVar-1";
 //Terms Page
 import TermsVar1 from "./terms/TermsVar-1";
 
+//Privacy Page
+import PrivacyVar1 from "./privacy/PrivacyVar-1";
+
 // Define props for each component explicitly
 type ComponentPropsMap = {
     //Navbars
@@ -328,6 +331,9 @@ type ComponentPropsMap = {
 
     //Terms Page
     TermsVar1: React.ComponentProps<typeof TermsVar1>;
+
+    //Privacy Page
+    PrivacyVar1: React.ComponentProps<typeof PrivacyVar1>;
 
     LoggedInMenu: React.ComponentProps<typeof LoggedInMenu>;
     NoComponents: React.ComponentProps<typeof NoComponents>;
@@ -502,6 +508,9 @@ export const componentRegistry = {
 
     //Terms Page
     TermsVar1,
+
+    //Privacy Page
+    PrivacyVar1,
 
     LoggedInMenu,
     NoComponents,
