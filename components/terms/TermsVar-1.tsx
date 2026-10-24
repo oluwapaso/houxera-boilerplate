@@ -42,7 +42,7 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="w-full min-h-[100dvh] relative bg-gray-100 max-xs:px-3 pb-8 sm:pb-16">
+            <section className="w-full min-h-[100dvh] relative bg-gray-100 xs:pb-8 sm:pb-16">
 
                 {/* hero band */}
                 <div className={`w-full pb-20 pt-48 px-4 text-center object-cover !bg-cover !bg-center bg-${themeSett.primary_color} 
@@ -66,10 +66,11 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
                 )}
 
                 {raw_data.page_body && (
-                    <div className='container max-w-[1280px] mx-auto bg-white rounded shadow-lg 
-                        mt-8 sm:mt-16 px-4 xs:px-6 xl:px-8 py-5 xs:py-8 relative'>
-                        <div className='w-full font-normal overflow-x-hidden'>
-                            <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: raw_data.page_body }} />
+                    <div className='container max-w-[1280px] mx-auto xs:mt-8 xl:mt-16 sm:px-4 xs:px-6 xl:px-8'>
+                        <div className=' bg-white rounded shadow-lg px-4 xs:px-6 xl:px-8 py-2 xs:py-4 xl:py-8'>
+                            <div className='w-full font-normal overflow-x-hidden'>
+                                <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: raw_data.page_body }} />
+                            </div>
                         </div>
                     </div>
                 )}
