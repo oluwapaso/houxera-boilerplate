@@ -42,7 +42,7 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
 
     if (themeSett && themeSett != null) {
         return (
-            <section className="w-full min-h-[100dvh] relative bg-gray-100 pb-8 sm:pb-16">
+            <section className="w-full min-h-[100dvh] relative bg-gray-100 max-xs:px-3 pb-8 sm:pb-16">
 
                 {/* hero band */}
                 <div className={`w-full pb-20 pt-48 px-4 text-center object-cover !bg-cover !bg-center bg-${themeSett.primary_color} 
@@ -71,14 +71,6 @@ const TermsVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, ra
                         <div className='w-full font-normal overflow-x-hidden'>
                             <div className='w-full ck-content' dangerouslySetInnerHTML={{ __html: raw_data.page_body }} />
                         </div>
-
-                        {is_theme &&
-                            <div className='absolute top-1 right-2 flex w-fit mt-2 items-center justify-center bg-gray-900 text-white 
-                                shadow-lg hover:shadow-2xl px-3 xs:px-6 py-2 xs:py-2 rounded cursor-pointer space-x-1.5'
-                                onClick={() => AddPageContent(raw_data.page_body)}>
-                                <BiEdit size={16} /> <span className='text-sm'>Edit</span>
-                            </div>
-                        }
                     </div>
                 )}
 
