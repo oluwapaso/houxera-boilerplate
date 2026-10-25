@@ -231,12 +231,14 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             {/* Search Input */}
                             <div className="flex w-full gap-0 items-center justify-center">
                                 <input type="text" placeholder="Search posts..." value={keyword} name='keyword'
-                                    className="px-4 py-2 h-[55px] text-gray-900 text-sm rounded-tl rounded-bl border-1 border-gray-300 
-                                bg-white outline-0 w-[355px]" onChange={(e) => handleChange(e)}
+                                    className=" px-2 2xs:px-4 py-1.5 2xs:py-2 h-40 2xs:h-[55px] text-gray-900 text-sm rounded-tl 
+                                    rounded-bl border-1 border-gray-300 bg-white outline-0 w-[355px]"
+                                    onChange={(e) => handleChange(e)}
                                 />
-                                <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} px-6 py-2 text-sm 
-                                    font-medium rounded-tr rounded-br hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} flex items-center 
-                                    justify-center space-x-1.5 cursor-pointer h-[55px]`} onClick={handleSearch}>
+                                <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
+                                    px-4 2xs:px-6 py-1.5 2xs:py-2 text-sm font-medium rounded-tr rounded-br 
+                                    hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} flex items-center 
+                                    justify-center space-x-1.5 cursor-pointer 2xs:h-[55px]`} onClick={handleSearch}>
                                     <BiSearch size={17} /> <span>Search</span>
                                 </button>
                             </div>
