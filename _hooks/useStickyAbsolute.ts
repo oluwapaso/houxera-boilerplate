@@ -54,7 +54,7 @@ export function useStickyAbsolute(
   barRef: RefObject<HTMLElement | null>,
   offset = 16,
   /** 0–1. Higher = snappier, lower = more lag / smoother. 0.15–0.25 feels good. */
-  smoothness = 0.5
+  smoothness = 0.9
 ) {
   useEffect(() => {
     const bar = barRef.current;

@@ -538,7 +538,7 @@ body {
 .sticky-bar {
   position: absolute;
   /* keep whatever left/right/width you already have */
-  transition: top 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: top 1s cubic-bezier(0.8, 0.8, 0.9, 1);
   /* or ease-out */
   will-change: top;
 }
