@@ -10,6 +10,7 @@ const ComponentSettings = ({ is_theme = false, category, component, component_ty
 
     const barRef = useRef<HTMLDivElement>(null);
     useStickyAbsolute(barRef, 16);
+
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const handleSettingsClick = () => {
         // Send a message to the parent window 
@@ -53,7 +54,7 @@ const ComponentSettings = ({ is_theme = false, category, component, component_ty
     }
 
     return (
-        <div ref={barRef} className={` ${bg_class} w-fit shadow-lg hover:shadow-2xl absolute p-3 rounded-md xabsolute z-[1000] right-4 top-4 space-x-3 flex items-center 
+        <div ref={barRef} className={` ${bg_class} sticky-bar w-fit shadow-lg hover:shadow-2xl absolute p-3 rounded-md xabsolute z-[1000] right-4 top-4 space-x-3 flex items-center 
             divide-x divide-gray-200 justify-end *:text-gray-800 *:flex *:items-center *:justify-center 
             *:px-2 *:py-1 *:rounded *:cursor-pointer`}>
 

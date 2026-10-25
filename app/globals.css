@@ -384,7 +384,6 @@
       4px -6px 0 white, 4px -8px 0 white;
     transform: rotate(45deg);
   }
-
 }
 
 :root {
@@ -534,4 +533,12 @@ body {
   margin: 0px;
   color: var(--color-primary);
   font-family: var(--font-poppins);
+}
+
+.sticky-bar {
+  position: absolute;
+  /* keep whatever left/right/width you already have */
+  transition: top 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* or ease-out */
+  will-change: top;
 }
