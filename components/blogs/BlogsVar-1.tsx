@@ -12,6 +12,7 @@ import BlogCardVar1 from '../blog-cards/BlogCardVar-1';
 import { BiLayerPlus, BiRefresh, BiTrash } from 'react-icons/bi';
 import { useSearchParams } from 'next/navigation';
 import ReactivePagination from '../ReactivePagination';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const helpers = new Helpers();
 const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -40,55 +41,6 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
     const [blogsError, setBlogsError] = useState("");
     const [sectionHover, setSectionHover] = useState<boolean>(false);
     const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-35");
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "blogs",
-                    "type": "section",
-                    "component": "BlogsVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleMoveClick = (direction: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'MOVE_SECTION',
-                direction: direction,
-                component_index: raw_data?.component_index
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Blog Posts"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
-
 
     const LoadBlogs = async () => {
 
@@ -234,52 +186,7 @@ const BlogsVar1 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                     </div>
                 </div>
 
-                {is_theme && (
-                    <div className='absolute z-[1000] right-1.5 top-2 space-x-2 flex items-center justify-end 
-                    *:bg-gray-800 *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group' onClick={() => handleCompPickerClick("APPEND_SECTION")}
-                            onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiLayerPlus size={17} />
-
-                            <span className='absolute hidden group-hover:inline-block whitespace-nowrap bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Add new section after
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden group-hover:inline-block whitespace-nowrap bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REPLACE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden group-hover:inline-block whitespace-nowrap bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                                text-white text-xs'>
-                                Replace Section
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 w-fit group-hover:inline-block whitespace-nowrap bottom-full px-2 
-                                py-2 rounded bg-gray-800 text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
+                {is_theme && <ComponentSettings raw_data={raw_data} category='blogs' component='BlogsVar1' component_type='Blog Posts' />}
             </section>
         )
     }

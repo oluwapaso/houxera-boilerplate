@@ -18,6 +18,7 @@ import moment from 'moment';
 import ReactivePagination from '../ReactivePagination';
 import { BlogPost } from '../types';
 import BlogCategoryPills from '../blog-cards/BlogCategoryPills';
+import ComponentSettings from '../editor-items/ComponentSettings';
 
 const helpers = new Helpers();
 const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -56,55 +57,6 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
         console.log('Subscribed:', email)
         setEmail('')
     }
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "blogs",
-                    "type": "section",
-                    "component": "BlogsVar6",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleMoveClick = (direction: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'MOVE_SECTION',
-                direction: direction,
-                component_index: raw_data?.component_index
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Blog Posts"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
-
 
     const LoadBlogs = async () => {
 
@@ -231,14 +183,14 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             {/* Search Input */}
                             <div className="flex w-full gap-0 items-center justify-center">
                                 <input type="text" placeholder="Search posts..." value={keyword} name='keyword'
-                                    className=" px-2 2xs:px-4 py-1.5 2xs:py-2 h-40 2xs:h-[55px] text-gray-900 text-sm rounded-tl 
+                                    className=" px-2 2xs:px-4 py-1.5 2xs:py-2 h-[40px] 2xs:h-[55px] text-gray-900 text-sm rounded-tl 
                                     rounded-bl border-1 border-gray-300 bg-white outline-0 w-[355px]"
                                     onChange={(e) => handleChange(e)}
                                 />
                                 <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
                                     px-4 2xs:px-6 py-1.5 2xs:py-2 text-sm font-medium rounded-tr rounded-br 
                                     hover:bg-${helpers.adjustColorShade(themeSett.primary_color, 1)} flex items-center 
-                                    justify-center space-x-1.5 cursor-pointer 2xs:h-[55px]`} onClick={handleSearch}>
+                                    justify-center space-x-1.5 cursor-pointer h-[40px] 2xs:h-[55px]`} onClick={handleSearch}>
                                     <BiSearch size={17} /> <span>Search</span>
                                 </button>
                             </div>
@@ -291,42 +243,8 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                     </div>
                 </main>
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+                {is_theme && <ComponentSettings raw_data={raw_data} category='blogs' component='BlogsVar6' component_type='Blog Posts' />}
 
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-2xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
             </section>
         )
     }
