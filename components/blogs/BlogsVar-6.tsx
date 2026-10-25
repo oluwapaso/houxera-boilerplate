@@ -184,7 +184,7 @@ const BlogsVar6 = ({ is_theme = false, size = 4, raw_data = {} }: { is_theme?: b
                             <div className="flex w-full gap-0 items-center justify-center">
                                 <input type="text" placeholder="Search posts..." value={keyword} name='keyword'
                                     className=" px-2 2xs:px-4 py-1.5 2xs:py-2 h-[40px] 2xs:h-[55px] text-gray-900 text-sm rounded-tl 
-                                    rounded-bl border-1 border-gray-300 bg-white outline-0 w-[355px]"
+                                    rounded-bl border-1 border-gray-300 bg-white outline-0 w-[calc(100dvh-104px)] 2xs:w-[355px]"
                                     onChange={(e) => handleChange(e)}
                                 />
                                 <button className={`bg-${themeSett.primary_color} text-${themeSett.primary_button_text} 
