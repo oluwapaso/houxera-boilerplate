@@ -16,10 +16,12 @@ const DisclaimerCard = ({ prop }: { prop: any }) => {
                         <span>Disclaimer</span>
                     </div>
                     <div className=''>
-                        The information displayed about this property comprises a property advertisement. {brker_info?.company_name} makes no warranty as
-                        to the accuracy or completeness of the advertisement or any linked or associated information, and {brker_info?.company_name} has no
-                        control over the content. This property listing does not constitute property particulars. The information is provided and
-                        maintained by {prop?.agent_info?.brokage_name}. {brker_info?.company_name} shall not in any way be held liable for the actions of any agent
+                        The information displayed about this property comprises a property
+                        advertisement. <span className='font-medium'>{brker_info?.company_name}</span> makes no warranty as
+                        to the accuracy or completeness of the advertisement or any linked or associated information,
+                        and <span className='font-medium'>{brker_info?.company_name}</span> has no
+                        control over the content. This property listing does not constitute property particulars.
+                        The information is provided and maintained by <span className='font-medium'>{prop?.agent_info?.brokage_name}</span>. <span className='font-medium'>{brker_info?.company_name}</span> shall not in any way be held liable for the actions of any agent
                         and/or property owner/landlord on or off this website.
                     </div>
                 </div>
