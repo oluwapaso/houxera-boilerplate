@@ -599,7 +599,7 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                                                     <UtilitiesSection1 prop={prop} />
                                                     <FinancialSection1 prop={prop} />
                                                     <DisclosuresSection1 prop={prop} />
-                                                    <DisclaimerCard prop={prop} />
+                                                    {(brker_info?.company_name != prop?.agent_info?.brokage_name) && <DisclaimerCard prop={prop} />}
                                                 </div>
 
                                                 <div className='lg:col-span-2 flex flex-col'>

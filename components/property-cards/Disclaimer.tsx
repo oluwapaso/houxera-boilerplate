@@ -10,12 +10,12 @@ const DisclaimerCard = ({ prop }: { prop: any }) => {
     return (
         <div className='section w-full mt-14' id='disclaimer'>
             <div className='col-span-full'>
-                <div className=' w-full bg-amber-300 text-gray-950 px-3 py-2 rounded flex flex-col xs:items-center xs:space-x-3 text-sm'>
+                <div className=' w-full bg-amber-300 text-gray-950 px-3 py-2 rounded flex flex-col text-sm'>
                     <div className='font-semibold flex items-center'>
                         <FiAlertTriangle size={14} className='mr-1 shrink-0' />
-                        <span>Total Package Displayed in IDX:</span>
+                        <span>Disclaimer</span>
                     </div>
-                    <div className='italicx font-medium text-sm'>
+                    <div className=''>
                         The information displayed about this property comprises a property advertisement. {brker_info?.company_name} makes no warranty as
                         to the accuracy or completeness of the advertisement or any linked or associated information, and {brker_info?.company_name} has no
                         control over the content. This property listing does not constitute property particulars. The information is provided and
