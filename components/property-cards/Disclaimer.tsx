@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 const DisclaimerCard = ({ prop }: { prop: any }) => {
 
     const brker_info = useSelector((state: RootState) => state.broker);
-    console.log("brker_info", brker_info)
     return (
         <div className='section w-full mt-14' id='disclaimer'>
             <div className='col-span-full'>
