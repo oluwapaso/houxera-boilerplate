@@ -392,7 +392,7 @@ const MLSSearchVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_them
                                         </div>
                                     </div>
 
-                                    <div className='max-sm:w-full max-sm:grid grid-cols-3 xs:grid-cols-2 max-sm:gap-2.5 sm:flex sm:items-center sm:space-x-2.5'>
+                                    <div className='max-sm:w-full max-sm:grid grid-cols-3 xs:grid-cols-2 max-sm:gap-2.5 sm:flex sm:items-center sm:gap-x-2.5'>
                                         <div className='col-span-2 xs:col-span-1 shrink relative z-40 bg-white shadow-md hover:shadow-xl rounded-md' ref={sortBoxRef}>
                                             <div className='flex flex-col py-2 md:py-2.5 px-2.5 md:px-4 cursor-pointer'
                                                 onClick={() => setSortShown(!sort_shown)}>

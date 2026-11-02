@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import DisclaimerCard from "../property-cards/Disclaimer";
 // import { GoogleMap, OverlayView } from '@react-google-maps/api';
 
 const helper = new Helpers();
@@ -598,7 +599,7 @@ const PropertyDetailsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { i
                                                     <UtilitiesSection1 prop={prop} />
                                                     <FinancialSection1 prop={prop} />
                                                     <DisclosuresSection1 prop={prop} />
-
+                                                    <DisclaimerCard prop={prop} />
                                                 </div>
 
                                                 <div className='lg:col-span-2 flex flex-col'>
