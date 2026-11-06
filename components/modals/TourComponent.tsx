@@ -83,27 +83,18 @@ const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
         const email = tourInfo.email;
         if (!helpers.validateEmail(email)) {
-            toast.error("Provide a valid email address", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Provide a valid email address");
             return false;
         }
 
         if (!tourInfo.firstname || !tourInfo.lastname || !tourInfo.phone || !tourInfo.message) {
-            toast.error("All fields are required.", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("All fields are required.");
             return false;
         }
 
@@ -130,10 +121,7 @@ const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
             let status_code = response.status_code;
             if (status_code == 200) {
 
-                toast.success(`Tour request succesfully sent, we'll get back to you as soon as possible.`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Tour request succesfully sent, we'll get back to you as soon as possible.`);
 
                 setTourInfo({
                     "start_time": "10:00 AM",
@@ -145,17 +133,11 @@ const TourComponent = ({ is_theme = false }: { is_theme: boolean }) => {
                 dispatch(togglePropertyModal({ shown: false, page: "", title: "", property_info: {} }));
 
             } else {
-                toast.error(`${resp_message}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${resp_message}`);
             }
 
         } catch (error) {
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
         } finally {
             dispatch(hidePageLoader());
             setIsSubmitting(false);

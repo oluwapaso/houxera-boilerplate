@@ -57,10 +57,7 @@ const ForgotPasswordFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
@@ -82,10 +79,7 @@ const ForgotPasswordFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?
                 let status_code = response.status_code;
                 if (status_code == 200) {
 
-                    toast.success("Reset link successfully sent to your email address, follow the link to set new a password", {
-                        position: "top-center",
-                        theme: "colored"
-                    });
+                    toast.success("Reset link successfully sent to your email address, follow the link to set new a password");
 
                     dispatch(updateUserInfo({} as UserInfo));
                     dispatch(updateUserWholeState({ isLogged: false }));
@@ -93,18 +87,12 @@ const ForgotPasswordFormVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?
 
                 } else {
                     dispatch(updateUserWholeState({ isLogged: false }));
-                    toast.error(`${resp_message || resp_message.message}`, {
-                        position: "top-center",
-                        theme: "colored"
-                    });
+                    toast.error(`${resp_message || resp_message.message}`);
                 }
 
             } catch (error) {
                 dispatch(updateUserWholeState({ isLogged: false }));
-                toast.error(`${error}`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(`${error}`);
             } finally {
                 setIsResetting(false);
             }

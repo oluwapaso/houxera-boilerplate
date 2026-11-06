@@ -48,18 +48,12 @@ const HeroSearch_1 = ({ raw_data = {} }: { raw_data?: any }) => {
     const Run_MLS_Search = () => {
 
         // if (!formData.location || formData.location == "") {
-        //     toast.error("Select a valid location", {
-        //         position: "top-center",
-        //         theme: "colored",
-        //     });
+        //     toast.error("Select a valid location");
         //     return false;
         // }
 
         if (!formData.property_sub_type || formData.property_sub_type == "") {
-            toast.error("Select a valid property type", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Select a valid property type");
             return false;
         }
 

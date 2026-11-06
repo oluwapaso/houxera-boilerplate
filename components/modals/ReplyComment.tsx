@@ -48,27 +48,18 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
         toast.dismiss();
         try {
             if (!comment_uid || !item_uid) {
-                toast.error("Fatal error.", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("Fatal error.");
                 return false;
             }
 
             if (!user.user_info?.firstname || user.user_info?.firstname == "" || !user.user_info?.email || user.user_info?.email == ""
                 || !user.user_info?.user_uid || user.user_info?.user_uid == "") {
-                toast.error("You need to login to leave a comment..", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("You need to login to leave a comment..");
                 return false;
             }
 
             if (!formData.comments) {
-                toast.error("Provide a valid reply.", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("Provide a valid reply.");
 
                 return false;
             }
@@ -99,10 +90,7 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
             if (status_code == 200) {
 
                 setRepToAppend(response.data);
-                toast.success(`Reply successfully added.`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success(`Reply successfully added.`);
 
                 dispatch(hidePageLoader());
                 closeModal();
@@ -116,18 +104,12 @@ const ReplyComment = ({ closeModal, item_type, item_uid, comment_uid, setRepToAp
                     resp_message = resp_message.toString();
                 }
 
-                toast.error(resp_message, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(resp_message);
             }
 
         } catch (e: any) {
             dispatch(hidePageLoader());
-            toast.error(`${e}`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`${e}`);
         } finally {
             dispatch(hidePageLoader());
         }

@@ -37,10 +37,7 @@ const FavoriteButton = ({ themeSett, property_uid }: { themeSett: any, property_
                 dispatch(updateFavorites(response.data.favorites));
                 dispatch(updateDataCounts({ "favorites": response.data.favorites.length }));
 
-                toast.success(`Property successfully added to favorite lists`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success(`Property successfully added to favorite lists`);
 
             } else {
 
@@ -49,10 +46,7 @@ const FavoriteButton = ({ themeSett, property_uid }: { themeSett: any, property_
                     msg_out = "You need to login to add listing to favorites"
                 }
 
-                toast.error(`${msg_out}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${msg_out}`);
             }
 
             setIsSubmitting(false);
@@ -81,10 +75,7 @@ const FavoriteButton = ({ themeSett, property_uid }: { themeSett: any, property_
                 dispatch(updateFavorites(response.data.favorites));
                 dispatch(updateDataCounts({ "favorites": response.data.favorites.length }));
 
-                toast.success(`Property successfully removed to favorite lists`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success(`Property successfully removed to favorite lists`);
 
             } else {
 
@@ -93,10 +84,7 @@ const FavoriteButton = ({ themeSett, property_uid }: { themeSett: any, property_
                     msg_out = "You need to login to remove listing from favorites"
                 }
 
-                toast.error(`${msg_out}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${msg_out}`);
             }
 
             setIsSubmitting(false);

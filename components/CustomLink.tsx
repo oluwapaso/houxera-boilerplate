@@ -25,10 +25,7 @@ const CustomLinkMain = (params: any) => {
         return (
             <div {...params} onClick={() => {
                 toast.dismiss();
-                toast.error("Navigation is not allowed in edit mode", {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error("Navigation is not allowed in edit mode");
             }}>
                 {params.children}
             </div>

@@ -117,10 +117,7 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
             let status_code = response.status_code;
             if (status_code == 200) {
 
-                toast.success(`Saved search successfully deleted.`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success(`Saved search successfully deleted.`);
 
                 saved_searches.forEach((ss) => {
                     const elem = document.getElementById(`saved_search_${search_uid}`) as HTMLDivElement;
@@ -133,10 +130,7 @@ const SavedSearchesVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_
                 });
 
             } else {
-                toast.error(resp_message, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(resp_message);
             }
 
             dispatch(hidePageLoader());

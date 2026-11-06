@@ -169,25 +169,16 @@ const PrefrenceVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             let status_code = response.status_code;
             if (status_code == 200) {
 
-                toast.success(`Account info successfully updated`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Account info successfully updated`);
 
                 dispatch(updateUserInfo(userInfo));
 
             } else {
-                toast.error(`${resp_message}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${resp_message}`);
             }
 
         } catch (error) {
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
         } finally {
             setIsSubmitting(false);
             dispatch(hidePageLoader());
@@ -212,10 +203,7 @@ const PrefrenceVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
             let status_code = response.status_code;
             if (status_code == 200) {
 
-                toast.success(`Password reset link successfully sent to your email address`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Password reset link successfully sent to your email address`);
 
                 dispatch(updateUserWholeState({ isLogged: false, user_info: {} }));
                 router.push(`${themeSett.theme_prefix}/home`);
@@ -223,18 +211,12 @@ const PrefrenceVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
             } else {
                 dispatch(hidePageLoader());
-                toast.error(`${resp_message}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${resp_message}`);
             }
 
         } catch (error) {
             dispatch(hidePageLoader());
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
         } finally {
             setIsSubmitting(false);
         }
@@ -270,10 +252,7 @@ const PrefrenceVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
                 let status_code = response.status_code;
                 if (status_code == 200) {
 
-                    toast.success(`Account successfully deleted`, {
-                        position: "top-center",
-                        theme: "colored",
-                    });
+                    toast.success(`Account successfully deleted`);
 
                     dispatch(updateUserWholeState({ isLogged: false, user_info: {} }));
                     router.push(`${themeSett.theme_prefix}/home`);
@@ -281,18 +260,12 @@ const PrefrenceVar2 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                 } else {
                     dispatch(hidePageLoader());
-                    toast.error(`${resp_message}`, {
-                        position: "top-center",
-                        theme: "colored",
-                    });
+                    toast.error(`${resp_message}`);
                 }
 
             } catch (error) {
                 dispatch(hidePageLoader());
-                toast.error(`${error}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${error}`);
             } finally {
                 setIsSubmitting(false);
             }

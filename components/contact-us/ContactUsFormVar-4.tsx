@@ -110,28 +110,19 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
         const email = formData.email;
 
         if (!helpers.validateEmail(email)) {
-            toast.error("Provide a valid email address", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Provide a valid email address");
             return false;
         }
 
         if (!formData.firstname || !formData.lastname || !formData.message || !formData.subject) {
-            toast.error("Required fields can not be empty.", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Required fields can not be empty.");
             return false;
         }
 
@@ -153,23 +144,14 @@ const ContactUsFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?: boo
             let resp_message = response.message;
             let status_code = response.status_code;
             if (status_code == 200) {
-                toast.success(`Message succesfully sent, we'll get back to you as soon as possible.`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Message succesfully sent, we'll get back to you as soon as possible.`);
                 setFormData(init_val);
             } else {
-                toast.error(`${resp_message}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${resp_message}`);
             }
 
         } catch (error) {
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
         } finally {
             dispatch(hidePageLoader());
         }

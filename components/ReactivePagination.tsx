@@ -25,10 +25,7 @@ const ReactivePagination = ({ totalPage, curr_page, url_path, scroll_to, is_path
         //Return early
         if (is_theme) {
             toast.dismiss();
-            toast.error("Navigation is not allowed in edit mode", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Navigation is not allowed in edit mode");
 
             return false;
         }

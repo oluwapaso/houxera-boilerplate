@@ -68,10 +68,7 @@ const EditSavedSearch = ({ closeModal, search_info }: { closeModal: () => void, 
 
             if (status_code == 200) {
 
-                toast.success(`Search successfully updated.`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Search successfully updated.`);
 
                 const search_title_elem = document.getElementById(`search_title_${search_info.search_uid}`) as HTMLDivElement;
                 if (search_title_elem) {
@@ -92,20 +89,14 @@ const EditSavedSearch = ({ closeModal, search_info }: { closeModal: () => void, 
                     msg_out = "You need to login to save a search"
                 }
 
-                toast.error(`${msg_out}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${msg_out}`);
             }
 
 
             dispatch(hidePageLoader());
 
         } catch (error) {
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
             dispatch(hidePageLoader());
         } finally {
             dispatch(hidePageLoader());

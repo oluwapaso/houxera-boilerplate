@@ -47,20 +47,14 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
 
             if (!helpers.validateEmail(values.email)) {
 
-                toast.error("Provide a valid email address", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("Provide a valid email address");
 
                 return false;
             }
 
             if (!values.firstname || !values.lastname || !values.comments) {
 
-                toast.error("All fields are required.", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("All fields are required.");
 
                 return false;
             }
@@ -85,10 +79,7 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
             let status_code = response.status_code;
             if (status_code == 200) {
 
-                toast.success("Comments successfully added.", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success("Comments successfully added.");
 
                 setValues((prevVals: any) => {
                     return {
@@ -107,18 +98,12 @@ const CommentBox = ({ item_type, item_uid, setRepToAppend, setNoComms, is_theme 
                     resp_message = resp_message.toString();
                 }
 
-                toast.error(resp_message, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(resp_message);
             }
 
         } catch (e: any) {
             dispatch(hidePageLoader());
-            toast.error(`${e}`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`${e}`);
         } finally {
             setSubmitting(false);
             dispatch(hidePageLoader());

@@ -56,10 +56,7 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
@@ -95,18 +92,12 @@ const LoginFormVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean
 
                 } else {
                     dispatch(updateUserWholeState({ isLogged: false }));
-                    toast.error(`${resp_message || resp_message.message}`, {
-                        position: "top-center",
-                        theme: "colored"
-                    });
+                    toast.error(`${resp_message || resp_message.message}`);
                 }
 
             } catch (error) {
                 dispatch(updateUserWholeState({ isLogged: false }));
-                toast.error(`${error}`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(`${error}`);
             } finally {
                 dispatch(updateUserWholeState({ isLogginIn: false }));
             }

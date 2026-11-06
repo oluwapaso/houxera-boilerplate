@@ -114,10 +114,7 @@ const SaveSearchComponent = ({ closeModal, formData, setFormData, is_theme = fal
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
@@ -140,10 +137,7 @@ const SaveSearchComponent = ({ closeModal, formData, setFormData, is_theme = fal
 
             if (status_code == 200) {
 
-                toast.success(`Search successfully saved.`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.success(`Search successfully saved.`);
 
                 closeModal();
 
@@ -154,20 +148,14 @@ const SaveSearchComponent = ({ closeModal, formData, setFormData, is_theme = fal
                     msg_out = "You need to login to save a search"
                 }
 
-                toast.error(`${msg_out}`, {
-                    position: "top-center",
-                    theme: "colored",
-                });
+                toast.error(`${msg_out}`);
             }
 
 
             dispatch(hidePageLoader());
 
         } catch (error) {
-            toast.error(`${error}`, {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error(`${error}`);
             dispatch(hidePageLoader());
         } finally {
             dispatch(hidePageLoader());

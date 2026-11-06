@@ -27,15 +27,9 @@ const AgentInfo1 = ({ primary_photo, prop }: { primary_photo: string, prop: any 
         if (text) {
             toast.dismiss();
             navigator.clipboard.writeText(text).then(() => {
-                toast.success('Copied to clipboard!', {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.success('Copied to clipboard!');
             }).catch((err) => {
-                toast.error(`Failed to copy: ${err}`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(`Failed to copy: ${err}`);
             });
         }
     };

@@ -48,18 +48,12 @@ const Advanced_Filter_1 = ({ setStartFetch, formData, setFormData, OpenSaveSearc
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
         if (!formData.property_sub_type || formData.property_sub_type == "") {
-            toast.error("Select a valid property type", {
-                position: "top-center",
-                theme: "colored",
-            });
+            toast.error("Select a valid property type");
             return false;
         }
 

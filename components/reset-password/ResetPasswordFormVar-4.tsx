@@ -59,10 +59,7 @@ const ResetPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?:
 
         toast.dismiss();
         if (is_theme) {
-            toast.error(`Can not complete this request in design mode.`, {
-                position: "top-center",
-                theme: "colored"
-            });
+            toast.error(`Can not complete this request in design mode.`);
             return false;
         }
 
@@ -72,10 +69,7 @@ const ResetPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?:
 
             toast.dismiss();
             if (!helpers.validateEmail(account_email) || token == "") {
-                toast.error("Account email or token is missing", {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error("Account email or token is missing");
                 return false;
             }
 
@@ -87,10 +81,7 @@ const ResetPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?:
             }
 
             if (error_msg != "") {
-                toast.error(error_msg, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(error_msg);
                 return false;
             }
 
@@ -111,10 +102,7 @@ const ResetPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?:
                 let status_code = response.status_code;
                 if (status_code == 200) {
 
-                    toast.success("Password successfully updated.", {
-                        position: "top-center",
-                        theme: "colored"
-                    });
+                    toast.success("Password successfully updated.");
 
                     dispatch(updateUserInfo({} as UserInfo));
                     dispatch(updateUserWholeState({ isLogged: false }));
@@ -123,18 +111,12 @@ const ResetPasswordFormVar4 = ({ is_theme = false, raw_data = {} }: { is_theme?:
 
                 } else {
                     setIsSubmitting(false);
-                    toast.error(`${resp_message || resp_message.message}`, {
-                        position: "top-center",
-                        theme: "colored"
-                    });
+                    toast.error(`${resp_message || resp_message.message}`);
                 }
 
             } catch (error) {
                 setIsSubmitting(false);
-                toast.error(`${error}`, {
-                    position: "top-center",
-                    theme: "colored"
-                });
+                toast.error(`${error}`);
             } finally {
                 setIsSubmitting(false);
             }
