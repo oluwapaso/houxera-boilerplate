@@ -11,7 +11,7 @@ const NoComponents = ({ is_theme = false, layout_page = true, raw_data }: { is_t
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
-    console.log("layout_page", layout_page)
+
     const AddLayout = () => {
         // Send a message to the parent window
         window.parent.postMessage(

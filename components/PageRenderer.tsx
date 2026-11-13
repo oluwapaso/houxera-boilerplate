@@ -5,13 +5,11 @@ import { componentRegistry, type ComponentBlock } from './registry';
 export default function PageRenderer({ data, is_theme = true }:
     { data: { isHome: boolean, isDefault: boolean, sections: ComponentBlock[] }, is_theme: boolean }) {
 
-    console.log("isHome", data.isHome, "isDefault", data.isDefault)
     // If no sections, render NoComponents
     if (!data.sections || data.sections.length === 0) {
         const NoComponents = componentRegistry['NoComponents'];
 
         if (NoComponents) {
-            console.log("!data.isHome || data.isDefault", (!data.isHome && data.isDefault))
             return <NoComponents is_theme={is_theme} layout_page={(!data.isHome && data.isDefault)} raw_data={{}} />;
         }
 
