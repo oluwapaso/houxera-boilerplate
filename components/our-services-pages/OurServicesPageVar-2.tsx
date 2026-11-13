@@ -153,13 +153,13 @@ const OurServicesPageVar2 = ({ is_theme = false, size = 20, raw_data = {} }: { i
 
     if (themeSett) {
         return (
-            <section className={`min-h-screen text-foreground relative ${first_comp_pt} pb-20 bg-gray-100`}>
+            <section className={`min-h-screen relative ${first_comp_pt} pb-20 bg-gray-100`}>
 
                 <div className=' container mx-auto max-w-[1280px] px-4'>
 
                     <div className='w-full flex flex-col mt-0'>
                         {/* Blog Posts Section */}
-                        <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
+                        <h2 className="text-2xl sm:text-3xl font-bold">
                             {raw_data.header || "Our Services"}
                         </h2>
                         <div className='w-full'>
