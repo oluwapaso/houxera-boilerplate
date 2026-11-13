@@ -30,7 +30,7 @@ const SubMenuContainer = ({ menu, themeSett, is_theme, classes }: { menu: any, t
             divide-y divide-gray-200 rounded-md max-h-[300px] overflow-y-auto'>
                 {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) && (
                     menu.sub_menu.map((sub_menu: any, index: any) => {
-                        return <CustomLinkMain key={index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                        return <CustomLinkMain key={index} href={`${sub_menu.link ? sub_menu.link : ""}`} is_theme={is_theme}
                             className={` text-gray-900 hover:bg-${themeSett.primary_color} hover:text-white transition-all 
                             ease-in hover:delay-150`}>
                             {sub_menu.title}

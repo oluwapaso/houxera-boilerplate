@@ -11,7 +11,7 @@ const MobileSubMenuContaier = ({ menu, themeSett, is_theme }: { menu: any, theme
         <div className='mt-2 w-full flex flex-col *:space-x-2.5 *:flex *:items-center *:py-4 *:w-full divide-y divide-gray-200 '>
             {(Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) && (
                 menu.sub_menu.map((sub_menu: any, index: any) => {
-                    return <CustomLinkMain key={index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                    return <CustomLinkMain key={index} href={`${sub_menu.link ? sub_menu.link : ""}`} is_theme={is_theme}
                         className={`hover:bg-${themeSett.primary_color} hover:text-white transition-all 
                         ease-in hover:delay-150`}>
                         <FaArrowRightLong size={18} className='shrink-0 text-gray-600' />

@@ -23,6 +23,7 @@ import { BsPercent } from "react-icons/bs";
 import { BsGear } from 'react-icons/bs';
 import { BiRefresh, BiTrash } from 'react-icons/bi';
 import { useSearchParams } from "next/navigation";
+import ComponentSettings from "../editor-items/ComponentSettings";
 
 const helper = new Helpers();
 const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is_theme?: boolean, size?: number, raw_data?: any }) => {
@@ -35,6 +36,7 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
     const [themeSett, setThemeSett] = useState<any | null>(null);
 
     const company_unique_id = searchParams?.get("company_unique_id") as string || "";
+    const [first_comp_pt, setFirstCompPt] = useState("pt-30 md:pt-36");
 
     const [formData, setFormData] = useState<any>({
         "sales_type": "For Sale",
@@ -184,14 +186,52 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
         }
     }, [theme]);
 
+
+
+    useEffect(() => {
+
+        if (raw_data?.component_index !== 0) return;
+
+        const navType = themeSett?.nav_component?.type;
+
+        if (navType === "NavVar6") {
+            setFirstCompPt("pt-36");
+            return;
+        }
+
+        if (navType === "NavVar7") {
+            const updatePadding = () => {
+                const nav = document.getElementById("main-nav");
+                const isMobile = nav?.getAttribute("data-is-mobile") === "true";
+                // Adjust these values to whatever looks correct
+                setFirstCompPt(isMobile ? "pt-40" : "pt-55");
+            };
+
+            updatePadding(); // initial
+
+            // Watch for changes (forceMobile can change on resize)
+            const observer = new MutationObserver(updatePadding);
+            const nav = document.getElementById("main-nav");
+            if (nav) {
+                observer.observe(nav, {
+                    attributes: true,
+                    attributeFilter: ["data-is-mobile"],
+                });
+            }
+
+            return () => observer.disconnect();
+        }
+
+    }, [themeSett?.nav_component?.type, raw_data?.component_index]);
+
     if (themeSett && themeSett != null) {
         return (
-            <section className="flex flex-col min-h-screen py-35 relative bg-gray-50" >
+            <section className={`flex flex-col min-h-screen ${first_comp_pt} pb-15 relative bg-gray-50`} >
 
                 <main className="w-full flex flex-col min-h-[55dvh] relative z-20">
-                    <div className="container mx-auto max-w-[1450px] py-12">
+                    <div className="container mx-auto max-w-[1450px] px-3 xs:px-5">
 
-                        <div className=' mx-auto w-[950px] '>
+                        <div className=' mx-auto min-lg:w-[950px] '>
                             <div className='col-span-full flex flex-col mb-4'>
                                 <div className='font-semibold text-3xl'>{raw_data.header || "Market Insights"}</div>
                                 <div className='font-medium text-lg'>
@@ -200,8 +240,8 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
                             </div>
                         </div>
 
-                        <div className=' mx-auto w-[950px] z-30 px-5 py-5 rounded-xl mt-8
-                            grid grid-cols-3 gap-3.5 *:flex *:flex-col bg-white drop-shadow-xl'>
+                        <div className=' mx-auto min-lg:w-[950px] z-30 px-5 py-5 rounded-xl mt-8
+                            grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 *:flex *:flex-col bg-white drop-shadow-xl'>
 
                             <div className=''>
                                 <div className='font-semibold text-base'>Location</div>
@@ -288,135 +328,108 @@ const MarketInsightsVar1 = ({ is_theme = false, size = 20, raw_data = {} }: { is
                         </div>
 
                         {(fetchError != "") &&
-                            <div className='mx-auto w-[950px] h-[150px] bg-white text-red-600 flex items-center justify-center'>
+                            <div className='mx-auto min-lg:w-[950px] h-[150px] bg-white text-red-600 flex items-center justify-center'>
                                 {fetchError}
                             </div>
                         }
 
-                        <div className='mx-auto w-[950px] flex flex-col justify-center mt-20 space-y-12'>
-                            {(insights?.active?.price_stats) &&
-                                <div className=" flex flex-col w-full">
-                                    <div className=" text-xl font-semibold">Active Listings Insights</div>
-                                    <div className="w-full mt-2 grid grid-cols-2 gap-11 *:bg-white *:p-8 *:rounded-xl *:shadow-xl
-                                    *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
+                        {(insights?.active?.price_stats || insights?.sold?.price_stats || insights?.rented?.price_stats
+                            || insights?.leased?.price_stats) &&
+                            <div className='mx-auto min-lg:w-[950px] flex flex-col justify-center mt-20 space-y-12'>
+                                {(insights?.active?.price_stats) &&
+                                    <div className=" flex flex-col w-full">
+                                        <div className=" text-xl font-semibold">Active Listings Insights</div>
+                                        <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-11 *:bg-white *:p-4 
+                                        lg:*:p-8 *:rounded-xl *:shadow-md
+                                        *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
 
-                                        <InsigthCard1 value={helper.formatWholeNumber(insights?.active?.price_stats?.count)} name={"Total Listings"}
-                                            icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.avg, true)} name={"Avg. Price"}
-                                            icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.min, true)} name={"Min. Price"}
-                                            icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.max, true)} name={"Max. Price"}
-                                            icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.sum, true)} name={"Total Sum"}
-                                            icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatWholeNumber(insights?.active?.price_stats?.count)} name={"Total Listings"}
+                                                icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.avg, true)} name={"Avg. Price"}
+                                                icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.min, true)} name={"Min. Price"}
+                                                icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.max, true)} name={"Max. Price"}
+                                                icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.active?.price_stats?.sum, true)} name={"Total Sum"}
+                                                icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
 
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
 
-                            {(insights?.sold?.price_stats) &&
-                                <div className=" flex flex-col w-full">
-                                    <div className=" text-xl font-semibold">Sold Listings Insights</div>
-                                    <div className="w-full mt-2 grid grid-cols-2 gap-11 *:bg-white *:p-8 *:rounded-xl *:shadow-xl
-                                    *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
+                                {(insights?.sold?.price_stats) &&
+                                    <div className=" flex flex-col w-full">
+                                        <div className=" text-xl font-semibold">Sold Listings Insights</div>
+                                        <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-11 *:bg-white *:p-4 
+                                        lg:*:p-8 *:rounded *:shadow-md lg:*:shadow-xl *:flex *:flex-colx *:justify-start 
+                                        *:space-x-5 *:items-center *:border *:border-gray-100">
 
-                                        <InsigthCard1 value={helper.formatWholeNumber(insights?.sold?.price_stats?.count)} name={"Total Listings"}
-                                            icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.avg, true)} name={"Avg. Price"}
-                                            icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.min, true)} name={"Min. Price"}
-                                            icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.max, true)} name={"Max. Price"}
-                                            icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.sum, true)} name={"Total Sum"}
-                                            icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatWholeNumber(insights?.sold?.price_stats?.count)} name={"Total Listings"}
+                                                icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.avg, true)} name={"Avg. Price"}
+                                                icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.min, true)} name={"Min. Price"}
+                                                icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.max, true)} name={"Max. Price"}
+                                                icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.sold?.price_stats?.sum, true)} name={"Total Sum"}
+                                                icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
 
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
 
-                            {(insights?.rented?.price_stats) &&
-                                <div className=" flex flex-col w-full">
-                                    <div className=" text-xl font-semibold">Rented Listings Insights</div>
-                                    <div className="w-full mt-2 grid grid-cols-2 gap-11 *:bg-white *:p-8 *:rounded-xl *:shadow-xl
-                                    *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
+                                {(insights?.rented?.price_stats) &&
+                                    <div className=" flex flex-col w-full">
+                                        <div className=" text-xl font-semibold">Rented Listings Insights</div>
+                                        <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-11 *:bg-white *:p-4 
+                                        lg:*:p-8 *:rounded-xl *:shadow-md
+                                        *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
 
-                                        <InsigthCard1 value={helper.formatWholeNumber(insights?.rented?.price_stats?.count)} name={"Total Listings"}
-                                            icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.avg, true)} name={"Avg. Price"}
-                                            icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.min, true)} name={"Min. Price"}
-                                            icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.max, true)} name={"Max. Price"}
-                                            icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.sum, true)} name={"Total Sum"}
-                                            icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatWholeNumber(insights?.rented?.price_stats?.count)} name={"Total Listings"}
+                                                icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.avg, true)} name={"Avg. Price"}
+                                                icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.min, true)} name={"Min. Price"}
+                                                icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.max, true)} name={"Max. Price"}
+                                                icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.rented?.price_stats?.sum, true)} name={"Total Sum"}
+                                                icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
 
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
 
-                            {(insights?.leased?.price_stats) &&
-                                <div className=" flex flex-col w-full">
-                                    <div className=" text-xl font-semibold">Leased Listings Insights</div>
-                                    <div className="w-full mt-2 grid grid-cols-2 gap-11 *:bg-white *:p-8 *:rounded-xl *:shadow-xl
-                                    *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
+                                {(insights?.leased?.price_stats) &&
+                                    <div className=" flex flex-col w-full">
+                                        <div className=" text-xl font-semibold">Leased Listings Insights</div>
+                                        <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-11 *:bg-white *:p-4 
+                                        lg:*:p-8 *:rounded-xl *:shadow-md
+                                        *:flex *:flex-colx *:justify-start *:space-x-5 *:items-center *:border *:border-gray-100">
 
-                                        <InsigthCard1 value={helper.formatWholeNumber(insights?.leased?.price_stats?.count)} name={"Total Listings"}
-                                            icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.avg, true)} name={"Avg. Price"}
-                                            icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.min, true)} name={"Min. Price"}
-                                            icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.max, true)} name={"Max. Price"}
-                                            icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
-                                        <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.sum, true)} name={"Total Sum"}
-                                            icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatWholeNumber(insights?.leased?.price_stats?.count)} name={"Total Listings"}
+                                                icon={<HiHomeModern size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.avg, true)} name={"Avg. Price"}
+                                                icon={<BsPercent size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.min, true)} name={"Min. Price"}
+                                                icon={<PiChartLineDown size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.max, true)} name={"Max. Price"}
+                                                icon={<PiChartLineUp size={55} className={`text-${themeSett.primary_color}-700`} />} />
+                                            <InsigthCard1 value={helper.formatCurrency(insights?.leased?.price_stats?.sum, true)} name={"Total Sum"}
+                                                icon={<PiInvoice size={55} className={`text-${themeSett.primary_color}-700`} />} />
 
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
+                        }
                     </div>
                 </main>
 
-                {is_theme && (
-                    <div className=' absolute z-[1000] right-1.5 top-20 space-x-2 flex items-center justify-end *:bg-gray-800 
-                    *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded-xl*:cursor-pointer'>
+                {is_theme && <ComponentSettings raw_data={raw_data} category='market_insights' component='MarketInsightsVar1' component_type='MarketInsights' />}
 
-                        <div id='editor_settings' className='hover:shadow-xl relative group'
-                            onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BsGear size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded-xlbg-gray-800 
-                            text-white text-xs'>
-                                Section settings
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-xl relative group'
-                            onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiRefresh size={17} />
-
-                            <span className='absolute hidden whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded-xlbg-gray-800 
-                            text-white text-xs'>
-                                Change Layout
-                            </span>
-                        </div>
-
-                        <div id='editor_settings' className='hover:shadow-xl relative group'
-                            onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                            <BiTrash size={17} />
-
-                            <span className='absolute hidden right-0 whitespace-nowrap group-hover:block bottom-full px-2 py-2 w-fit rounded-xlbg-gray-800 
-                            text-white text-xs'>
-                                Remove Section Down
-                            </span>
-                        </div>
-
-                    </div>
-                )}
             </section>
         )
     }

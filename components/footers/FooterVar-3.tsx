@@ -116,7 +116,7 @@ const FooterVar3 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                     return ((Array.isArray(menu.sub_menu) && menu.sub_menu.length > 0) ? (
                                         <>
                                             {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
-                                                return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? sub_menu.link : ""}`} is_theme={is_theme}
                                                     className={`text-gray-800 transition-all py-2 px-3 rounded-md
                                                     cursor-pointer hover:text-gray-950 hover:bg-gray-100`}>
                                                     {/* <FaArrowRightLong size={13} /> */}

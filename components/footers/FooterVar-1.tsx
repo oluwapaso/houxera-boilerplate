@@ -208,7 +208,7 @@ const FooterVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                             <div className=' flex flex-col space-y-0.5 *:text-base *:font-medium 
                                             *:flex *:items-center *:space-x-1.5'>
                                                 {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
-                                                    return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                    return <CustomLinkMain key={sub_index} href={`${sub_menu.link ? sub_menu.link : ""}`} is_theme={is_theme}
                                                         className={`w-fit text-zinc-400 ease-in py-2 hover:delay-150 hover:bg-${themeSett.primary_color} 
                                                         hover:text-${themeSett.primary_button_text} transition-all rounded 
                                                         hover:px-2 hover:py-2 cursor-pointer`}>

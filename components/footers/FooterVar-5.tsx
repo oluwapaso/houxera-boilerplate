@@ -212,7 +212,7 @@ const FooterVar5 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, r
                                                 <ul className="space-y-2.5">
                                                     {menu.sub_menu.map((sub_menu: any, sub_index: any) => {
                                                         return <li key={sub_index}>
-                                                            <CustomLinkMain key={sub_index} href={`${sub_menu.link ? menu.link : ""}`} is_theme={is_theme}
+                                                            <CustomLinkMain key={sub_index} href={`${sub_menu.link ? sub_menu.link : ""}`} is_theme={is_theme}
                                                                 className={`text-sm text-white/60 transition-all cursor-pointer 
                                                                 hover:text-${themeSett.primary_color}`}>
                                                                 {/* <FaArrowRightLong size={13} /> */}
