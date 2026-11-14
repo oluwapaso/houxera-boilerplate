@@ -26,9 +26,9 @@ const HeroVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw
             {
                 type: 'OPEN_EDITOR_SETTINGS',
                 data: {
-                    "category": "home_header",
+                    "category": "home_hero",
                     "type": "section",
-                    "name": "HeaderVar1",
+                    "name": "HeroVar1",
                     ...raw_data,
                 }
             },
@@ -54,7 +54,7 @@ const HeroVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw
             {
                 type: event_type,
                 component_index: raw_data?.component_index,
-                component_type: "Home Headers"
+                component_type: "Hero Section"
             },
             '*' // In production, replace '*' with your parent URL for security
         );
