@@ -91,7 +91,7 @@ const SectionSettings = ({ is_theme = false, category, component, component_type
             </div>
 
             <div id='editor_settings' className='hover:shadow-2xl relative group'
-                onClick={() => handleCompPickerClick("CHANGE_LAYOUT")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
+                onClick={() => handleCompPickerClick("REPLACE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
                 <BiRefresh size={20} />
 
                 <span className='absolute hidden whitespace-nowrap group-hover:block top-[calc(100%+10px)] px-2 py-2 w-fit rounded bg-gray-800 
