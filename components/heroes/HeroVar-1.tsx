@@ -11,6 +11,7 @@ import HeroSearch_1 from '../search-components/HeroSearch_1';
 import { getComponent } from '../registry';
 import NavVar1 from '../navs/NavVar-1';
 import { Helpers } from "@/_lib/helper";
+import SectionSettings from '../editor-items/SectionSettings';
 
 const helpers = new Helpers();
 const HeroVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw_data?: any }) => {
@@ -18,55 +19,6 @@ const HeroVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw
     const theme = useSelector((state: RootState) => state.theme);
     const user = useSelector((state: RootState) => state.user);
     const [themeSett, setThemeSett] = useState<any | null>(null);
-    const [sectionHover, setSectionHover] = useState<boolean>(false);
-
-    const handleSettingsClick = () => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'OPEN_EDITOR_SETTINGS',
-                data: {
-                    "category": "home_hero",
-                    "type": "section",
-                    "name": "HeroVar1",
-                    ...raw_data,
-                }
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    };
-
-    const handleMoveClick = (direction: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: 'MOVE_SECTION',
-                direction: direction,
-                component_index: raw_data?.component_index
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleCompPickerClick = (event_type: string) => {
-        // Send a message to the parent window
-        window.parent.postMessage(
-            {
-                type: event_type,
-                component_index: raw_data?.component_index,
-                component_type: "Hero Section"
-            },
-            '*' // In production, replace '*' with your parent URL for security
-        );
-    }
-
-    const handleHover = () => {
-        setSectionHover(true);
-    }
-
-    const handleMouseExist = () => {
-        setSectionHover(false);
-    }
 
     const NavComponent = useMemo(() => {
         const comp = getComponent(theme?.theme_settings?.nav_component?.type);
@@ -151,72 +103,8 @@ const HeroVar1 = ({ is_theme = false, raw_data = {} }: { is_theme?: boolean, raw
                 <div className="absolute w-full h-full z-10 bg-gradient-to-b from-transparent to-black/50 from-80%"></div>
             </div>
 
-            {is_theme && (
-                <div className='absolute z-[1000] right-1.5 top-2 space-x-2 flex items-center justify-end 
-                *:bg-gray-800 *:text-white *:flex *:items-center *:justify-center *:p-2 *:rounded *:cursor-pointer'>
+            {is_theme && <SectionSettings raw_data={raw_data} category='home_hero' component='HeroVar1' component_type='Hero Section' />}
 
-                    <div id='editor_settings' className='hover:shadow-2xl relative group' onClick={() => handleCompPickerClick("APPEND_SECTION")}
-                        onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BiLayerPlus size={17} />
-
-                        <span className='absolute hidden group-hover:inline-block whitespace-nowrap top-full px-2 py-2 w-fit rounded bg-gray-800 
-                        text-white text-xs'>
-                            Add new section after
-                        </span>
-                    </div>
-
-                    <div id='editor_settings' className='hover:shadow-2xl relative group'
-                        onClick={handleSettingsClick} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BsGear size={17} />
-
-                        <span className='absolute hidden group-hover:inline-block whitespace-nowrap top-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                            Section settings
-                        </span>
-                    </div>
-
-                    <div id='editor_settings' className='hover:shadow-2xl relative group'
-                        onClick={() => handleCompPickerClick("REPLACE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BiRefresh size={17} />
-
-                        <span className='absolute hidden group-hover:inline-block whitespace-nowrap top-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                            Replace Section
-                        </span>
-                    </div>
-
-                    <div id='editor_settings' className='hover:shadow-2xl relative group'
-                        onClick={() => handleMoveClick("UP")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BsArrowUp size={17} />
-
-                        <span className='absolute hidden right-0 group-hover:inline-block whitespace-nowrap top-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                            Move Section Up
-                        </span>
-                    </div>
-
-                    <div id='editor_settings' className='hover:shadow-2xl relative group'
-                        onClick={() => handleMoveClick("DOWN")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BsArrowDown size={17} />
-
-                        <span className='absolute hidden right-0 group-hover:inline-block whitespace-nowrap top-full px-2 py-2 w-fit rounded bg-gray-800 
-                            text-white text-xs'>
-                            Move Section Down
-                        </span>
-                    </div>
-
-                    <div id='editor_settings' className='hover:shadow-2xl relative group'
-                        onClick={() => handleCompPickerClick("REMOVE_SECTION")} onMouseOver={handleHover} onMouseOut={handleMouseExist}>
-                        <BiTrash size={17} />
-
-                        <span className='absolute hidden right-0 w-fit group-hover:inline-block whitespace-nowrap top-full px-2 
-                            py-2 rounded bg-gray-800 text-white text-xs'>
-                            Remove Section Down
-                        </span>
-                    </div>
-
-                </div>
-            )}
         </header>
     }
 }
