@@ -172,6 +172,7 @@ import TermsVar1 from "./terms/TermsVar-1";
 
 //Privacy Page
 import PrivacyVar1 from "./privacy/PrivacyVar-1";
+import HeroVar1 from "./heroes/HeroVar-1";
 
 // Define props for each component explicitly
 type ComponentPropsMap = {
@@ -183,6 +184,9 @@ type ComponentPropsMap = {
     NavVar5: React.ComponentProps<typeof NavVar5>;
     NavVar6: React.ComponentProps<typeof NavVar6>;
     NavVar7: React.ComponentProps<typeof NavVar7>;
+
+    //Heros Section
+    HeroVar1: React.ComponentProps<typeof HeroVar1>;
 
     HeaderVar1: React.ComponentProps<typeof HeaderVar1>;
     FeaturedListsingsVar1: React.ComponentProps<typeof FeaturedListsingsVar1>;
@@ -363,6 +367,9 @@ export const componentRegistry = {
 
     HeaderVar1,
     FeaturedListsingsVar1,
+
+    //Hero Section
+    HeroVar1,
 
     //Property Cards
     PropCardVar1,

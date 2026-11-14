@@ -159,7 +159,7 @@ const LivePreviewPage = () => {
         var NavFound = false;
 
         for (var i = 0; i < sections.length; i++) {
-            if (["HeaderVar1", "HeaderVar2"].includes(sections[i].type)) {
+            if (["HeaderVar1", "HeaderVar2", "HeroVar1"].includes(sections[i].type)) {
                 NavFound = true;
                 break;
             }
